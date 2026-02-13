@@ -234,7 +234,77 @@
             border-radius: 4px;
             font-size: 0.9em;
         }
-        
+
+        /* Flowchart */
+        .flowchart-step {
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+        }
+
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            padding: 20px 0;
+        }
+
+        .flow-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .flow-box {
+            padding: 15px 25px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 500;
+            min-width: 200px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .flow-box.input {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            color: #064e3b;
+        }
+
+        .flow-box.process {
+            background: linear-gradient(135deg, #6eb4ff, #3b82f6);
+            color: #1e3a8a;
+        }
+
+        .flow-box.ai {
+            background: linear-gradient(135deg, #a78bfa, #8b5cf6);
+            color: #4c1d95;
+        }
+
+        .flow-box.eq {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #78350f;
+        }
+
+        .flow-box.output {
+            background: linear-gradient(135deg, #f472b6, #ec4899);
+            color: #831843;
+        }
+
+        .flow-box.app {
+            background: linear-gradient(135deg, #2dd4bf, #14b8a6);
+            color: #134e4a;
+        }
+
+        .flow-box small {
+            opacity: 0.8;
+            font-size: 0.85em;
+        }
+
+        .flow-arrow {
+            font-size: 1.5em;
+            color: var(--text-secondary);
+            margin: 5px 0;
+        }
+
         /* FAQ */
         .faq {
             padding: 60px 0;
@@ -553,15 +623,23 @@
             
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>开机自启动脚本不工作？</span>
+                    <span>开机自启动不工作？</span>
                     <span class="faq-arrow">▼</span>
                 </div>
                 <div class="faq-answer">
-                    <p>排查步骤：</p>
+                    <p><strong>新版设置方法（推荐）：</strong></p>
                     <ul>
-                        <li>检查自启动脚本是否与降噪软件EXE在同一文件夹</li>
-                        <li>查看杀毒软件是否拦截了脚本执行</li>
-                        <li>尝试以管理员权限运行脚本</li>
+                        <li>以管理员权限运行软件</li>
+                        <li>勾选"注册表开机自启"选项</li>
+                        <li>软件会自动将路径写入注册表</li>
+                        <li>在Windows任务管理器 → 启动 中查看是否已启用</li>
+                    </ul>
+                    <p style="margin-top: 10px;"><strong>排查步骤：</strong></p>
+                    <ul>
+                        <li>检查软件是否以管理员权限运行过</li>
+                        <li>查看Windows任务管理器 → 启动 中是否启用</li>
+                        <li>查看杀毒软件是否拦截</li>
+                        <li>检查软件路径是否包含中文或特殊字符</li>
                     </ul>
                 </div>
             </div>

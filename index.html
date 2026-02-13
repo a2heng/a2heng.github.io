@@ -500,11 +500,12 @@
                     <div class="step-content">
                         <p>实现开机自动运行，无需每次手动打开软件</p>
                         <ul>
-                            <li>右键软件 → 以管理员身份运行</li>
-                            <li>点击顶部菜单"设置" → 勾选"注册表开机自启"</li>
+                            <li>打开软件 → 点击顶部菜单"设置"</li>
+                            <li>勾选"注册表开机自启" → 会弹出管理员权限申请，点击"是"</li>
                             <li>同时勾选"自运行"选项（开启软件后自动开始降噪）</li>
                             <li>重启电脑测试，软件会自动启动并运行</li>
                         </ul>
+                        <p style="margin-top: 10px; color: var(--text-secondary);"><strong>取消开机自启：</strong>取消勾选"注册表开机自启"即可删除注册表项</p>
                     </div>
                 </div>
             </div>
@@ -558,20 +559,21 @@
                     <span class="faq-arrow">▼</span>
                 </div>
                 <div class="faq-answer">
-                    <p><strong>新版设置方法（推荐）：</strong></p>
+                    <p><strong>设置方法：</strong></p>
                     <ul>
-                        <li>以管理员权限运行软件</li>
-                        <li>勾选"注册表开机自启"选项</li>
-                        <li>软件会自动将路径写入注册表</li>
+                        <li>打开软件 → 设置 → 勾选"注册表开机自启"</li>
+                        <li>弹出管理员权限申请时，点击"是"允许</li>
+                        <li>同时勾选"自运行"选项</li>
                         <li>在Windows任务管理器 → 启动 中查看是否已启用</li>
                     </ul>
                     <p style="margin-top: 10px;"><strong>排查步骤：</strong></p>
                     <ul>
-                        <li>检查软件是否以管理员权限运行过</li>
+                        <li>检查是否点击了权限申请的"是"按钮</li>
                         <li>查看Windows任务管理器 → 启动 中是否启用</li>
                         <li>查看杀毒软件是否拦截</li>
                         <li>检查软件路径是否包含中文或特殊字符</li>
                     </ul>
+                    <p style="margin-top: 10px;"><strong>取消开机自启：</strong>取消勾选"注册表开机自启"，软件会自动删除注册表项</p>
                 </div>
             </div>
         </div>

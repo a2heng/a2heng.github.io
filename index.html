@@ -3,21 +3,562 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Mic Denoise - 麦克风AI降噪工具</title>
+    <title>AI Mic Denoise - 低CPU占用的麦克风AI降噪工具</title>
+    <meta name="description" content="专注去除键盘、电流、风声、鼠标声，保留纯净人声。轻量高效，精准降噪。">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; color: #fff; padding: 20px;
+        
+        :root {
+            --bg-primary: #1e1e2e;
+            --bg-secondary: #2a2a3e;
+            --bg-card: #363650;
+            --text-primary: #e4e4ef;
+            --text-secondary: #a0a0b8;
+            --accent: #6eb4ff;
+            --accent-hover: #89c4ff;
+            --success: #4ade80;
+            --border: #404060;
         }
-        h1 { font-size: 2.5em; margin-bottom: 20px; color: #4fc3f7; }
-        p { font-size: 1.2em; color: #aaa; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans SC', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-left: 30px;
+            transition: color 0.2s;
+        }
+        
+        nav a:hover {
+            color: var(--accent);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+        }
+        
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--accent), #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero .subtitle {
+            font-size: 1.3em;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+        }
+        
+        .hero .tagline {
+            display: inline-block;
+            background: var(--bg-card);
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-size: 1.1em;
+            border: 1px solid var(--border);
+        }
+        
+        /* Features */
+        .features {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--text-primary);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .feature-card {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(110, 180, 255, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+        
+        .feature-card p {
+            color: var(--text-secondary);
+        }
+        
+        /* Tutorial */
+        .tutorial {
+            padding: 60px 0;
+            background: var(--bg-secondary);
+        }
+        
+        .tutorial-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .step {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+        
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 15px;
+        }
+        
+        .step h3 {
+            font-size: 1.3em;
+        }
+        
+        .step-content {
+            padding-left: 55px;
+            color: var(--text-secondary);
+        }
+        
+        .step-content ul {
+            margin-top: 15px;
+            padding-left: 20px;
+        }
+        
+        .step-content li {
+            margin-bottom: 8px;
+        }
+        
+        .step-content code {
+            background: var(--bg-primary);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        
+        /* FAQ */
+        .faq {
+            padding: 60px 0;
+        }
+        
+        .faq-item {
+            background: var(--bg-card);
+            margin-bottom: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 20px 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+        }
+        
+        .faq-question:hover {
+            background: var(--bg-secondary);
+        }
+        
+        .faq-arrow {
+            transition: transform 0.3s;
+        }
+        
+        .faq-item.active .faq-arrow {
+            transform: rotate(180deg);
+        }
+        
+        .faq-answer {
+            padding: 0 25px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s, padding 0.3s;
+            color: var(--text-secondary);
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 0 25px 20px;
+            max-height: 500px;
+        }
+        
+        /* Contact */
+        .contact {
+            padding: 60px 0;
+            background: var(--bg-secondary);
+            text-align: center;
+        }
+        
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--bg-card);
+            padding: 15px 30px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+        
+        .contact-link:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .contact-link svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--accent);
+        }
+        
+        /* Footer */
+        footer {
+            padding: 30px 0;
+            text-align: center;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border);
+        }
+        
+        /* Download Button */
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent), #a78bfa);
+            color: var(--bg-primary);
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-top: 30px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(110, 180, 255, 0.3);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2em; }
+            .header-content { flex-direction: column; gap: 15px; }
+            nav a { margin: 0 15px; }
+            .step-content { padding-left: 0; margin-top: 15px; }
+        }
     </style>
 </head>
 <body>
-    <h1>AI Mic Denoise</h1>
-    <p>专注去除键盘、电流、风声、鼠标声，保留纯净人声</p>
+    <header>
+        <div class="container header-content">
+            <div class="logo">AI Mic Denoise</div>
+            <nav>
+                <a href="#features">功能特点</a>
+                <a href="#tutorial">使用教程</a>
+                <a href="#faq">常见问题</a>
+                <a href="#contact">联系方式</a>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <h1>AI Mic Denoise</h1>
+            <p class="subtitle">低CPU占用的麦克风AI降噪工具</p>
+            <p class="tagline">专注去除键盘、电流、风声、鼠标声，保留纯净人声</p>
+            <a href="https://pan.quark.cn/s/91ffdad9a087" class="download-btn" target="_blank">立即下载</a>
+        </div>
+    </section>
+    
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">核心优势</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>轻量高效</h3>
+                    <p>特别优化CPU占用，即使配置较低的电脑也能流畅运行，CPU占用仅约3%</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>精准降噪</h3>
+                    <p>专门针对键盘声、鼠标声、电流声、风声等常见噪音优化，有效识别并消除</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>AI快速学习</h3>
+                    <p>开启后3秒内快速学习环境特征，噪音大幅减弱，AI自适应表现</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔊</div>
+                    <h3>增益调节</h3>
+                    <p>支持-20dB到+30dB增益调节，可根据需要增强麦克风音量</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>网络音频</h3>
+                    <p>支持手机/其他设备通过网络输入音频，实现远程麦克风降噪</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>开机自启</h3>
+                    <p>支持开机自动启动并运行，无需每次手动操作</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="tutorial" id="tutorial">
+        <div class="container">
+            <h2 class="section-title">使用教程</h2>
+            <div class="tutorial-steps">
+                <div class="step">
+                    <div class="step-header">
+                        <div class="step-number">1</div>
+                        <h3>安装 VB-Cable 虚拟音频线缆</h3>
+                    </div>
+                    <div class="step-content">
+                        <p>VB-Cable 是连接降噪软件和其他应用程序的"桥梁"</p>
+                        <ul>
+                            <li>解压下载的ZIP文件</li>
+                            <li>右键点击 <code>VBCABLE_Setup_x64.exe</code>，选择以管理员身份运行</li>
+                            <li>点击安装按钮，安装完成后重启计算机</li>
+                            <li>将"CABLE Output"设置为默认录制设备</li>
+                            <li>设置格式为"1通道，16位，48000 Hz"</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-header">
+                        <div class="step-number">2</div>
+                        <h3>软件配置</h3>
+                    </div>
+                    <div class="step-content">
+                        <p>正确配置软件以实现降噪功能</p>
+                        <ul>
+                            <li><strong>音频接口</strong>：优先选择 WASAPI，遇到问题可尝试 MME</li>
+                            <li><strong>输入设备</strong>：选择您的物理麦克风</li>
+                            <li><strong>输出设备</strong>：选择 "CABLE Input"</li>
+                            <li><strong>增益设置</strong>：从0dB开始，逐渐增大直到最佳效果</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-header">
+                        <div class="step-number">3</div>
+                        <h3>测试效果</h3>
+                    </div>
+                    <div class="step-content">
+                        <p>使用系统录音机验证降噪效果</p>
+                        <ul>
+                            <li>打开 Windows "录音机" 应用</li>
+                            <li>设置麦克风为 "CABLE Output"</li>
+                            <li>进行简短录制并回放，对比降噪前后效果</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-header">
+                        <div class="step-number">4</div>
+                        <h3>开机自启动（可选）</h3>
+                    </div>
+                    <div class="step-content">
+                        <p>实现开机自动运行，提升使用体验</p>
+                        <ul>
+                            <li>右键以管理员方式运行"开机自启动脚本"</li>
+                            <li>选择添加到开机自启动注册表</li>
+                            <li>勾选软件内的"自运行"选项</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="faq" id="faq">
+        <div class="container">
+            <h2 class="section-title">常见问题</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>听不到系统声音/游戏声音了？</span>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p><strong>原因：</strong>VB-Cable被设为了默认播放设备</p>
+                    <p><strong>解决方案：</strong>将音箱/耳机重新设为默认播放设备</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>软件启动后降噪无效？</span>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>请按以下步骤检查：</p>
+                    <ul>
+                        <li>确认VB-Cable安装正确</li>
+                        <li>检查降噪软件输入是否设置为物理麦克风</li>
+                        <li>验证降噪软件输出是否设置为"CABLE Input"</li>
+                        <li>确认系统默认麦克风是否设置为"CABLE Output"</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>降噪后人声变得不自然？</span>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p><strong>调整建议：</strong>选择增益0dB → 录音听声音大小 → 逐渐增大dB → 直到没有过曝出现削峰的最大值。过曝会有明显的毛糙声。</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>开机自启动脚本不工作？</span>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>排查步骤：</p>
+                    <ul>
+                        <li>检查自启动脚本是否与降噪软件EXE在同一文件夹</li>
+                        <li>查看杀毒软件是否拦截了脚本执行</li>
+                        <li>尝试以管理员权限运行脚本</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">联系方式</h2>
+            <p style="color: var(--text-secondary);">如有问题或建议，欢迎通过以下方式联系</p>
+            <div class="contact-links">
+                <a href="https://github.com/a2heng" target="_blank" class="contact-link">
+                    <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    GitHub
+                </a>
+                <a href="https://space.bilibili.com/10850943" target="_blank" class="contact-link">
+                    <svg viewBox="0 0 24 24"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373z"/></svg>
+                    哔哩哔哩
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>© 2025 AI Mic Denoise. Made with ❤️ by a2heng</p>
+        </div>
+    </footer>
+    
+    <script>
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+        
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
 </body>
 </html>

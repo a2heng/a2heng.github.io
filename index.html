@@ -98,6 +98,34 @@
             border: 1px solid var(--border);
         }
         
+        /* Screenshot */
+        .screenshot {
+            padding: 60px 0;
+            background: var(--bg-secondary);
+        }
+
+        .screenshot-container {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .screenshot-img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+        }
+
+        .screenshot-desc {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-top: 20px;
+            font-size: 1em;
+        }
+
         /* Features */
         .features {
             padding: 60px 0;
@@ -350,7 +378,17 @@
             <a href="https://pan.quark.cn/s/91ffdad9a087" class="download-btn" target="_blank">立即下载</a>
         </div>
     </section>
-    
+
+    <section class="screenshot" id="screenshot">
+        <div class="container">
+            <h2 class="section-title">软件界面</h2>
+            <div class="screenshot-container">
+                <img src="images/screenshot.png" alt="AI Mic Denoise 软件界面" class="screenshot-img">
+            </div>
+            <p class="screenshot-desc">简洁直观的操作界面，支持音频接口选择、设备管理、延迟模式切换、前后增益调节和10段均衡器</p>
+        </div>
+    </section>
+
     <section class="features" id="features">
         <div class="container">
             <h2 class="section-title">核心优势</h2>
@@ -371,19 +409,29 @@
                     <p>开启后3秒内快速学习环境特征，噪音大幅减弱，AI自适应表现</p>
                 </div>
                 <div class="feature-card">
+                    <div class="feature-icon">🎚️</div>
+                    <h3>10段均衡器</h3>
+                    <p>31Hz-16kHz全频段调节，精细调整声音频谱特性，打造专属音色</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⏱️</div>
+                    <h3>三档延迟模式</h3>
+                    <p>最低延迟(~5.3ms)、中等延迟(~10.6ms)、最高延迟(~21.3ms)可选</p>
+                </div>
+                <div class="feature-card">
                     <div class="feature-icon">🔊</div>
-                    <h3>增益调节</h3>
-                    <p>支持-20dB到+30dB增益调节，可根据需要增强麦克风音量</p>
+                    <h3>前后增益</h3>
+                    <p>支持-20dB到+30dB前后增益调节，降噪前后分别控制音量</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🌐</div>
                     <h3>网络音频</h3>
-                    <p>支持手机/其他设备通过网络输入音频，实现远程麦克风降噪</p>
+                    <p>支持手机/其他设备通过网络输入音频，扫码即可连接</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🚀</div>
                     <h3>开机自启</h3>
-                    <p>支持开机自动启动并运行，无需每次手动操作</p>
+                    <p>支持开机自动启动并运行，静默启动无打扰</p>
                 </div>
             </div>
         </div>
@@ -416,12 +464,15 @@
                         <h3>软件配置</h3>
                     </div>
                     <div class="step-content">
-                        <p>正确配置软件以实现降噪功能</p>
+                        <p>正确配置软件以实现最佳降噪效果</p>
                         <ul>
                             <li><strong>音频接口</strong>：优先选择 WASAPI，遇到问题可尝试 MME</li>
                             <li><strong>输入设备</strong>：选择您的物理麦克风</li>
                             <li><strong>输出设备</strong>：选择 "CABLE Input"</li>
-                            <li><strong>增益设置</strong>：从0dB开始，逐渐增大直到最佳效果</li>
+                            <li><strong>延迟模式</strong>：一般选择"最低延迟"，如有爆音可尝试更高延迟</li>
+                            <li><strong>前增益</strong>：降噪前的音量增强，从0dB开始调整</li>
+                            <li><strong>后增益</strong>：降噪后的音量补偿，根据输出调整</li>
+                            <li><strong>10段均衡器</strong>：可选，用于精细调节音色（31Hz-16kHz）</li>
                         </ul>
                     </div>
                 </div>

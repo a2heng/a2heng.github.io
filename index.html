@@ -3,21 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Mic Denoise - 低CPU占用的麦克风AI降噪工具</title>
+    <title>AI Mic Denoise - 轻量高效的麦克风AI降噪工具</title>
     <meta name="description" content="专注去除键盘、电流、风声、鼠标声，保留纯净人声。轻量高效，精准降噪。">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         :root {
-            --bg-primary: #1e1e2e;
-            --bg-secondary: #2a2a3e;
-            --bg-card: #363650;
-            --text-primary: #e4e4ef;
-            --text-secondary: #a0a0b8;
-            --accent: #6eb4ff;
-            --accent-hover: #89c4ff;
-            --success: #4ade80;
-            --border: #404060;
+            --bg-primary: #fefefe;
+            --bg-secondary: #f8f9fc;
+            --bg-card: #ffffff;
+            --text-primary: #2d3748;
+            --text-secondary: #5a6778;
+            --accent: #4f8cff;
+            --accent-hover: #3b7aed;
+            --accent-light: #e8f1ff;
+            --success: #22c55e;
+            --border: #e2e8f0;
+            --shadow: rgba(79, 140, 255, 0.1);
+            --gradient-start: #667eea;
+            --gradient-end: #764ba2;
         }
         
         body {
@@ -29,16 +33,16 @@
         }
         
         .container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
         }
         
-        /* Header */
         header {
-            background: var(--bg-secondary);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border);
-            padding: 20px 0;
+            padding: 16px 0;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -51,15 +55,19 @@
         }
         
         .logo {
-            font-size: 1.5em;
+            font-size: 1.4em;
             font-weight: 700;
-            color: var(--accent);
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         nav a {
             color: var(--text-secondary);
             text-decoration: none;
-            margin-left: 30px;
+            margin-left: 32px;
+            font-weight: 500;
             transition: color 0.2s;
         }
         
@@ -67,38 +75,58 @@
             color: var(--accent);
         }
         
-        /* Hero Section */
         .hero {
-            padding: 80px 0;
+            padding: 80px 0 60px;
             text-align: center;
             background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
         }
         
         .hero h1 {
-            font-size: 3em;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, var(--accent), #a78bfa);
+            font-size: 3.2em;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         
         .hero .subtitle {
-            font-size: 1.3em;
+            font-size: 1.4em;
             color: var(--text-secondary);
-            margin-bottom: 40px;
+            margin-bottom: 16px;
         }
         
         .hero .tagline {
             display: inline-block;
-            background: var(--bg-card);
-            padding: 10px 25px;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 12px 28px;
             border-radius: 30px;
-            font-size: 1.1em;
-            border: 1px solid var(--border);
+            font-size: 1.05em;
+            font-weight: 500;
+            margin-bottom: 32px;
         }
         
-        /* Screenshot */
+        .hero-features {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+        
+        .hero-feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 0.95em;
+        }
+        
+        .hero-feature span {
+            font-size: 1.2em;
+        }
+        
         .screenshot {
             padding: 60px 0;
             background: var(--bg-secondary);
@@ -106,16 +134,18 @@
 
         .screenshot-container {
             background: var(--bg-card);
-            border-radius: 16px;
-            padding: 20px;
+            border-radius: 20px;
+            padding: 16px;
             border: 1px solid var(--border);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px var(--shadow);
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         .screenshot-img {
             width: 100%;
             height: auto;
-            border-radius: 8px;
+            border-radius: 12px;
             display: block;
         }
 
@@ -124,69 +154,105 @@
             color: var(--text-secondary);
             margin-top: 20px;
             font-size: 1em;
+            padding: 0 20px;
         }
 
-        /* Features */
         .features {
-            padding: 60px 0;
+            padding: 80px 0;
         }
         
         .section-title {
             font-size: 2em;
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 16px;
             color: var(--text-primary);
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 50px;
+            font-size: 1.1em;
         }
         
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
         }
         
         .feature-card {
             background: var(--bg-card);
-            padding: 30px;
+            padding: 32px;
             border-radius: 16px;
             border: 1px solid var(--border);
             transition: transform 0.2s, box-shadow 0.2s;
         }
         
         .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 40px rgba(110, 180, 255, 0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px var(--shadow);
         }
         
         .feature-icon {
-            font-size: 2.5em;
-            margin-bottom: 15px;
+            font-size: 2.2em;
+            margin-bottom: 16px;
         }
         
         .feature-card h3 {
-            font-size: 1.2em;
+            font-size: 1.15em;
             margin-bottom: 10px;
-            color: var(--accent);
+            color: var(--text-primary);
         }
         
         .feature-card p {
             color: var(--text-secondary);
+            font-size: 0.95em;
+        }
+
+        .tech-section {
+            padding: 80px 0;
+            background: var(--bg-secondary);
         }
         
-        /* Tutorial */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .tech-card {
+            background: var(--bg-card);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+        
+        .tech-card h4 {
+            color: var(--accent);
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        
+        .tech-card p {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+
         .tutorial {
-            padding: 60px 0;
-            background: var(--bg-secondary);
+            padding: 80px 0;
         }
         
         .tutorial-steps {
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 24px;
         }
         
         .step {
             background: var(--bg-card);
-            padding: 30px;
+            padding: 32px;
             border-radius: 16px;
             border: 1px solid var(--border);
         }
@@ -198,63 +264,70 @@
         }
         
         .step-number {
-            width: 40px;
-            height: 40px;
-            background: var(--accent);
-            color: var(--bg-primary);
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            margin-right: 15px;
+            margin-right: 16px;
+            font-size: 1.1em;
         }
         
         .step h3 {
-            font-size: 1.3em;
+            font-size: 1.25em;
         }
         
         .step-content {
-            padding-left: 55px;
+            padding-left: 60px;
             color: var(--text-secondary);
         }
         
         .step-content ul {
-            margin-top: 15px;
+            margin-top: 16px;
             padding-left: 20px;
         }
         
         .step-content li {
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
         
         .step-content code {
-            background: var(--bg-primary);
-            padding: 2px 8px;
-            border-radius: 4px;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 3px 10px;
+            border-radius: 6px;
             font-size: 0.9em;
         }
         
-        /* FAQ */
+        .step-content strong {
+            color: var(--text-primary);
+        }
+        
         .faq {
-            padding: 60px 0;
+            padding: 80px 0;
+            background: var(--bg-secondary);
         }
         
         .faq-item {
             background: var(--bg-card);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             border-radius: 12px;
             border: 1px solid var(--border);
             overflow: hidden;
         }
         
         .faq-question {
-            padding: 20px 25px;
+            padding: 20px 24px;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-weight: 500;
+            font-weight: 600;
+            transition: background 0.2s;
         }
         
         .faq-question:hover {
@@ -263,6 +336,7 @@
         
         .faq-arrow {
             transition: transform 0.3s;
+            color: var(--accent);
         }
         
         .faq-item.active .faq-arrow {
@@ -270,7 +344,7 @@
         }
         
         .faq-answer {
-            padding: 0 25px;
+            padding: 0 24px;
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s, padding 0.3s;
@@ -278,22 +352,29 @@
         }
         
         .faq-item.active .faq-answer {
-            padding: 0 25px 20px;
+            padding: 0 24px 24px;
             max-height: 500px;
         }
         
-        /* Contact */
+        .faq-answer ul {
+            margin-top: 12px;
+            padding-left: 20px;
+        }
+        
+        .faq-answer li {
+            margin-bottom: 8px;
+        }
+        
         .contact {
-            padding: 60px 0;
-            background: var(--bg-secondary);
+            padding: 80px 0;
             text-align: center;
         }
         
         .contact-links {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            margin-top: 30px;
+            gap: 24px;
+            margin-top: 32px;
             flex-wrap: wrap;
         }
         
@@ -302,65 +383,80 @@
             align-items: center;
             gap: 10px;
             background: var(--bg-card);
-            padding: 15px 30px;
+            padding: 16px 32px;
             border-radius: 12px;
             text-decoration: none;
             color: var(--text-primary);
             border: 1px solid var(--border);
             transition: all 0.2s;
+            font-weight: 500;
         }
         
         .contact-link:hover {
             border-color: var(--accent);
             transform: translateY(-3px);
+            box-shadow: 0 8px 24px var(--shadow);
         }
         
         .contact-link svg {
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             fill: var(--accent);
         }
         
-        /* Footer */
         footer {
-            padding: 30px 0;
+            padding: 32px 0;
             text-align: center;
             color: var(--text-secondary);
             border-top: 1px solid var(--border);
+            background: var(--bg-secondary);
         }
         
-        /* Download Button */
         .download-btn {
             display: inline-block;
-            background: linear-gradient(135deg, var(--accent), #a78bfa);
-            color: var(--bg-primary);
-            padding: 15px 40px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            padding: 16px 44px;
             border-radius: 30px;
             text-decoration: none;
             font-weight: 600;
             font-size: 1.1em;
-            margin-top: 30px;
+            margin-top: 24px;
             transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 8px 24px var(--shadow);
         }
         
         .download-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(110, 180, 255, 0.3);
+            box-shadow: 0 12px 32px rgba(102, 126, 234, 0.3);
         }
         
-        /* Responsive */
+        .highlight-box {
+            background: linear-gradient(135deg, var(--accent-light), #f0e6ff);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 16px;
+        }
+        
+        .highlight-box p {
+            color: var(--text-primary);
+            font-size: 0.95em;
+        }
+        
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2em; }
-            .header-content { flex-direction: column; gap: 15px; }
-            nav a { margin: 0 15px; }
-            .step-content { padding-left: 0; margin-top: 15px; }
+            .hero h1 { font-size: 2.2em; }
+            .hero .subtitle { font-size: 1.1em; }
+            .header-content { flex-direction: column; gap: 16px; }
+            nav a { margin: 0 12px; }
+            .step-content { padding-left: 0; margin-top: 16px; }
+            .hero-features { gap: 20px; }
         }
     </style>
 </head>
 <body>
     <header>
         <div class="container header-content">
-            <div class="logo">AI Mic Denoise</div>
+            <div class="logo">🎙️ AI Mic Denoise</div>
             <nav>
                 <a href="#features">功能特点</a>
                 <a href="#tutorial">使用教程</a>
@@ -373,9 +469,15 @@
     <section class="hero">
         <div class="container">
             <h1>AI Mic Denoise</h1>
-            <p class="subtitle">低CPU占用的麦克风AI降噪工具</p>
+            <p class="subtitle">轻量高效的麦克风AI降噪工具</p>
             <p class="tagline">专注去除键盘、电流、风声、鼠标声，保留纯净人声</p>
             <a href="https://pan.quark.cn/s/91ffdad9a087" class="download-btn" target="_blank">立即下载</a>
+            <div class="hero-features">
+                <div class="hero-feature"><span>⚡</span> CPU占用约3%</div>
+                <div class="hero-feature"><span>🎯</span> 3秒快速学习</div>
+                <div class="hero-feature"><span>🎚️</span> 10段均衡器</div>
+                <div class="hero-feature"><span>🌐</span> 网络音频支持</div>
+            </div>
         </div>
     </section>
 
@@ -383,55 +485,81 @@
         <div class="container">
             <h2 class="section-title">软件界面</h2>
             <div class="screenshot-container">
-                <img src="UI.png" alt="AI Mic Denoise 软件界面" class="screenshot-img">
+                <img src="UI.webp" alt="AI Mic Denoise 软件界面" class="screenshot-img">
             </div>
-            <p class="screenshot-desc">简洁直观的操作界面，支持音频接口选择、设备管理、延迟模式切换、前后增益调节和10段均衡器</p>
+            <p class="screenshot-desc">简洁直观的操作界面，支持音频接口选择、设备管理、前后增益调节和10段均衡器</p>
         </div>
     </section>
 
     <section class="features" id="features">
         <div class="container">
             <h2 class="section-title">核心优势</h2>
+            <p class="section-subtitle">专为直播、录音、会议场景设计的AI降噪解决方案</p>
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">⚡</div>
                     <h3>轻量高效</h3>
-                    <p>特别优化CPU占用，即使配置较低的电脑也能流畅运行，CPU占用仅约3%</p>
+                    <p>特别优化CPU占用，即使配置较低的电脑也能流畅运行，CPU占用仅约3%，让您专注于内容创作</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🎯</div>
                     <h3>精准降噪</h3>
-                    <p>专门针对键盘声、鼠标声、电流声、风声等常见噪音优化，有效识别并消除</p>
+                    <p>专门针对键盘声、鼠标声、电流声、风声等常见噪音优化，有效识别并消除，保留自然人声</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🧠</div>
                     <h3>AI快速学习</h3>
-                    <p>开启后3秒内快速学习环境特征，噪音大幅减弱，AI自适应表现</p>
+                    <p>开启后3秒内快速学习环境特征，噪音大幅减弱，AI自适应表现，无需手动调整参数</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🎚️</div>
                     <h3>10段均衡器</h3>
-                    <p>31Hz-16kHz全频段调节，精细调整声音频谱特性，打造专属音色</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⏱️</div>
-                    <h3>三档延迟模式</h3>
-                    <p>最低延迟(~5.3ms)、中等延迟(~10.6ms)、最高延迟(~21.3ms)可选</p>
+                    <p>31Hz-16kHz全频段调节，精细调整声音频谱特性，打造专属音色，支持滚轮微调</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🔊</div>
                     <h3>前后增益</h3>
-                    <p>支持-20dB到+30dB前后增益调节，降噪前后分别控制音量</p>
+                    <p>支持-20dB到+30dB前后增益调节，降噪前后分别控制音量，避免过曝削峰</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🌐</div>
                     <h3>网络音频</h3>
-                    <p>支持手机/其他设备通过网络输入音频，扫码即可连接</p>
+                    <p>支持手机/其他设备通过网络输入音频，扫码即可连接，实现远程麦克风降噪</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🚀</div>
                     <h3>开机自启</h3>
-                    <p>支持开机自动启动并运行，静默启动无打扰</p>
+                    <p>支持开机自动启动并运行，静默启动无打扰，开机即可使用降噪功能</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💾</div>
+                    <h3>配置保存</h3>
+                    <p>自动保存所有设置，包括设备选择、增益参数、均衡器配置，下次启动自动恢复</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="tech-section">
+        <div class="container">
+            <h2 class="section-title">技术亮点</h2>
+            <p class="section-subtitle">经过专业软件工程实践打造</p>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <h4>🔒 线程安全</h4>
+                    <p>使用Lock和Event机制保护共享状态，多线程环境下稳定运行</p>
+                </div>
+                <div class="tech-card">
+                    <h4>📦 模块化架构</h4>
+                    <p>职责分离设计，音频控制、系统托盘、注册表管理独立模块</p>
+                </div>
+                <div class="tech-card">
+                    <h4>🎵 抽象基类</h4>
+                    <p>音频处理线程统一管理，资源自动释放，避免内存泄漏</p>
+                </div>
+                <div class="tech-card">
+                    <h4>💾 环形缓冲区</h4>
+                    <p>线程安全的环形缓冲区设计，网络音频平滑无卡顿</p>
                 </div>
             </div>
         </div>
@@ -466,29 +594,36 @@
                     <div class="step-content">
                         <p>正确配置软件以实现最佳降噪效果</p>
                         <ul>
-                            <li><strong>音频接口</strong>：优先选择 WASAPI，遇到问题可尝试 MME</li>
+                            <li><strong>音频接口</strong>：优先选择 WASAPI（低延迟），遇到问题可尝试 MME</li>
                             <li><strong>输入设备</strong>：选择您的物理麦克风</li>
                             <li><strong>输出设备</strong>：选择 "CABLE Input"</li>
-                            <li><strong>延迟模式</strong>：一般选择"最低延迟"，如有爆音可尝试更高延迟</li>
                             <li><strong>前增益</strong>：降噪前的音量增强，从0dB开始调整</li>
                             <li><strong>后增益</strong>：降噪后的音量补偿，根据输出调整</li>
-                            <li><strong>10段均衡器</strong>：可选，用于精细调节音色（31Hz-16kHz）</li>
+                            <li><strong>10段均衡器</strong>：可选，用于精细调节音色（31Hz-16kHz），支持滚轮微调</li>
                         </ul>
+                        <div class="highlight-box">
+                            <p>💡 <strong>提示</strong>：所有配置会自动保存，下次启动自动恢复</p>
+                        </div>
                     </div>
                 </div>
                 
                 <div class="step">
                     <div class="step-header">
                         <div class="step-number">3</div>
-                        <h3>测试效果</h3>
+                        <h3>网络音频功能（可选）</h3>
                     </div>
                     <div class="step-content">
-                        <p>使用系统录音机验证降噪效果</p>
+                        <p>使用手机或其他设备作为音频输入源</p>
                         <ul>
-                            <li>打开 Windows "录音机" 应用</li>
-                            <li>设置麦克风为 "CABLE Output"</li>
-                            <li>进行简短录制并回放，对比降噪前后效果</li>
+                            <li>音频接口选择"网络音频"</li>
+                            <li>设置端口号（默认55789）</li>
+                            <li>点击启动后，界面右侧会显示二维码</li>
+                            <li>手机扫描二维码或浏览器访问显示的地址</li>
+                            <li>允许麦克风权限后即可使用</li>
                         </ul>
+                        <div class="highlight-box">
+                            <p>🌐 <strong>网络音频</strong>：支持手机浏览器直接访问，无需安装额外APP</p>
+                        </div>
                     </div>
                 </div>
                 
@@ -501,11 +636,11 @@
                         <p>实现开机自动运行，无需每次手动打开软件</p>
                         <ul>
                             <li>打开软件 → 点击顶部菜单"设置"</li>
-                            <li>勾选"注册表开机自启" → 会弹出管理员权限申请，点击"是"</li>
-                            <li>同时勾选"自运行"选项（开启软件后自动开始降噪）</li>
+                            <li>勾选"开机自启动" → 会弹出管理员权限申请，点击"是"</li>
+                            <li>同时勾选"程序启动时自动运行"选项（开启软件后自动开始降噪）</li>
                             <li>重启电脑测试，软件会自动启动并运行</li>
                         </ul>
-                        <p style="margin-top: 10px; color: var(--text-secondary);"><strong>取消开机自启：</strong>取消勾选"注册表开机自启"即可删除注册表项</p>
+                        <p style="margin-top: 12px;"><strong>取消开机自启：</strong>取消勾选"开机自启动"即可删除注册表项</p>
                     </div>
                 </div>
             </div>
@@ -555,25 +690,33 @@
             
             <div class="faq-item">
                 <div class="faq-question">
+                    <span>均衡器如何使用？</span>
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p><strong>10段均衡器</strong>覆盖31Hz-16kHz频段：</p>
+                    <ul>
+                        <li><strong>低频（31-250Hz）</strong>：增加温暖感，减少轰鸣</li>
+                        <li><strong>中频（500-2kHz）</strong>：人声核心频段，增加清晰度</li>
+                        <li><strong>高频（4k-16kHz）</strong>：增加空气感和细节</li>
+                    </ul>
+                    <p style="margin-top: 8px;">💡 支持鼠标滚轮微调，每次调整0.5dB</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
                     <span>开机自启动不工作？</span>
                     <span class="faq-arrow">▼</span>
                 </div>
                 <div class="faq-answer">
-                    <p><strong>设置方法：</strong></p>
-                    <ul>
-                        <li>打开软件 → 设置 → 勾选"注册表开机自启"</li>
-                        <li>弹出管理员权限申请时，点击"是"允许</li>
-                        <li>同时勾选"自运行"选项</li>
-                        <li>在Windows任务管理器 → 启动 中查看是否已启用</li>
-                    </ul>
-                    <p style="margin-top: 10px;"><strong>排查步骤：</strong></p>
+                    <p><strong>排查步骤：</strong></p>
                     <ul>
                         <li>检查是否点击了权限申请的"是"按钮</li>
                         <li>查看Windows任务管理器 → 启动 中是否启用</li>
                         <li>查看杀毒软件是否拦截</li>
                         <li>检查软件路径是否包含中文或特殊字符</li>
                     </ul>
-                    <p style="margin-top: 10px;"><strong>取消开机自启：</strong>取消勾选"注册表开机自启"，软件会自动删除注册表项</p>
                 </div>
             </div>
         </div>
@@ -603,7 +746,6 @@
     </footer>
     
     <script>
-        // FAQ Toggle
         document.querySelectorAll('.faq-question').forEach(question => {
             question.addEventListener('click', () => {
                 const item = question.parentElement;
@@ -611,7 +753,6 @@
             });
         });
         
-        // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();

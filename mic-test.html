@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>麦克风测试工具</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --bg-card: #0f3460;
+            --text-primary: #eaeaea;
+            --text-secondary: #a0a0a0;
+            --accent: #e94560;
+            --success: #00d9a5;
+            --warning: #ffc107;
+            --danger: #e94560;
+            --border: #2a2a4a;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans SC', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 1.8em;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #e94560, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+        
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border);
+        }
+        
+        .device-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .device-select {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 14px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 0.95em;
+            cursor: pointer;
+        }
+        
+        .device-select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .device-info {
+            color: var(--text-secondary);
+            font-size: 0.85em;
+            white-space: nowrap;
+        }
+        
+        .meter-container {
+            margin-top: 16px;
+        }
+        
+        .meter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .meter-label {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+        }
+        
+        .meter-value {
+            font-size: 1.4em;
+            font-weight: 600;
+            font-family: 'Consolas', monospace;
+            min-width: 80px;
+            text-align: right;
+        }
+        
+        .meter-value.good { color: var(--success); }
+        .meter-value.warning { color: var(--warning); }
+        .meter-value.danger { color: var(--danger); }
+        
+        .meter-bar-container {
+            position: relative;
+            height: 24px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .meter-bar {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.05s linear;
+        }
+        
+        .meter-bar.green {
+            background: linear-gradient(90deg, #2d5a27 0%, #4a9b3e 100%);
+        }
+        
+        .meter-bar.yellow {
+            background: linear-gradient(90deg, #b8860b 0%, #daa520 100%);
+        }
+        
+        .meter-bar.red {
+            background: linear-gradient(90deg, #8b0000 0%, #dc143c 100%);
+        }
+        
+        .meter-peak {
+            position: absolute;
+            top: 0;
+            width: 3px;
+            height: 100%;
+            background: white;
+            box-shadow: 0 0 4px rgba(255,255,255,0.8);
+            transition: left 0.1s linear;
+        }
+        
+        .meter-scale {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 6px;
+            padding: 0 2px;
+        }
+        
+        .meter-mark {
+            font-size: 0.7em;
+            color: var(--text-secondary);
+            font-family: 'Consolas', monospace;
+        }
+        
+        .spectrum-container {
+            margin-top: 16px;
+        }
+        
+        .spectrum-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .spectrum-label {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+        }
+        
+        #spectrumCanvas {
+            width: 100%;
+            height: 150px;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+        }
+        
+        .btn {
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #e94560, #ff6b6b);
+            color: white;
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(233, 69, 96, 0.3);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover:not(:disabled) {
+            border-color: var(--accent);
+        }
+        
+        .btn-secondary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .status {
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-size: 0.9em;
+        }
+        
+        .status.error {
+            background: rgba(233, 69, 96, 0.15);
+            color: #ff6b6b;
+            border: 1px solid rgba(233, 69, 96, 0.3);
+        }
+        
+        .status.success {
+            background: rgba(0, 217, 165, 0.15);
+            color: var(--success);
+            border: 1px solid rgba(0, 217, 165, 0.3);
+        }
+        
+        .status.warning {
+            background: rgba(255, 193, 7, 0.15);
+            color: var(--warning);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+        
+        .back-link {
+            text-align: center;
+            margin-top: 24px;
+        }
+        
+        .back-link a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+        
+        .back-link a:hover {
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>麦克风测试工具</h1>
+            <p class="subtitle">实时检测麦克风音量电平与频谱</p>
+        </header>
+        
+        <div id="status" class="status warning" style="display: none;"></div>
+        
+        <div class="card">
+            <div class="device-row">
+                <select id="deviceSelect" class="device-select">
+                    <option value="">正在获取设备列表...</option>
+                </select>
+                <span class="device-info" id="deviceInfo"></span>
+            </div>
+            
+            <div class="meter-container">
+                <div class="meter-header">
+                    <span class="meter-label">输入电平</span>
+                    <span class="meter-value" id="meterValue">-∞ dB</span>
+                </div>
+                <div class="meter-bar-container">
+                    <div class="meter-bar green" id="meterBar" style="width: 0%;"></div>
+                    <div class="meter-peak" id="meterPeak" style="left: 0%;"></div>
+                </div>
+                <div class="meter-scale">
+                    <span class="meter-mark">-60</span>
+                    <span class="meter-mark">-55</span>
+                    <span class="meter-mark">-50</span>
+                    <span class="meter-mark">-45</span>
+                    <span class="meter-mark">-40</span>
+                    <span class="meter-mark">-35</span>
+                    <span class="meter-mark">-30</span>
+                    <span class="meter-mark">-25</span>
+                    <span class="meter-mark">-20</span>
+                    <span class="meter-mark">-15</span>
+                    <span class="meter-mark">-10</span>
+                    <span class="meter-mark">-5</span>
+                    <span class="meter-mark">0</span>
+                </div>
+            </div>
+            
+            <div class="spectrum-container">
+                <div class="spectrum-header">
+                    <span class="spectrum-label">频谱分析</span>
+                </div>
+                <canvas id="spectrumCanvas"></canvas>
+            </div>
+            
+            <div class="btn-group">
+                <button id="startBtn" class="btn btn-primary" disabled>开始测试</button>
+                <button id="stopBtn" class="btn btn-secondary" disabled>停止</button>
+            </div>
+        </div>
+        
+        <div class="back-link">
+            <a href="index.html">← 返回主页</a>
+        </div>
+    </div>
+    
+    <script>
+        let audioContext = null;
+        let analyser = null;
+        let mediaStream = null;
+        let animationId = null;
+        let currentDeviceId = null;
+        let initStream = null;
+        
+        let peakLevel = -60;
+        let displayLevel = -60;
+        let lastPeakTime = 0;
+        let lastRiseTime = 0;
+        
+        const FALLBACK_SPEED = 0.15;
+        const PEAK_HOLD_TIME = 2000;
+        const BAR_HOLD_TIME = 500;
+        
+        const deviceSelect = document.getElementById('deviceSelect');
+        const deviceInfo = document.getElementById('deviceInfo');
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const statusDiv = document.getElementById('status');
+        const meterBar = document.getElementById('meterBar');
+        const meterPeak = document.getElementById('meterPeak');
+        const meterValue = document.getElementById('meterValue');
+        const spectrumCanvas = document.getElementById('spectrumCanvas');
+        const spectrumCtx = spectrumCanvas.getContext('2d');
+        
+        function getDevicesAndPopulate() {
+            return navigator.mediaDevices.enumerateDevices().then(devices => {
+                const audioInputs = devices.filter(d => d.kind === 'audioinput');
+                
+                deviceSelect.innerHTML = '';
+                
+                if (audioInputs.length === 0) {
+                    deviceSelect.innerHTML = '<option value="">未找到麦克风设备</option>';
+                    return [];
+                }
+                
+                audioInputs.forEach((device, index) => {
+                    const option = document.createElement('option');
+                    option.value = device.deviceId;
+                    option.textContent = device.label || `麦克风 ${index + 1}`;
+                    deviceSelect.appendChild(option);
+                });
+                
+                if (audioInputs.length > 0) {
+                    deviceSelect.value = audioInputs[0].deviceId;
+                }
+                
+                return audioInputs;
+            });
+        }
+        
+        async function init() {
+            showStatus('正在请求麦克风权限...', 'warning');
+            
+            try {
+                initStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                
+                await getDevicesAndPopulate();
+                
+                hideStatus();
+                startBtn.disabled = false;
+                
+            } catch (err) {
+                console.error('获取权限失败:', err);
+                showStatus('请允许麦克风权限以使用此工具', 'error');
+                deviceSelect.innerHTML = '<option value="">需要麦克风权限</option>';
+            }
+        }
+        
+        function showStatus(message, type) {
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+            statusDiv.style.display = 'block';
+        }
+        
+        function hideStatus() {
+            statusDiv.style.display = 'none';
+        }
+        
+        function updateDeviceInfo(settings) {
+            const info = [];
+            if (settings.sampleRate) info.push(`${settings.sampleRate}Hz`);
+            if (settings.channelCount) info.push(`${settings.channelCount}ch`);
+            deviceInfo.textContent = info.join(' | ');
+        }
+        
+        function getBarColor(db) {
+            if (db > -10) return 'red';
+            if (db > -20) return 'yellow';
+            return 'green';
+        }
+        
+        function dbToPercent(db) {
+            if (db <= -60) return 0;
+            return ((db + 60) / 60) * 100;
+        }
+        
+        function updateMeter(db) {
+            const targetLevel = Math.max(-60, Math.min(0, db));
+            const now = Date.now();
+            
+            if (targetLevel > displayLevel) {
+                displayLevel = targetLevel;
+                lastRiseTime = now;
+            } else if (now - lastRiseTime > BAR_HOLD_TIME) {
+                displayLevel -= FALLBACK_SPEED;
+                if (displayLevel < -60) displayLevel = -60;
+            }
+            
+            if (targetLevel >= peakLevel) {
+                peakLevel = targetLevel;
+                lastPeakTime = now;
+            } else if (now - lastPeakTime > PEAK_HOLD_TIME) {
+                peakLevel = displayLevel;
+            }
+            
+            const displayPercent = dbToPercent(displayLevel);
+            const peakPercent = dbToPercent(peakLevel);
+            
+            meterBar.style.width = displayPercent + '%';
+            meterBar.className = 'meter-bar ' + getBarColor(displayLevel);
+            meterPeak.style.left = peakPercent + '%';
+            
+            if (db <= -60) {
+                meterValue.textContent = '-∞ dB';
+            } else {
+                meterValue.textContent = db.toFixed(1) + ' dB';
+            }
+            
+            meterValue.className = 'meter-value ' + getBarColor(db);
+        }
+        
+        function resizeSpectrumCanvas() {
+            const rect = spectrumCanvas.parentElement.getBoundingClientRect();
+            spectrumCanvas.width = rect.width;
+            spectrumCanvas.height = 150;
+        }
+        
+        function drawSpectrum() {
+            if (!analyser) return;
+            
+            const bufferLength = analyser.frequencyBinCount;
+            const sampleRate = audioContext.sampleRate;
+            const dataArray = new Uint8Array(bufferLength);
+            analyser.getByteFrequencyData(dataArray);
+            
+            const width = spectrumCanvas.width;
+            const height = spectrumCanvas.height;
+            const spectrumHeight = height - 25;
+            
+            spectrumCtx.fillStyle = '#16213e';
+            spectrumCtx.fillRect(0, 0, width, height);
+            
+            const minFreq = 20;
+            const maxFreq = sampleRate / 2;
+            const logMin = Math.log10(minFreq);
+            const logMax = Math.log10(maxFreq);
+            
+            const barCount = 64;
+            const barGap = 2;
+            const barWidth = (width - barGap * (barCount - 1)) / barCount;
+            
+            for (let i = 0; i < barCount; i++) {
+                const logPos = logMin + (logMax - logMin) * (i / (barCount - 1));
+                const freq = Math.pow(10, logPos);
+                
+                const binIndex = Math.round(freq * bufferLength / sampleRate);
+                const clampedIndex = Math.min(binIndex, bufferLength - 1);
+                const value = dataArray[clampedIndex];
+                
+                const barHeight = (value / 255) * spectrumHeight;
+                
+                const brightness = 40 + (value / 255) * 30;
+                spectrumCtx.fillStyle = `hsl(210, 10%, ${brightness}%)`;
+                
+                const x = i * (barWidth + barGap);
+                spectrumCtx.fillRect(x, spectrumHeight - barHeight, barWidth, barHeight);
+            }
+            
+            spectrumCtx.fillStyle = '#a0a0a0';
+            spectrumCtx.font = '10px Consolas, monospace';
+            spectrumCtx.textAlign = 'center';
+            
+            const freqMarks = [100, 500, 1000, 2000, 4000, 8000, 16000];
+            freqMarks.forEach(freq => {
+                if (freq < maxFreq) {
+                    const logPos = (Math.log10(freq) - logMin) / (logMax - logMin);
+                    const x = logPos * width;
+                    
+                    spectrumCtx.beginPath();
+                    spectrumCtx.moveTo(x, spectrumHeight);
+                    spectrumCtx.lineTo(x, spectrumHeight + 4);
+                    spectrumCtx.strokeStyle = '#a0a0a0';
+                    spectrumCtx.stroke();
+                    
+                    let label;
+                    if (freq >= 1000) {
+                        label = (freq / 1000) + 'k';
+                    } else {
+                        label = freq.toString();
+                    }
+                    spectrumCtx.fillText(label, x, height - 5);
+                }
+            });
+        }
+        
+        async function startAudio(deviceId) {
+            try {
+                if (mediaStream) {
+                    mediaStream.getTracks().forEach(track => track.stop());
+                    mediaStream = null;
+                }
+                if (audioContext) {
+                    audioContext.close();
+                    audioContext = null;
+                }
+                
+                if (initStream) {
+                    initStream.getTracks().forEach(track => track.stop());
+                    initStream = null;
+                }
+                
+                peakLevel = -60;
+                displayLevel = -60;
+                lastRiseTime = 0;
+                lastPeakTime = 0;
+                
+                const constraints = {
+                    audio: deviceId ? { deviceId: { exact: deviceId } } : true
+                };
+                
+                mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+                
+                currentDeviceId = deviceId || mediaStream.getAudioTracks()[0].getSettings().deviceId;
+                
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 2048;
+                analyser.smoothingTimeConstant = 0.8;
+                
+                const source = audioContext.createMediaStreamSource(mediaStream);
+                source.connect(analyser);
+                
+                const track = mediaStream.getAudioTracks()[0];
+                const settings = track.getSettings();
+                updateDeviceInfo(settings);
+                
+                deviceSelect.value = currentDeviceId;
+                
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+                
+                resizeSpectrumCanvas();
+                draw();
+                
+            } catch (err) {
+                console.error('Error accessing microphone:', err);
+                showStatus('无法访问麦克风: ' + err.message, 'error');
+            }
+        }
+        
+        function stopAudio() {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+            
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop());
+                mediaStream = null;
+            }
+            
+            if (audioContext) {
+                audioContext.close();
+                audioContext = null;
+            }
+            
+            analyser = null;
+            
+            peakLevel = -60;
+            displayLevel = -60;
+            lastRiseTime = 0;
+            lastPeakTime = 0;
+            updateMeter(-60);
+            
+            deviceInfo.textContent = '';
+            
+            spectrumCtx.fillStyle = '#16213e';
+            spectrumCtx.fillRect(0, 0, spectrumCanvas.width, spectrumCanvas.height);
+            
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+        }
+        
+        function draw() {
+            if (!analyser) return;
+            
+            animationId = requestAnimationFrame(draw);
+            
+            const dataArray = new Uint8Array(analyser.frequencyBinCount);
+            analyser.getByteTimeDomainData(dataArray);
+            
+            let sum = 0;
+            for (let i = 0; i < dataArray.length; i++) {
+                const normalized = (dataArray[i] - 128) / 128;
+                sum += normalized * normalized;
+            }
+            const rms = Math.sqrt(sum / dataArray.length);
+            const db = 20 * Math.log10(rms + 0.0001);
+            
+            updateMeter(db);
+            drawSpectrum();
+        }
+        
+        startBtn.addEventListener('click', () => {
+            const deviceId = deviceSelect.value;
+            if (deviceId) {
+                startAudio(deviceId);
+            }
+        });
+        
+        stopBtn.addEventListener('click', stopAudio);
+        
+        deviceSelect.addEventListener('change', () => {
+            if (mediaStream && deviceSelect.value) {
+                stopAudio();
+                startAudio(deviceSelect.value);
+            }
+        });
+        
+        window.addEventListener('resize', () => {
+            if (analyser) {
+                resizeSpectrumCanvas();
+            }
+        });
+        
+        navigator.mediaDevices.addEventListener('devicechange', async () => {
+            if (initStream || mediaStream) {
+                await getDevicesAndPopulate();
+            }
+        });
+        
+        init();
+    </script>
+</body>
+</html>

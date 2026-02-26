@@ -135,18 +135,20 @@
         .screenshot-container {
             background: var(--bg-card);
             border-radius: 20px;
-            padding: 16px;
+            padding: 12px;
             border: 1px solid var(--border);
             box-shadow: 0 20px 60px var(--shadow);
             max-width: 900px;
             margin: 0 auto;
+            overflow: hidden;
         }
 
         .screenshot-img {
-            width: 100%;
+            width: calc(100% - 6px);
             height: auto;
-            border-radius: 12px;
+            border-radius: 8px;
             display: block;
+            margin: 3px auto;
         }
 
         .screenshot-desc {
@@ -458,6 +460,7 @@
         <div class="container header-content">
             <div class="logo">🎙️ AI Mic Denoise</div>
             <nav>
+                <a href="mic-test.html">麦克风测试</a>
                 <a href="#features">功能特点</a>
                 <a href="#tutorial">使用教程</a>
                 <a href="#faq">常见问题</a>

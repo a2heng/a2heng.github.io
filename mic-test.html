@@ -6,20 +6,21 @@
     <title>麦克风测试工具</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+
         :root {
-            --bg-primary: #1a1a2e;
-            --bg-secondary: #16213e;
-            --bg-card: #0f3460;
-            --text-primary: #eaeaea;
-            --text-secondary: #a0a0a0;
-            --accent: #e94560;
-            --success: #00d9a5;
-            --warning: #ffc107;
-            --danger: #e94560;
-            --border: #2a2a4a;
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a25;
+            --text-primary: #e8e8ec;
+            --text-secondary: #8a8a9a;
+            --accent: #6b7cff;
+            --success: #4ade80;
+            --warning: #fbbf24;
+            --danger: #f87171;
+            --border: #2a2a3a;
+            --grid: #3a3a50;
         }
-        
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans SC', sans-serif;
             background: var(--bg-primary);
@@ -27,46 +28,59 @@
             min-height: 100vh;
             padding: 20px;
         }
-        
+
         .container {
-            max-width: 900px;
+            max-width: 1400px;
             margin: 0 auto;
         }
-        
+
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
-        
+
         h1 {
             font-size: 1.8em;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #e94560, #ff6b6b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            margin-bottom: 6px;
+            color: var(--text-primary);
         }
-        
+
         .subtitle {
             color: var(--text-secondary);
             font-size: 0.9em;
         }
-        
+
+        .privacy-notice {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            font-size: 0.85em;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        .privacy-notice strong {
+            color: var(--accent);
+        }
+
         .card {
             background: var(--bg-card);
-            border-radius: 12px;
+            border-radius: 10px;
             padding: 20px;
             margin-bottom: 16px;
             border: 1px solid var(--border);
         }
-        
+
         .device-row {
             display: flex;
             align-items: center;
             gap: 12px;
             flex-wrap: wrap;
+            margin-bottom: 16px;
         }
-        
+
         .device-select {
             flex: 1;
             min-width: 200px;
@@ -78,46 +92,46 @@
             font-size: 0.95em;
             cursor: pointer;
         }
-        
+
         .device-select:focus {
             outline: none;
             border-color: var(--accent);
         }
-        
+
         .device-info {
             color: var(--text-secondary);
             font-size: 0.85em;
             white-space: nowrap;
         }
-        
+
         .meter-container {
-            margin-top: 16px;
+            margin-bottom: 20px;
         }
-        
+
         .meter-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 8px;
         }
-        
+
         .meter-label {
             font-size: 0.9em;
             color: var(--text-secondary);
         }
-        
+
         .meter-value {
-            font-size: 1.4em;
+            font-size: 1.3em;
             font-weight: 600;
             font-family: 'Consolas', monospace;
             min-width: 80px;
             text-align: right;
         }
-        
+
         .meter-value.good { color: var(--success); }
         .meter-value.warning { color: var(--warning); }
         .meter-value.danger { color: var(--danger); }
-        
+
         .meter-bar-container {
             position: relative;
             height: 24px;
@@ -125,7 +139,7 @@
             border-radius: 4px;
             overflow: hidden;
         }
-        
+
         .meter-bar {
             position: absolute;
             left: 0;
@@ -134,149 +148,239 @@
             border-radius: 4px;
             transition: width 0.05s linear;
         }
-        
-        .meter-bar.green {
-            background: linear-gradient(90deg, #2d5a27 0%, #4a9b3e 100%);
-        }
-        
-        .meter-bar.yellow {
-            background: linear-gradient(90deg, #b8860b 0%, #daa520 100%);
-        }
-        
-        .meter-bar.red {
-            background: linear-gradient(90deg, #8b0000 0%, #dc143c 100%);
-        }
-        
+
+        .meter-bar.green { background: var(--success); }
+        .meter-bar.yellow { background: var(--warning); }
+        .meter-bar.red { background: var(--danger); }
+
         .meter-peak {
             position: absolute;
             top: 0;
-            width: 3px;
+            width: 2px;
             height: 100%;
             background: white;
-            box-shadow: 0 0 4px rgba(255,255,255,0.8);
             transition: left 0.1s linear;
         }
-        
+
         .meter-scale {
             display: flex;
             justify-content: space-between;
             margin-top: 6px;
             padding: 0 2px;
         }
-        
+
         .meter-mark {
             font-size: 0.7em;
             color: var(--text-secondary);
             font-family: 'Consolas', monospace;
         }
-        
+
         .spectrum-container {
-            margin-top: 16px;
+            margin-bottom: 20px;
         }
-        
+
         .spectrum-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 8px;
         }
-        
+
         .spectrum-label {
             font-size: 0.9em;
             color: var(--text-secondary);
         }
-        
+
         #spectrumCanvas {
             width: 100%;
-            height: 150px;
+            height: 220px;
             background: var(--bg-secondary);
-            border-radius: 6px;
+            border-radius: 8px;
         }
-        
+
         .btn {
             padding: 10px 24px;
             border-radius: 6px;
-            font-size: 0.9em;
+            font-size: 0.95em;
             font-weight: 500;
             cursor: pointer;
             border: none;
-            transition: all 0.2s;
+            transition: background 0.2s;
         }
-        
+
         .btn-primary {
-            background: linear-gradient(135deg, #e94560, #ff6b6b);
+            background: var(--accent);
             color: white;
         }
-        
+
         .btn-primary:hover:not(:disabled) {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(233, 69, 96, 0.3);
+            background: var(--accent-hover);
         }
-        
+
         .btn-primary:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
-        
+
         .btn-secondary {
             background: var(--bg-secondary);
             color: var(--text-primary);
             border: 1px solid var(--border);
         }
-        
+
         .btn-secondary:hover:not(:disabled) {
             border-color: var(--accent);
         }
-        
+
         .btn-secondary:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
-        
+
+        .btn-record {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-record:hover:not(:disabled) {
+            background: #ef4444;
+        }
+
+        .btn-record.recording {
+            background: var(--warning);
+            color: var(--bg-primary);
+        }
+
         .btn-group {
             display: flex;
             gap: 12px;
-            margin-top: 16px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
-        
+
+        .recording-section {
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .recording-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .recording-label {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+        }
+
+        .recording-status {
+            font-size: 0.85em;
+            color: var(--text-secondary);
+        }
+
+        .recording-status.recording {
+            color: var(--danger);
+        }
+
+        .audio-player {
+            width: 100%;
+            margin-bottom: 16px;
+        }
+
+        .analysis-container {
+            margin-top: 16px;
+            background: #050508;
+            border-radius: 8px;
+            padding: 16px;
+            border: 2px solid #2a2a3a;
+        }
+
+        .analysis-label {
+            font-size: 0.85em;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .waveform-container {
+            margin-bottom: 8px;
+        }
+
+        #waveformCanvas {
+            width: 100%;
+            height: 240px;
+            background: #000000;
+            border-radius: 4px;
+            display: block;
+        }
+
+        .spectrogram-container {
+            margin-top: 8px;
+        }
+
+        #spectrogramCanvas {
+            width: 100%;
+            height: 600px;
+            background: #000000;
+            border-radius: 4px;
+            display: block;
+        }
+
         .status {
             padding: 12px 16px;
             border-radius: 6px;
             margin-bottom: 16px;
             font-size: 0.9em;
         }
-        
+
         .status.error {
-            background: rgba(233, 69, 96, 0.15);
-            color: #ff6b6b;
-            border: 1px solid rgba(233, 69, 96, 0.3);
+            background: rgba(248, 113, 113, 0.15);
+            color: #f87171;
+            border: 1px solid rgba(248, 113, 113, 0.3);
         }
-        
+
         .status.success {
-            background: rgba(0, 217, 165, 0.15);
+            background: rgba(74, 222, 128, 0.15);
             color: var(--success);
-            border: 1px solid rgba(0, 217, 165, 0.3);
+            border: 1px solid rgba(74, 222, 128, 0.3);
         }
-        
+
         .status.warning {
-            background: rgba(255, 193, 7, 0.15);
+            background: rgba(251, 191, 36, 0.15);
             color: var(--warning);
-            border: 1px solid rgba(255, 193, 7, 0.3);
+            border: 1px solid rgba(251, 191, 36, 0.3);
         }
-        
+
         .back-link {
             text-align: center;
             margin-top: 24px;
         }
-        
+
         .back-link a {
             color: var(--text-secondary);
             text-decoration: none;
             font-size: 0.9em;
         }
-        
+
         .back-link a:hover {
             color: var(--accent);
+        }
+
+        .recording-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--danger);
+            border-radius: 50%;
+            margin-right: 6px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
     </style>
 </head>
@@ -286,9 +390,13 @@
             <h1>麦克风测试工具</h1>
             <p class="subtitle">实时检测麦克风音量电平与频谱</p>
         </header>
-        
+
+        <div class="privacy-notice">
+            <strong>隐私说明：</strong>本网站为纯静态网页，所有音频处理均在您的浏览器本地完成。录音数据仅临时保存在浏览器内存中供回放和频谱分析，不会上传到任何服务器。刷新页面或关闭浏览器后，所有数据将立即丢弃。
+        </div>
+
         <div id="status" class="status warning" style="display: none;"></div>
-        
+
         <div class="card">
             <div class="device-row">
                 <select id="deviceSelect" class="device-select">
@@ -296,7 +404,7 @@
                 </select>
                 <span class="device-info" id="deviceInfo"></span>
             </div>
-            
+
             <div class="meter-container">
                 <div class="meter-header">
                     <span class="meter-label">输入电平</span>
@@ -308,39 +416,52 @@
                 </div>
                 <div class="meter-scale">
                     <span class="meter-mark">-60</span>
-                    <span class="meter-mark">-55</span>
                     <span class="meter-mark">-50</span>
-                    <span class="meter-mark">-45</span>
                     <span class="meter-mark">-40</span>
-                    <span class="meter-mark">-35</span>
                     <span class="meter-mark">-30</span>
-                    <span class="meter-mark">-25</span>
                     <span class="meter-mark">-20</span>
-                    <span class="meter-mark">-15</span>
                     <span class="meter-mark">-10</span>
-                    <span class="meter-mark">-5</span>
                     <span class="meter-mark">0</span>
                 </div>
             </div>
-            
+
             <div class="spectrum-container">
                 <div class="spectrum-header">
-                    <span class="spectrum-label">频谱分析</span>
+                    <span class="spectrum-label">实时频谱分析</span>
                 </div>
                 <canvas id="spectrumCanvas"></canvas>
             </div>
-            
+
             <div class="btn-group">
                 <button id="startBtn" class="btn btn-primary" disabled>开始测试</button>
                 <button id="stopBtn" class="btn btn-secondary" disabled>停止</button>
+                <button id="recordBtn" class="btn btn-record" disabled>录音</button>
+            </div>
+
+            <div class="recording-section" id="recordingSection" style="display: none;">
+                <div class="recording-header">
+                    <span class="recording-label">录音回放</span>
+                    <span class="recording-status" id="recordingStatus">就绪</span>
+                </div>
+                <audio id="audioPlayer" class="audio-player" controls></audio>
+                <div class="analysis-container">
+                    <div class="analysis-label">高清波形与频谱分析</div>
+                    <div class="waveform-container">
+                        <canvas id="waveformCanvas"></canvas>
+                    </div>
+                    <div class="spectrogram-container">
+                        <canvas id="spectrogramCanvas"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
-        
+
         <div class="back-link">
             <a href="index.html">← 返回主页</a>
         </div>
     </div>
-    
+
+    <script src="fft-lib.js"></script>
     <script>
         let audioContext = null;
         let analyser = null;
@@ -348,103 +469,114 @@
         let animationId = null;
         let currentDeviceId = null;
         let initStream = null;
-        
+        let mediaRecorder = null;
+        let recordedChunks = [];
+        let isRecording = false;
+
         let peakLevel = -60;
         let displayLevel = -60;
         let lastPeakTime = 0;
         let lastRiseTime = 0;
-        
+
         const FALLBACK_SPEED = 0.15;
         const PEAK_HOLD_TIME = 2000;
         const BAR_HOLD_TIME = 500;
-        
+
         const deviceSelect = document.getElementById('deviceSelect');
         const deviceInfo = document.getElementById('deviceInfo');
         const startBtn = document.getElementById('startBtn');
         const stopBtn = document.getElementById('stopBtn');
+        const recordBtn = document.getElementById('recordBtn');
         const statusDiv = document.getElementById('status');
         const meterBar = document.getElementById('meterBar');
         const meterPeak = document.getElementById('meterPeak');
         const meterValue = document.getElementById('meterValue');
         const spectrumCanvas = document.getElementById('spectrumCanvas');
         const spectrumCtx = spectrumCanvas.getContext('2d');
-        
+        const recordingSection = document.getElementById('recordingSection');
+        const recordingStatus = document.getElementById('recordingStatus');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const waveformCanvas = document.getElementById('waveformCanvas');
+        const waveformCtx = waveformCanvas.getContext('2d');
+        const spectrogramCanvas = document.getElementById('spectrogramCanvas');
+        const spectrogramCtx = spectrogramCanvas.getContext('2d');
+
         function getDevicesAndPopulate() {
             return navigator.mediaDevices.enumerateDevices().then(devices => {
                 const audioInputs = devices.filter(d => d.kind === 'audioinput');
-                
+
                 deviceSelect.innerHTML = '';
-                
+
                 if (audioInputs.length === 0) {
                     deviceSelect.innerHTML = '<option value="">未找到麦克风设备</option>';
                     return [];
                 }
-                
+
                 audioInputs.forEach((device, index) => {
                     const option = document.createElement('option');
                     option.value = device.deviceId;
                     option.textContent = device.label || `麦克风 ${index + 1}`;
                     deviceSelect.appendChild(option);
                 });
-                
+
                 if (audioInputs.length > 0) {
                     deviceSelect.value = audioInputs[0].deviceId;
                 }
-                
+
                 return audioInputs;
             });
         }
-        
+
         async function init() {
             showStatus('正在请求麦克风权限...', 'warning');
-            
+
             try {
                 initStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                
+
                 await getDevicesAndPopulate();
-                
+
                 hideStatus();
                 startBtn.disabled = false;
-                
+
             } catch (err) {
                 console.error('获取权限失败:', err);
                 showStatus('请允许麦克风权限以使用此工具', 'error');
                 deviceSelect.innerHTML = '<option value="">需要麦克风权限</option>';
             }
         }
-        
+
         function showStatus(message, type) {
             statusDiv.textContent = message;
             statusDiv.className = `status ${type}`;
             statusDiv.style.display = 'block';
         }
-        
+
         function hideStatus() {
             statusDiv.style.display = 'none';
         }
-        
+
         function updateDeviceInfo(settings) {
             const info = [];
             if (settings.sampleRate) info.push(`${settings.sampleRate}Hz`);
             if (settings.channelCount) info.push(`${settings.channelCount}ch`);
             deviceInfo.textContent = info.join(' | ');
         }
-        
+
         function getBarColor(db) {
             if (db > -10) return 'red';
             if (db > -20) return 'yellow';
             return 'green';
         }
-        
+
         function dbToPercent(db) {
             if (db <= -60) return 0;
             return ((db + 60) / 60) * 100;
         }
-        
+
         function updateMeter(db) {
             const targetLevel = Math.max(-60, Math.min(0, db));
             const now = Date.now();
-            
+
             if (targetLevel > displayLevel) {
                 displayLevel = targetLevel;
                 lastRiseTime = now;
@@ -452,104 +584,568 @@
                 displayLevel -= FALLBACK_SPEED;
                 if (displayLevel < -60) displayLevel = -60;
             }
-            
+
             if (targetLevel >= peakLevel) {
                 peakLevel = targetLevel;
                 lastPeakTime = now;
             } else if (now - lastPeakTime > PEAK_HOLD_TIME) {
                 peakLevel = displayLevel;
             }
-            
+
             const displayPercent = dbToPercent(displayLevel);
             const peakPercent = dbToPercent(peakLevel);
-            
+
             meterBar.style.width = displayPercent + '%';
             meterBar.className = 'meter-bar ' + getBarColor(displayLevel);
             meterPeak.style.left = peakPercent + '%';
-            
+
             if (db <= -60) {
                 meterValue.textContent = '-∞ dB';
             } else {
                 meterValue.textContent = db.toFixed(1) + ' dB';
             }
-            
+
             meterValue.className = 'meter-value ' + getBarColor(db);
         }
-        
+
         function resizeSpectrumCanvas() {
             const rect = spectrumCanvas.parentElement.getBoundingClientRect();
             spectrumCanvas.width = rect.width;
-            spectrumCanvas.height = 150;
+            spectrumCanvas.height = 220;
         }
-        
+
         function drawSpectrum() {
-            if (!analyser) return;
-            
-            const bufferLength = analyser.frequencyBinCount;
-            const sampleRate = audioContext.sampleRate;
-            const dataArray = new Uint8Array(bufferLength);
-            analyser.getByteFrequencyData(dataArray);
-            
             const width = spectrumCanvas.width;
             const height = spectrumCanvas.height;
-            const spectrumHeight = height - 25;
-            
-            spectrumCtx.fillStyle = '#16213e';
+            const paddingLeft = 50;
+            const paddingRight = 15;
+            const paddingTop = 20;
+            const paddingBottom = 35;
+            const chartWidth = width - paddingLeft - paddingRight;
+            const chartHeight = height - paddingTop - paddingBottom;
+
+            spectrumCtx.fillStyle = '#050508';
             spectrumCtx.fillRect(0, 0, width, height);
-            
+
+            spectrumCtx.strokeStyle = '#1a1a2a';
+            spectrumCtx.lineWidth = 1;
+            for (let i = 0; i <= 4; i++) {
+                const y = paddingTop + (chartHeight / 4) * i;
+                spectrumCtx.beginPath();
+                spectrumCtx.moveTo(paddingLeft, y);
+                spectrumCtx.lineTo(width - paddingRight, y);
+                spectrumCtx.stroke();
+            }
+
+            spectrumCtx.strokeStyle = '#2a2a3e';
+            spectrumCtx.beginPath();
+            spectrumCtx.moveTo(paddingLeft, paddingTop + chartHeight);
+            spectrumCtx.lineTo(width - paddingRight, paddingTop + chartHeight);
+            spectrumCtx.stroke();
+
             const minFreq = 20;
-            const maxFreq = sampleRate / 2;
+            const maxFreq = 20000;
             const logMin = Math.log10(minFreq);
             const logMax = Math.log10(maxFreq);
-            
-            const barCount = 64;
-            const barGap = 2;
-            const barWidth = (width - barGap * (barCount - 1)) / barCount;
-            
-            for (let i = 0; i < barCount; i++) {
-                const logPos = logMin + (logMax - logMin) * (i / (barCount - 1));
-                const freq = Math.pow(10, logPos);
-                
-                const binIndex = Math.round(freq * bufferLength / sampleRate);
-                const clampedIndex = Math.min(binIndex, bufferLength - 1);
-                const value = dataArray[clampedIndex];
-                
-                const barHeight = (value / 255) * spectrumHeight;
-                
-                const brightness = 40 + (value / 255) * 30;
-                spectrumCtx.fillStyle = `hsl(210, 10%, ${brightness}%)`;
-                
-                const x = i * (barWidth + barGap);
-                spectrumCtx.fillRect(x, spectrumHeight - barHeight, barWidth, barHeight);
-            }
-            
-            spectrumCtx.fillStyle = '#a0a0a0';
-            spectrumCtx.font = '10px Consolas, monospace';
+
+            const freqLabels = [
+                { freq: 20, label: '20' },
+                { freq: 100, label: '100' },
+                { freq: 250, label: '250' },
+                { freq: 500, label: '500' },
+                { freq: 1000, label: '1k' },
+                { freq: 2000, label: '2k' },
+                { freq: 5000, label: '5k' },
+                { freq: 10000, label: '10k' },
+                { freq: 20000, label: '20k' }
+            ];
+
+            spectrumCtx.fillStyle = '#c0c0d0';
+            spectrumCtx.font = 'bold 12px Consolas, monospace';
             spectrumCtx.textAlign = 'center';
-            
-            const freqMarks = [100, 500, 1000, 2000, 4000, 8000, 16000];
-            freqMarks.forEach(freq => {
-                if (freq < maxFreq) {
-                    const logPos = (Math.log10(freq) - logMin) / (logMax - logMin);
-                    const x = logPos * width;
-                    
-                    spectrumCtx.beginPath();
-                    spectrumCtx.moveTo(x, spectrumHeight);
-                    spectrumCtx.lineTo(x, spectrumHeight + 4);
-                    spectrumCtx.strokeStyle = '#a0a0a0';
-                    spectrumCtx.stroke();
-                    
-                    let label;
-                    if (freq >= 1000) {
-                        label = (freq / 1000) + 'k';
-                    } else {
-                        label = freq.toString();
-                    }
-                    spectrumCtx.fillText(label, x, height - 5);
-                }
+
+            freqLabels.forEach(({ freq, label }) => {
+                const logPos = (Math.log10(freq) - logMin) / (logMax - logMin);
+                const x = paddingLeft + logPos * chartWidth;
+
+                spectrumCtx.beginPath();
+                spectrumCtx.moveTo(x, paddingTop + chartHeight);
+                spectrumCtx.lineTo(x, paddingTop + chartHeight + 6);
+                spectrumCtx.strokeStyle = '#5a5a7a';
+                spectrumCtx.lineWidth = 1.5;
+                spectrumCtx.stroke();
+
+                spectrumCtx.fillText(label, x, height - 10);
             });
+
+            spectrumCtx.textAlign = 'right';
+            spectrumCtx.fillStyle = '#a0a0b0';
+            spectrumCtx.font = '11px Consolas, monospace';
+            const dbLabels = ['0', '-20', '-40', '-60'];
+            dbLabels.forEach((db, i) => {
+                const y = paddingTop + (chartHeight / 3) * i;
+                spectrumCtx.fillText(db, paddingLeft - 10, y + 4);
+
+                spectrumCtx.beginPath();
+                spectrumCtx.moveTo(paddingLeft - 6, y);
+                spectrumCtx.lineTo(paddingLeft, y);
+                spectrumCtx.strokeStyle = '#4a4a6a';
+                spectrumCtx.stroke();
+            });
+
+            spectrumCtx.fillStyle = '#c0c0d0';
+            spectrumCtx.font = 'bold 12px Consolas, monospace';
+            spectrumCtx.fillText('dB', paddingLeft - 10, paddingTop - 5);
+
+            if (analyser) {
+                const bufferLength = analyser.frequencyBinCount;
+                const sampleRate = audioContext.sampleRate;
+                const dataArray = new Uint8Array(bufferLength);
+                analyser.getByteFrequencyData(dataArray);
+
+                const barCount = 64;
+                const barGap = 2;
+                const barWidth = Math.max(4, (chartWidth - barGap * (barCount - 1)) / barCount);
+
+                for (let i = 0; i < barCount; i++) {
+                    const logPos1 = i / barCount;
+                    const logPos2 = (i + 1) / barCount;
+                    const freq1 = Math.pow(10, logMin + logPos1 * (logMax - logMin));
+                    const freq2 = Math.pow(10, logMin + logPos2 * (logMax - logMin));
+
+                    const bin1 = Math.max(0, Math.floor(freq1 * bufferLength / (sampleRate / 2)));
+                    const bin2 = Math.max(bin1 + 1, Math.floor(freq2 * bufferLength / (sampleRate / 2)));
+
+                    let sum = 0;
+                    let count = 0;
+                    for (let b = bin1; b < Math.min(bufferLength, bin2); b++) {
+                        sum += dataArray[b];
+                        count++;
+                    }
+                    const avg = count > 0 ? sum / count : 0;
+                    const barHeight = (avg / 255) * chartHeight;
+
+                    const intensity = avg / 255;
+
+                    let r, g, b;
+                    if (intensity > 0.85) {
+                        r = 255; g = 100; b = 200;
+                    } else if (intensity > 0.65) {
+                        r = 220; g = 80; b = 255;
+                    } else if (intensity > 0.45) {
+                        r = 160; g = 100; b = 255;
+                    } else if (intensity > 0.25) {
+                        r = 100; g = 120; b = 240;
+                    } else {
+                        r = 50; g = 80; b = 180;
+                    }
+
+                    const x = paddingLeft + i * (barWidth + barGap);
+                    const drawWidth = Math.max(1, barWidth);
+
+                    if (intensity > 0.3) {
+                        spectrumCtx.shadowColor = `rgba(${r}, ${g}, ${b}, 0.6)`;
+                        spectrumCtx.shadowBlur = 10;
+                    } else {
+                        spectrumCtx.shadowBlur = 0;
+                    }
+
+                    spectrumCtx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+                    spectrumCtx.fillRect(x, paddingTop + chartHeight - barHeight, drawWidth, barHeight);
+
+                    spectrumCtx.shadowBlur = 0;
+                }
+            }
         }
-        
+
+        function toggleRecording() {
+            if (!isRecording) {
+                startRecording();
+            } else {
+                stopRecording();
+            }
+        }
+
+        function startRecording() {
+            if (!mediaStream) return;
+
+            recordedChunks = [];
+            mediaRecorder = new MediaRecorder(mediaStream);
+
+            mediaRecorder.ondataavailable = (event) => {
+                if (event.data.size > 0) {
+                    recordedChunks.push(event.data);
+                }
+            };
+
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(recordedChunks, { type: 'audio/webm' });
+                const url = URL.createObjectURL(blob);
+                audioPlayer.src = url;
+                recordingSection.style.display = 'block';
+                recordingStatus.textContent = '录音完成';
+                recordingStatus.classList.remove('recording');
+
+                calculateAndDrawAnalysis(blob);
+            };
+
+            mediaRecorder.start();
+            isRecording = true;
+            recordBtn.innerHTML = '<span class="recording-indicator"></span>停止';
+            recordBtn.classList.add('recording');
+            recordingStatus.textContent = '录音中...';
+            recordingStatus.classList.add('recording');
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                isRecording = false;
+                recordBtn.textContent = '录音';
+                recordBtn.classList.remove('recording');
+            }
+        }
+
+        // 热图配色：更细腻的渐变，更多颜色层级
+        function getHeatmapColor(normalizedValue) {
+            // 更精细的颜色映射，共16个层级
+            const colors = [
+                { pos: 0.00, r: 0, g: 0, b: 0 },       // 纯黑
+                { pos: 0.05, r: 5, g: 0, b: 20 },      // 极深蓝
+                { pos: 0.10, r: 15, g: 0, b: 50 },     // 深蓝
+                { pos: 0.15, r: 30, g: 0, b: 80 },     // 蓝色
+                { pos: 0.20, r: 50, g: 0, b: 110 },    // 蓝紫
+                { pos: 0.25, r: 75, g: 0, b: 140 },    // 紫色
+                { pos: 0.30, r: 105, g: 0, b: 165 },   // 紫红
+                { pos: 0.35, r: 140, g: 0, b: 180 },   // 深粉
+                { pos: 0.40, r: 175, g: 0, b: 185 },   // 粉红
+                { pos: 0.45, r: 205, g: 0, b: 170 },   // 亮粉
+                { pos: 0.50, r: 230, g: 20, b: 140 },  // 桃红
+                { pos: 0.55, r: 245, g: 60, b: 100 },  // 橙红
+                { pos: 0.60, r: 255, g: 100, b: 60 },  // 橙色
+                { pos: 0.70, r: 255, g: 150, b: 30 },  // 金黄
+                { pos: 0.80, r: 255, g: 200, b: 50 },  // 亮黄
+                { pos: 0.90, r: 255, g: 240, b: 120 }, // 浅黄
+                { pos: 1.00, r: 255, g: 255, b: 255 }  // 纯白
+            ];
+
+            // 线性插值找到对应颜色
+            for (let i = 0; i < colors.length - 1; i++) {
+                if (normalizedValue >= colors[i].pos && normalizedValue <= colors[i + 1].pos) {
+                    const t = (normalizedValue - colors[i].pos) / (colors[i + 1].pos - colors[i].pos);
+                    return {
+                        r: Math.round(colors[i].r + t * (colors[i + 1].r - colors[i].r)),
+                        g: Math.round(colors[i].g + t * (colors[i + 1].g - colors[i].g)),
+                        b: Math.round(colors[i].b + t * (colors[i + 1].b - colors[i].b))
+                    };
+                }
+            }
+            return colors[colors.length - 1];
+        }
+
+        async function calculateAndDrawAnalysis(audioBlob) {
+            const arrayBuffer = await audioBlob.arrayBuffer();
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+            try {
+                const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+                const channelData = audioBuffer.getChannelData(0);
+                const sampleRate = audioBuffer.sampleRate;
+                const duration = audioBuffer.duration;
+
+                // FFT参数: 1024点, 50%重叠 (hop=512)
+                const fftSize = 1024;
+                const hopSize = 512;
+                const maxFrames = 1000;
+
+                // 计算波形数据（用于上方波形图）- 保存实际采样值（带正负），更高采样率
+                const waveformData = [];
+                const numWaveformPoints = Math.min(channelData.length, 2000); // 最多2000个采样点
+                const waveStep = channelData.length / numWaveformPoints;
+                for (let i = 0; i < numWaveformPoints; i++) {
+                    const sampleIndex = Math.floor(i * waveStep);
+                    if (sampleIndex < channelData.length) {
+                        waveformData.push(channelData[sampleIndex]);
+                    }
+                }
+
+                // 使用 FFTLib 计算 STFT
+                console.log('开始 STFT 计算，FFT大小:', fftSize);
+                const stftStartTime = performance.now();
+                
+                // 截取部分数据以控制计算量，同时保持高分辨率
+                const maxSamples = Math.min(channelData.length, maxFrames * hopSize + fftSize);
+                const signalSlice = channelData.slice(0, maxSamples);
+                
+                // 使用 FFTLib.stft 计算频谱
+                const stftData = FFTLib.stft(signalSlice, fftSize, hopSize, 'hanning');
+                
+                const stftEndTime = performance.now();
+                console.log(`STFT 计算完成，耗时: ${(stftEndTime - stftStartTime).toFixed(2)}ms, 帧数: ${stftData.length}`);
+
+                // 绘制波形和频谱图
+                drawWaveform(waveformData, duration);
+                drawSpectrogram(stftData, sampleRate, fftSize, duration);
+
+            } catch (err) {
+                console.error('分析失败:', err);
+            }
+        }
+
+        function drawWaveform(waveformData, duration) {
+            // 使用更高的画布分辨率
+            const displayWidth = waveformCanvas.offsetWidth;
+            const displayHeight = 240;
+            waveformCanvas.width = displayWidth * 2;
+            waveformCanvas.height = displayHeight * 2;
+            waveformCanvas.style.height = displayHeight + 'px';
+            
+            const width = waveformCanvas.width;
+            const height = waveformCanvas.height;
+            const paddingLeft = 100;
+            const paddingRight = 40;
+            const paddingTop = 40;
+            const paddingBottom = 60;
+            const chartWidth = width - paddingLeft - paddingRight;
+            const chartHeight = height - paddingTop - paddingBottom;
+
+            // 黑底
+            waveformCtx.fillStyle = '#000000';
+            waveformCtx.fillRect(0, 0, width, height);
+
+            // 密集水平网格线 -10到10共20格
+            waveformCtx.strokeStyle = 'rgba(200, 140, 0, 0.4)';
+            waveformCtx.lineWidth = 1;
+            
+            for (let i = 0; i <= 10; i++) {
+                const y = paddingTop + (chartHeight / 10) * i;
+                waveformCtx.beginPath();
+                waveformCtx.moveTo(paddingLeft, y);
+                waveformCtx.lineTo(width - paddingRight, y);
+                waveformCtx.stroke();
+            }
+
+            // 密集垂直网格线
+            const timeDivisions = 20;
+            for (let i = 0; i <= timeDivisions; i++) {
+                const x = paddingLeft + (chartWidth / timeDivisions) * i;
+                waveformCtx.beginPath();
+                waveformCtx.moveTo(x, paddingTop);
+                waveformCtx.lineTo(x, height - paddingBottom);
+                waveformCtx.stroke();
+            }
+
+            // 零线
+            waveformCtx.strokeStyle = 'rgba(200, 140, 0, 0.8)';
+            waveformCtx.lineWidth = 2;
+            const zeroY = paddingTop + chartHeight / 2;
+            waveformCtx.beginPath();
+            waveformCtx.moveTo(paddingLeft, zeroY);
+            waveformCtx.lineTo(width - paddingRight, zeroY);
+            waveformCtx.stroke();
+
+            // 绘制波形 - 离散点连线
+            const step = chartWidth / waveformData.length;
+            const pointRadius = 1.5;
+            
+            waveformCtx.fillStyle = '#c060ff';
+            
+            for (let i = 0; i < waveformData.length; i++) {
+                const x = paddingLeft + i * step;
+                // 振幅范围 -1 到 1
+                const amplitude = Math.max(-1, Math.min(1, waveformData[i]));
+                const y = zeroY - amplitude * chartHeight / 2;
+                
+                // 绘制离散点
+                waveformCtx.beginPath();
+                waveformCtx.arc(x, y, pointRadius, 0, Math.PI * 2);
+                waveformCtx.fill();
+                
+                // 连线到下一个点
+                if (i < waveformData.length - 1) {
+                    const nextAmplitude = Math.max(-1, Math.min(1, waveformData[i + 1]));
+                    const nextY = zeroY - nextAmplitude * chartHeight / 2;
+                    const nextX = paddingLeft + (i + 1) * step;
+                    
+                    waveformCtx.strokeStyle = '#c060ff';
+                    waveformCtx.lineWidth = 1;
+                    waveformCtx.beginPath();
+                    waveformCtx.moveTo(x, y);
+                    waveformCtx.lineTo(nextX, nextY);
+                    waveformCtx.stroke();
+                }
+            }
+
+            // Y轴刻度 -1.0 到 1.0
+            waveformCtx.fillStyle = '#ffaa00';
+            waveformCtx.font = 'bold 16px Consolas, monospace';
+            waveformCtx.textAlign = 'right';
+
+            const ampLabels = ['1.0', '0.8', '0.6', '0.4', '0.2', '0.0', '-0.2', '-0.4', '-0.6', '-0.8', '-1.0'];
+            ampLabels.forEach((label, i) => {
+                const y = paddingTop + (chartHeight / 10) * i;
+                waveformCtx.fillText(label, paddingLeft - 10, y + 5);
+
+                // 刻度线
+                waveformCtx.beginPath();
+                waveformCtx.moveTo(paddingLeft - 8, y);
+                waveformCtx.lineTo(paddingLeft, y);
+                waveformCtx.strokeStyle = '#ffaa00';
+                waveformCtx.lineWidth = 2;
+                waveformCtx.stroke();
+            });
+
+            // X轴时间刻度
+            waveformCtx.textAlign = 'center';
+            waveformCtx.font = 'bold 16px Consolas, monospace';
+            const timeLabels = 5;
+            for (let i = 0; i < timeLabels; i++) {
+                const time = (duration / (timeLabels - 1)) * i;
+                const x = paddingLeft + (chartWidth / (timeLabels - 1)) * i;
+                waveformCtx.fillText(time.toFixed(0), x, height - 20);
+
+                // 刻度线
+                waveformCtx.beginPath();
+                waveformCtx.moveTo(x, height - paddingBottom);
+                waveformCtx.lineTo(x, height - paddingBottom + 12);
+                waveformCtx.strokeStyle = '#ffaa00';
+                waveformCtx.lineWidth = 2;
+                waveformCtx.stroke();
+            }
+        }
+
+        function drawSpectrogram(stftData, sampleRate, fftSize, duration) {
+            // 使用更高的画布分辨率
+            const displayWidth = spectrogramCanvas.offsetWidth;
+            const displayHeight = 600;
+            spectrogramCanvas.width = displayWidth * 2;
+            spectrogramCanvas.height = displayHeight * 2;
+            spectrogramCanvas.style.height = displayHeight + 'px';
+            
+            const width = spectrogramCanvas.width;
+            const height = spectrogramCanvas.height;
+            const paddingLeft = 100;
+            const paddingRight = 40;
+            const paddingTop = 40;
+            const paddingBottom = 60;
+            const chartWidth = width - paddingLeft - paddingRight;
+            const chartHeight = height - paddingTop - paddingBottom;
+
+            // 黑底
+            spectrogramCtx.fillStyle = '#000000';
+            spectrogramCtx.fillRect(0, 0, width, height);
+
+            if (stftData.length === 0) return;
+
+            const numBins = stftData[0].length;
+            const nyquist = sampleRate / 2;
+            const maxFreq = 24000; // 固定显示到24000Hz
+
+            // 找到最大值用于归一化（排除直流分量）
+            let maxVal = 0;
+            for (let t = 0; t < stftData.length; t++) {
+                for (let f = 1; f < numBins; f++) { // 从1开始，跳过直流分量
+                    maxVal = Math.max(maxVal, stftData[t][f]);
+                }
+            }
+            if (maxVal === 0) maxVal = 1e-10;
+
+            // 线性频率刻度 0-24000Hz
+            const freqStep = maxFreq / numBins;
+
+            // 绘制热图频谱 - 线性刻度
+            const pixelWidth = Math.max(1, chartWidth / stftData.length);
+            
+            for (let t = 0; t < stftData.length; t++) {
+                const x = paddingLeft + t * pixelWidth;
+                
+                for (let f = 0; f < numBins; f++) {
+                    const freq = f * freqStep;
+                    if (freq > maxFreq) continue;
+                    
+                    // 线性映射
+                    const y = paddingTop + chartHeight - (freq / maxFreq) * chartHeight;
+                    const nextFreq = (f + 1) * freqStep;
+                    const pixelHeight = Math.max(1, ((nextFreq - freq) / maxFreq) * chartHeight);
+
+                    // 标准幅度谱
+                    const magnitude = stftData[t][f] / maxVal;
+                    const db = 20 * Math.log10(magnitude + 1e-10);
+                    const normalizedDb = Math.max(0, (db + 90) / 90);
+
+                    const color = getHeatmapColor(normalizedDb);
+                    const alpha = Math.min(1, normalizedDb * 1.2 + 0.05);
+
+                    spectrogramCtx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha})`;
+                    spectrogramCtx.fillRect(x, y - pixelHeight, pixelWidth + 0.5, pixelHeight + 0.5);
+                }
+            }
+
+            // 密集水平网格线 - 线性刻度 0-24000
+            spectrogramCtx.strokeStyle = 'rgba(200, 140, 0, 0.4)';
+            spectrogramCtx.lineWidth = 1;
+
+            // 每2400Hz一条线，共10格
+            const freqGridLines = [0, 2400, 4800, 7200, 9600, 12000, 14400, 16800, 19200, 21600, 24000];
+            freqGridLines.forEach(freq => {
+                const y = paddingTop + chartHeight - (freq / maxFreq) * chartHeight;
+                spectrogramCtx.beginPath();
+                spectrogramCtx.moveTo(paddingLeft, y);
+                spectrogramCtx.lineTo(width - paddingRight, y);
+                spectrogramCtx.stroke();
+            });
+
+            // 密集垂直时间网格
+            const timeDivisions = 20;
+            for (let i = 0; i <= timeDivisions; i++) {
+                const x = paddingLeft + (chartWidth / timeDivisions) * i;
+                spectrogramCtx.beginPath();
+                spectrogramCtx.moveTo(x, paddingTop);
+                spectrogramCtx.lineTo(x, height - paddingBottom);
+                spectrogramCtx.stroke();
+            }
+
+            // Y轴频率刻度 - 线性 0-24000
+            spectrogramCtx.fillStyle = '#ffaa00';
+            spectrogramCtx.font = 'bold 16px Consolas, monospace';
+            spectrogramCtx.textAlign = 'right';
+
+            const freqLabels = [24000, 21600, 19200, 16800, 14400, 12000, 9600, 7200, 4800, 2400, 0];
+            freqLabels.forEach(freq => {
+                const y = paddingTop + chartHeight - (freq / maxFreq) * chartHeight;
+                spectrogramCtx.fillText(freq.toString(), paddingLeft - 10, y + 5);
+
+                // 刻度线
+                spectrogramCtx.beginPath();
+                spectrogramCtx.moveTo(paddingLeft - 8, y);
+                spectrogramCtx.lineTo(paddingLeft, y);
+                spectrogramCtx.strokeStyle = '#ffaa00';
+                spectrogramCtx.lineWidth = 2;
+                spectrogramCtx.stroke();
+            });
+
+            // X轴时间刻度
+            spectrogramCtx.textAlign = 'center';
+            spectrogramCtx.font = 'bold 16px Consolas, monospace';
+            const timeLabels = 5;
+            for (let i = 0; i < timeLabels; i++) {
+                const time = (duration / (timeLabels - 1)) * i;
+                const x = paddingLeft + (chartWidth / (timeLabels - 1)) * i;
+                waveformCtx.fillText(time.toFixed(0), x, height - 20);
+
+                // 刻度线
+                spectrogramCtx.beginPath();
+                spectrogramCtx.moveTo(x, height - paddingBottom);
+                spectrogramCtx.lineTo(x, height - paddingBottom + 12);
+                spectrogramCtx.strokeStyle = '#ffaa00';
+                spectrogramCtx.lineWidth = 2;
+                spectrogramCtx.stroke();
+            }
+
+            // X轴标题
+            spectrogramCtx.fillText('时间', paddingLeft + chartWidth / 2, height - 20);
+        }
+
         async function startAudio(deviceId) {
             try {
                 if (mediaStream) {
@@ -560,92 +1156,110 @@
                     audioContext.close();
                     audioContext = null;
                 }
-                
+
                 if (initStream) {
                     initStream.getTracks().forEach(track => track.stop());
                     initStream = null;
                 }
-                
+
+                if (isRecording) {
+                    stopRecording();
+                }
+
                 peakLevel = -60;
                 displayLevel = -60;
                 lastRiseTime = 0;
                 lastPeakTime = 0;
-                
+
                 const constraints = {
                     audio: deviceId ? { deviceId: { exact: deviceId } } : true
                 };
-                
+
                 mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
-                
+
                 currentDeviceId = deviceId || mediaStream.getAudioTracks()[0].getSettings().deviceId;
-                
+
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
                 analyser = audioContext.createAnalyser();
                 analyser.fftSize = 2048;
                 analyser.smoothingTimeConstant = 0.8;
-                
+
                 const source = audioContext.createMediaStreamSource(mediaStream);
                 source.connect(analyser);
-                
+
                 const track = mediaStream.getAudioTracks()[0];
                 const settings = track.getSettings();
                 updateDeviceInfo(settings);
-                
+
                 deviceSelect.value = currentDeviceId;
-                
+
                 startBtn.disabled = true;
                 stopBtn.disabled = false;
-                
+                recordBtn.disabled = false;
+
                 resizeSpectrumCanvas();
                 draw();
-                
+
             } catch (err) {
                 console.error('Error accessing microphone:', err);
                 showStatus('无法访问麦克风: ' + err.message, 'error');
             }
         }
-        
+
         function stopAudio() {
             if (animationId) {
                 cancelAnimationFrame(animationId);
                 animationId = null;
             }
-            
+
+            if (isRecording) {
+                stopRecording();
+            }
+
             if (mediaStream) {
                 mediaStream.getTracks().forEach(track => track.stop());
                 mediaStream = null;
             }
-            
+
             if (audioContext) {
                 audioContext.close();
                 audioContext = null;
             }
-            
+
             analyser = null;
-            
+
             peakLevel = -60;
             displayLevel = -60;
             lastRiseTime = 0;
             lastPeakTime = 0;
             updateMeter(-60);
-            
+
             deviceInfo.textContent = '';
-            
-            spectrumCtx.fillStyle = '#16213e';
-            spectrumCtx.fillRect(0, 0, spectrumCanvas.width, spectrumCanvas.height);
-            
+
+            drawSpectrum();
+
             startBtn.disabled = false;
             stopBtn.disabled = true;
+            recordBtn.disabled = true;
+            recordBtn.textContent = '录音';
+            recordBtn.classList.remove('recording');
+
+            recordingSection.style.display = 'none';
+            audioPlayer.src = '';
+            waveformCtx.fillStyle = '#000000';
+            waveformCtx.fillRect(0, 0, waveformCanvas.width, waveformCanvas.height);
+            spectrogramCtx.fillStyle = '#000000';
+            spectrogramCtx.fillRect(0, 0, spectrogramCanvas.width, spectrogramCanvas.height);
         }
-        
+
         function draw() {
             if (!analyser) return;
-            
+
             animationId = requestAnimationFrame(draw);
-            
+
             const dataArray = new Uint8Array(analyser.frequencyBinCount);
             analyser.getByteTimeDomainData(dataArray);
-            
+
             let sum = 0;
             for (let i = 0; i < dataArray.length; i++) {
                 const normalized = (dataArray[i] - 128) / 128;
@@ -653,39 +1267,47 @@
             }
             const rms = Math.sqrt(sum / dataArray.length);
             const db = 20 * Math.log10(rms + 0.0001);
-            
+
             updateMeter(db);
             drawSpectrum();
         }
-        
+
         startBtn.addEventListener('click', () => {
             const deviceId = deviceSelect.value;
             if (deviceId) {
                 startAudio(deviceId);
             }
         });
-        
+
         stopBtn.addEventListener('click', stopAudio);
-        
+
+        recordBtn.addEventListener('click', toggleRecording);
+
         deviceSelect.addEventListener('change', () => {
             if (mediaStream && deviceSelect.value) {
                 stopAudio();
                 startAudio(deviceSelect.value);
             }
         });
-        
+
         window.addEventListener('resize', () => {
             if (analyser) {
                 resizeSpectrumCanvas();
             }
         });
-        
+
+        window.addEventListener('beforeunload', () => {
+            if (isRecording) {
+                stopRecording();
+            }
+        });
+
         navigator.mediaDevices.addEventListener('devicechange', async () => {
             if (initStream || mediaStream) {
                 await getDevicesAndPopulate();
             }
         });
-        
+
         init();
     </script>
 </body>

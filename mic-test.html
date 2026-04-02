@@ -14,11 +14,12 @@
             --text-primary: #e8e8ec;
             --text-secondary: #8a8a9a;
             --accent: #6b7cff;
+            --accent-glow: rgba(107, 124, 255, 0.4);
             --success: #4ade80;
             --warning: #fbbf24;
             --danger: #f87171;
             --border: #2a2a3a;
-            --grid: #3a3a50;
+            --grid: #2a2a40;
         }
 
         body {
@@ -149,9 +150,9 @@
             transition: width 0.05s linear;
         }
 
-        .meter-bar.green { background: var(--success); }
-        .meter-bar.yellow { background: var(--warning); }
-        .meter-bar.red { background: var(--danger); }
+        .meter-bar.green { background: linear-gradient(90deg, #22c55e, #4ade80); }
+        .meter-bar.yellow { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .meter-bar.red { background: linear-gradient(90deg, #ef4444, #f87171); }
 
         .meter-peak {
             position: absolute;
@@ -159,6 +160,7 @@
             width: 2px;
             height: 100%;
             background: white;
+            box-shadow: 0 0 4px rgba(255,255,255,0.8);
             transition: left 0.1s linear;
         }
 
@@ -175,27 +177,39 @@
             font-family: 'Consolas', monospace;
         }
 
-        .spectrum-container {
+        /* 频谱容器样式 */
+        .spectrum-wrapper {
+            position: relative;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 16px;
             margin-bottom: 20px;
+            border: 1px solid var(--border);
         }
 
         .spectrum-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
 
-        .spectrum-label {
-            font-size: 0.9em;
+        .spectrum-title {
+            font-size: 0.95em;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .spectrum-info {
+            font-size: 0.8em;
             color: var(--text-secondary);
         }
 
         #spectrumCanvas {
             width: 100%;
-            height: 220px;
-            background: var(--bg-secondary);
+            height: 280px;
             border-radius: 8px;
+            display: block;
         }
 
         .btn {
@@ -205,7 +219,7 @@
             font-weight: 500;
             cursor: pointer;
             border: none;
-            transition: background 0.2s;
+            transition: all 0.2s;
         }
 
         .btn-primary {
@@ -214,7 +228,8 @@
         }
 
         .btn-primary:hover:not(:disabled) {
-            background: var(--accent-hover);
+            background: #5a6bef;
+            box-shadow: 0 0 15px var(--accent-glow);
         }
 
         .btn-primary:disabled {
@@ -291,10 +306,10 @@
 
         .analysis-container {
             margin-top: 16px;
-            background: #050508;
-            border-radius: 8px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
             padding: 16px;
-            border: 2px solid #2a2a3a;
+            border: 1px solid var(--border);
         }
 
         .analysis-label {
@@ -312,7 +327,7 @@
             width: 100%;
             height: 240px;
             background: #000000;
-            border-radius: 4px;
+            border-radius: 8px;
             display: block;
         }
 
@@ -324,7 +339,7 @@
             width: 100%;
             height: 600px;
             background: #000000;
-            border-radius: 4px;
+            border-radius: 8px;
             display: block;
         }
 
@@ -425,9 +440,10 @@
                 </div>
             </div>
 
-            <div class="spectrum-container">
+            <div class="spectrum-wrapper">
                 <div class="spectrum-header">
-                    <span class="spectrum-label">实时频谱分析</span>
+                    <span class="spectrum-title">实时频谱分析</span>
+                    <span class="spectrum-info">20Hz - 20kHz</span>
                 </div>
                 <canvas id="spectrumCanvas"></canvas>
             </div>
@@ -610,25 +626,30 @@
 
         function resizeSpectrumCanvas() {
             const rect = spectrumCanvas.parentElement.getBoundingClientRect();
-            spectrumCanvas.width = rect.width;
-            spectrumCanvas.height = 220;
+            spectrumCanvas.width = rect.width * 2; // 高DPI支持
+            spectrumCanvas.height = 280 * 2;
         }
 
+        // ========== 优化的频谱绘制 ==========
         function drawSpectrum() {
             const width = spectrumCanvas.width;
             const height = spectrumCanvas.height;
-            const paddingLeft = 50;
-            const paddingRight = 15;
-            const paddingTop = 20;
-            const paddingBottom = 35;
+            const paddingLeft = 80;
+            const paddingRight = 20;
+            const paddingTop = 40;
+            const paddingBottom = 50;
             const chartWidth = width - paddingLeft - paddingRight;
             const chartHeight = height - paddingTop - paddingBottom;
 
-            spectrumCtx.fillStyle = '#050508';
+            // 深色背景
+            spectrumCtx.fillStyle = '#0a0a12';
             spectrumCtx.fillRect(0, 0, width, height);
 
-            spectrumCtx.strokeStyle = '#1a1a2a';
+            // 绘制网格线
+            spectrumCtx.strokeStyle = 'rgba(60, 60, 90, 0.3)';
             spectrumCtx.lineWidth = 1;
+            
+            // 水平网格线 (dB)
             for (let i = 0; i <= 4; i++) {
                 const y = paddingTop + (chartHeight / 4) * i;
                 spectrumCtx.beginPath();
@@ -637,122 +658,126 @@
                 spectrumCtx.stroke();
             }
 
-            spectrumCtx.strokeStyle = '#2a2a3e';
-            spectrumCtx.beginPath();
-            spectrumCtx.moveTo(paddingLeft, paddingTop + chartHeight);
-            spectrumCtx.lineTo(width - paddingRight, paddingTop + chartHeight);
-            spectrumCtx.stroke();
-
+            // 垂直网格线 (频率)
             const minFreq = 20;
             const maxFreq = 20000;
             const logMin = Math.log10(minFreq);
             const logMax = Math.log10(maxFreq);
+            
+            const freqGridLines = [20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000];
+            freqGridLines.forEach(freq => {
+                const logPos = (Math.log10(freq) - logMin) / (logMax - logMin);
+                const x = paddingLeft + logPos * chartWidth;
+                spectrumCtx.beginPath();
+                spectrumCtx.moveTo(x, paddingTop);
+                spectrumCtx.lineTo(x, paddingTop + chartHeight);
+                spectrumCtx.stroke();
+            });
 
+            // 绘制频率标签
             const freqLabels = [
                 { freq: 20, label: '20' },
                 { freq: 100, label: '100' },
-                { freq: 250, label: '250' },
                 { freq: 500, label: '500' },
                 { freq: 1000, label: '1k' },
-                { freq: 2000, label: '2k' },
                 { freq: 5000, label: '5k' },
-                { freq: 10000, label: '10k' },
                 { freq: 20000, label: '20k' }
             ];
 
-            spectrumCtx.fillStyle = '#c0c0d0';
-            spectrumCtx.font = 'bold 12px Consolas, monospace';
+            spectrumCtx.fillStyle = '#8a8a9a';
+            spectrumCtx.font = 'bold 20px Consolas, monospace';
             spectrumCtx.textAlign = 'center';
 
             freqLabels.forEach(({ freq, label }) => {
                 const logPos = (Math.log10(freq) - logMin) / (logMax - logMin);
                 const x = paddingLeft + logPos * chartWidth;
-
-                spectrumCtx.beginPath();
-                spectrumCtx.moveTo(x, paddingTop + chartHeight);
-                spectrumCtx.lineTo(x, paddingTop + chartHeight + 6);
-                spectrumCtx.strokeStyle = '#5a5a7a';
-                spectrumCtx.lineWidth = 1.5;
-                spectrumCtx.stroke();
-
-                spectrumCtx.fillText(label, x, height - 10);
+                spectrumCtx.fillText(label, x, height - 15);
             });
 
+            // dB标签
             spectrumCtx.textAlign = 'right';
-            spectrumCtx.fillStyle = '#a0a0b0';
-            spectrumCtx.font = '11px Consolas, monospace';
+            spectrumCtx.fillStyle = '#8a8a9a';
+            spectrumCtx.font = 'bold 18px Consolas, monospace';
             const dbLabels = ['0', '-20', '-40', '-60'];
             dbLabels.forEach((db, i) => {
                 const y = paddingTop + (chartHeight / 3) * i;
-                spectrumCtx.fillText(db, paddingLeft - 10, y + 4);
-
-                spectrumCtx.beginPath();
-                spectrumCtx.moveTo(paddingLeft - 6, y);
-                spectrumCtx.lineTo(paddingLeft, y);
-                spectrumCtx.strokeStyle = '#4a4a6a';
-                spectrumCtx.stroke();
+                spectrumCtx.fillText(db, paddingLeft - 12, y + 6);
             });
 
-            spectrumCtx.fillStyle = '#c0c0d0';
-            spectrumCtx.font = 'bold 12px Consolas, monospace';
-            spectrumCtx.fillText('dB', paddingLeft - 10, paddingTop - 5);
+            // 单位标签
+            spectrumCtx.fillStyle = '#6b7cff';
+            spectrumCtx.font = 'bold 20px Consolas, monospace';
+            spectrumCtx.fillText('dB', paddingLeft - 12, paddingTop - 15);
 
             if (analyser) {
                 const bufferLength = analyser.frequencyBinCount;
                 const sampleRate = audioContext.sampleRate;
+                const nyquist = sampleRate / 2;
                 const dataArray = new Uint8Array(bufferLength);
                 analyser.getByteFrequencyData(dataArray);
 
-                const barCount = 64;
+                // 使用128个频带，更密集的显示
+                const barCount = 128;
                 const barGap = 2;
-                const barWidth = Math.max(4, (chartWidth - barGap * (barCount - 1)) / barCount);
+                const barWidth = (chartWidth - barGap * (barCount - 1)) / barCount;
 
                 for (let i = 0; i < barCount; i++) {
+                    // 对数频率映射 - 正确计算频率范围
                     const logPos1 = i / barCount;
                     const logPos2 = (i + 1) / barCount;
                     const freq1 = Math.pow(10, logMin + logPos1 * (logMax - logMin));
                     const freq2 = Math.pow(10, logMin + logPos2 * (logMax - logMin));
 
-                    const bin1 = Math.max(0, Math.floor(freq1 * bufferLength / (sampleRate / 2)));
-                    const bin2 = Math.max(bin1 + 1, Math.floor(freq2 * bufferLength / (sampleRate / 2)));
+                    // 正确的bin计算: bin = freq / nyquist * bufferLength
+                    const bin1 = Math.max(0, Math.floor(freq1 / nyquist * bufferLength));
+                    const bin2 = Math.max(bin1 + 1, Math.floor(freq2 / nyquist * bufferLength));
 
+                    // 计算平均能量 - 使用峰值而不是平均值，增强动态
+                    let peak = 0;
                     let sum = 0;
                     let count = 0;
                     for (let b = bin1; b < Math.min(bufferLength, bin2); b++) {
+                        peak = Math.max(peak, dataArray[b]);
                         sum += dataArray[b];
                         count++;
                     }
+                    // 混合峰值和平均值，增强动态
                     const avg = count > 0 ? sum / count : 0;
-                    const barHeight = (avg / 255) * chartHeight;
-
-                    const intensity = avg / 255;
-
-                    let r, g, b;
-                    if (intensity > 0.85) {
-                        r = 255; g = 100; b = 200;
-                    } else if (intensity > 0.65) {
-                        r = 220; g = 80; b = 255;
-                    } else if (intensity > 0.45) {
-                        r = 160; g = 100; b = 255;
-                    } else if (intensity > 0.25) {
-                        r = 100; g = 120; b = 240;
-                    } else {
-                        r = 50; g = 80; b = 180;
-                    }
+                    const mixed = peak * 0.7 + avg * 0.3;
+                    
+                    // 转换为dB并映射到高度 - 扩展动态范围到-80dB
+                    const db = 20 * Math.log10((mixed / 255) + 0.00001);
+                    const normalizedDb = Math.max(0, (db + 80) / 80); // -80dB to 0dB
+                    const barHeight = normalizedDb * chartHeight;
 
                     const x = paddingLeft + i * (barWidth + barGap);
-                    const drawWidth = Math.max(1, barWidth);
+                    const y = paddingTop + chartHeight - barHeight;
 
-                    if (intensity > 0.3) {
-                        spectrumCtx.shadowColor = `rgba(${r}, ${g}, ${b}, 0.6)`;
-                        spectrumCtx.shadowBlur = 10;
+                    // 根据频率位置计算颜色（频谱条自身的颜色，不是位置）
+                    const freqCenter = (freq1 + freq2) / 2;
+                    const freqRatio = (Math.log10(freqCenter) - logMin) / (logMax - logMin);
+                    
+                    // HSL色彩：低频红色(0°)，中频绿色(120°)，高频紫色(270°)
+                    const hue = freqRatio * 270;
+                    const saturation = 80 + normalizedDb * 20; // 动态饱和度
+                    const lightness = 30 + normalizedDb * 50;  // 动态亮度
+                    
+                    spectrumCtx.fillStyle = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+                    
+                    // 顶部发光效果
+                    if (normalizedDb > 0.2) {
+                        spectrumCtx.shadowColor = `hsl(${hue}, 100%, 70%)`;
+                        spectrumCtx.shadowBlur = 10 + normalizedDb * 15;
                     } else {
                         spectrumCtx.shadowBlur = 0;
                     }
-
-                    spectrumCtx.fillStyle = `rgb(${r}, ${g}, ${b})`;
-                    spectrumCtx.fillRect(x, paddingTop + chartHeight - barHeight, drawWidth, barHeight);
-
+                    
+                    // 圆角条
+                    const radius = Math.min(2, barWidth / 2);
+                    spectrumCtx.beginPath();
+                    spectrumCtx.roundRect(x, y, Math.max(1, barWidth), barHeight, [radius, radius, 0, 0]);
+                    spectrumCtx.fill();
+                    
                     spectrumCtx.shadowBlur = 0;
                 }
             }
@@ -806,30 +831,19 @@
             }
         }
 
-        // 热图配色：更细腻的渐变，更多颜色层级
+        // 热图配色
         function getHeatmapColor(normalizedValue) {
-            // 更精细的颜色映射，共16个层级
             const colors = [
-                { pos: 0.00, r: 0, g: 0, b: 0 },       // 纯黑
-                { pos: 0.05, r: 5, g: 0, b: 20 },      // 极深蓝
-                { pos: 0.10, r: 15, g: 0, b: 50 },     // 深蓝
-                { pos: 0.15, r: 30, g: 0, b: 80 },     // 蓝色
-                { pos: 0.20, r: 50, g: 0, b: 110 },    // 蓝紫
-                { pos: 0.25, r: 75, g: 0, b: 140 },    // 紫色
-                { pos: 0.30, r: 105, g: 0, b: 165 },   // 紫红
-                { pos: 0.35, r: 140, g: 0, b: 180 },   // 深粉
-                { pos: 0.40, r: 175, g: 0, b: 185 },   // 粉红
-                { pos: 0.45, r: 205, g: 0, b: 170 },   // 亮粉
-                { pos: 0.50, r: 230, g: 20, b: 140 },  // 桃红
-                { pos: 0.55, r: 245, g: 60, b: 100 },  // 橙红
-                { pos: 0.60, r: 255, g: 100, b: 60 },  // 橙色
-                { pos: 0.70, r: 255, g: 150, b: 30 },  // 金黄
-                { pos: 0.80, r: 255, g: 200, b: 50 },  // 亮黄
-                { pos: 0.90, r: 255, g: 240, b: 120 }, // 浅黄
-                { pos: 1.00, r: 255, g: 255, b: 255 }  // 纯白
+                { pos: 0.00, r: 10, g: 10, b: 30 },
+                { pos: 0.15, r: 30, g: 20, b: 80 },
+                { pos: 0.30, r: 80, g: 30, b: 140 },
+                { pos: 0.45, r: 140, g: 40, b: 180 },
+                { pos: 0.60, r: 220, g: 60, b: 160 },
+                { pos: 0.75, r: 255, g: 120, b: 80 },
+                { pos: 0.90, r: 255, g: 200, b: 60 },
+                { pos: 1.00, r: 255, g: 255, b: 200 }
             ];
 
-            // 线性插值找到对应颜色
             for (let i = 0; i < colors.length - 1; i++) {
                 if (normalizedValue >= colors[i].pos && normalizedValue <= colors[i + 1].pos) {
                     const t = (normalizedValue - colors[i].pos) / (colors[i + 1].pos - colors[i].pos);
@@ -853,14 +867,12 @@
                 const sampleRate = audioBuffer.sampleRate;
                 const duration = audioBuffer.duration;
 
-                // FFT参数: 1024点, 50%重叠 (hop=512)
                 const fftSize = 1024;
                 const hopSize = 512;
                 const maxFrames = 1000;
 
-                // 计算波形数据（用于上方波形图）- 保存实际采样值（带正负），更高采样率
                 const waveformData = [];
-                const numWaveformPoints = Math.min(channelData.length, 2000); // 最多2000个采样点
+                const numWaveformPoints = Math.min(channelData.length, 2000);
                 const waveStep = channelData.length / numWaveformPoints;
                 for (let i = 0; i < numWaveformPoints; i++) {
                     const sampleIndex = Math.floor(i * waveStep);
@@ -869,21 +881,10 @@
                     }
                 }
 
-                // 使用 FFTLib 计算 STFT
-                console.log('开始 STFT 计算，FFT大小:', fftSize);
-                const stftStartTime = performance.now();
-                
-                // 截取部分数据以控制计算量，同时保持高分辨率
                 const maxSamples = Math.min(channelData.length, maxFrames * hopSize + fftSize);
                 const signalSlice = channelData.slice(0, maxSamples);
-                
-                // 使用 FFTLib.stft 计算频谱
                 const stftData = FFTLib.stft(signalSlice, fftSize, hopSize, 'hanning');
-                
-                const stftEndTime = performance.now();
-                console.log(`STFT 计算完成，耗时: ${(stftEndTime - stftStartTime).toFixed(2)}ms, 帧数: ${stftData.length}`);
 
-                // 绘制波形和频谱图
                 drawWaveform(waveformData, duration);
                 drawSpectrogram(stftData, sampleRate, fftSize, duration);
 
@@ -893,12 +894,10 @@
         }
 
         function drawWaveform(waveformData, duration) {
-            // 使用更高的画布分辨率
             const displayWidth = waveformCanvas.offsetWidth;
             const displayHeight = 240;
             waveformCanvas.width = displayWidth * 2;
             waveformCanvas.height = displayHeight * 2;
-            waveformCanvas.style.height = displayHeight + 'px';
             
             const width = waveformCanvas.width;
             const height = waveformCanvas.height;
@@ -909,12 +908,11 @@
             const chartWidth = width - paddingLeft - paddingRight;
             const chartHeight = height - paddingTop - paddingBottom;
 
-            // 黑底
-            waveformCtx.fillStyle = '#000000';
+            waveformCtx.fillStyle = '#0a0a12';
             waveformCtx.fillRect(0, 0, width, height);
 
-            // 密集水平网格线 -10到10共20格
-            waveformCtx.strokeStyle = 'rgba(200, 140, 0, 0.4)';
+            // 网格
+            waveformCtx.strokeStyle = 'rgba(60, 60, 90, 0.3)';
             waveformCtx.lineWidth = 1;
             
             for (let i = 0; i <= 10; i++) {
@@ -925,7 +923,6 @@
                 waveformCtx.stroke();
             }
 
-            // 密集垂直网格线
             const timeDivisions = 20;
             for (let i = 0; i <= timeDivisions; i++) {
                 const x = paddingLeft + (chartWidth / timeDivisions) * i;
@@ -936,7 +933,7 @@
             }
 
             // 零线
-            waveformCtx.strokeStyle = 'rgba(200, 140, 0, 0.8)';
+            waveformCtx.strokeStyle = '#6b7cff';
             waveformCtx.lineWidth = 2;
             const zeroY = paddingTop + chartHeight / 2;
             waveformCtx.beginPath();
@@ -944,40 +941,33 @@
             waveformCtx.lineTo(width - paddingRight, zeroY);
             waveformCtx.stroke();
 
-            // 绘制波形 - 离散点连线
+            // 波形
             const step = chartWidth / waveformData.length;
-            const pointRadius = 1.5;
             
-            waveformCtx.fillStyle = '#c060ff';
+            waveformCtx.strokeStyle = '#6b7cff';
+            waveformCtx.lineWidth = 2;
+            waveformCtx.beginPath();
             
             for (let i = 0; i < waveformData.length; i++) {
                 const x = paddingLeft + i * step;
-                // 振幅范围 -1 到 1
                 const amplitude = Math.max(-1, Math.min(1, waveformData[i]));
                 const y = zeroY - amplitude * chartHeight / 2;
                 
-                // 绘制离散点
-                waveformCtx.beginPath();
-                waveformCtx.arc(x, y, pointRadius, 0, Math.PI * 2);
-                waveformCtx.fill();
-                
-                // 连线到下一个点
-                if (i < waveformData.length - 1) {
-                    const nextAmplitude = Math.max(-1, Math.min(1, waveformData[i + 1]));
-                    const nextY = zeroY - nextAmplitude * chartHeight / 2;
-                    const nextX = paddingLeft + (i + 1) * step;
-                    
-                    waveformCtx.strokeStyle = '#c060ff';
-                    waveformCtx.lineWidth = 1;
-                    waveformCtx.beginPath();
+                if (i === 0) {
                     waveformCtx.moveTo(x, y);
-                    waveformCtx.lineTo(nextX, nextY);
-                    waveformCtx.stroke();
+                } else {
+                    waveformCtx.lineTo(x, y);
                 }
             }
+            waveformCtx.stroke();
 
-            // Y轴刻度 -1.0 到 1.0
-            waveformCtx.fillStyle = '#ffaa00';
+            // 发光效果
+            waveformCtx.strokeStyle = 'rgba(107, 124, 255, 0.3)';
+            waveformCtx.lineWidth = 6;
+            waveformCtx.stroke();
+
+            // Y轴刻度
+            waveformCtx.fillStyle = '#8a8a9a';
             waveformCtx.font = 'bold 16px Consolas, monospace';
             waveformCtx.textAlign = 'right';
 
@@ -985,42 +975,23 @@
             ampLabels.forEach((label, i) => {
                 const y = paddingTop + (chartHeight / 10) * i;
                 waveformCtx.fillText(label, paddingLeft - 10, y + 5);
-
-                // 刻度线
-                waveformCtx.beginPath();
-                waveformCtx.moveTo(paddingLeft - 8, y);
-                waveformCtx.lineTo(paddingLeft, y);
-                waveformCtx.strokeStyle = '#ffaa00';
-                waveformCtx.lineWidth = 2;
-                waveformCtx.stroke();
             });
 
             // X轴时间刻度
             waveformCtx.textAlign = 'center';
-            waveformCtx.font = 'bold 16px Consolas, monospace';
             const timeLabels = 5;
             for (let i = 0; i < timeLabels; i++) {
                 const time = (duration / (timeLabels - 1)) * i;
                 const x = paddingLeft + (chartWidth / (timeLabels - 1)) * i;
-                waveformCtx.fillText(time.toFixed(0), x, height - 20);
-
-                // 刻度线
-                waveformCtx.beginPath();
-                waveformCtx.moveTo(x, height - paddingBottom);
-                waveformCtx.lineTo(x, height - paddingBottom + 12);
-                waveformCtx.strokeStyle = '#ffaa00';
-                waveformCtx.lineWidth = 2;
-                waveformCtx.stroke();
+                waveformCtx.fillText(time.toFixed(1) + 's', x, height - 20);
             }
         }
 
         function drawSpectrogram(stftData, sampleRate, fftSize, duration) {
-            // 使用更高的画布分辨率
             const displayWidth = spectrogramCanvas.offsetWidth;
             const displayHeight = 600;
             spectrogramCanvas.width = displayWidth * 2;
             spectrogramCanvas.height = displayHeight * 2;
-            spectrogramCanvas.style.height = displayHeight + 'px';
             
             const width = spectrogramCanvas.width;
             const height = spectrogramCanvas.height;
@@ -1031,29 +1002,23 @@
             const chartWidth = width - paddingLeft - paddingRight;
             const chartHeight = height - paddingTop - paddingBottom;
 
-            // 黑底
-            spectrogramCtx.fillStyle = '#000000';
+            spectrogramCtx.fillStyle = '#0a0a12';
             spectrogramCtx.fillRect(0, 0, width, height);
 
             if (stftData.length === 0) return;
 
             const numBins = stftData[0].length;
-            const nyquist = sampleRate / 2;
-            const maxFreq = 24000; // 固定显示到24000Hz
+            const maxFreq = 24000;
 
-            // 找到最大值用于归一化（排除直流分量）
             let maxVal = 0;
             for (let t = 0; t < stftData.length; t++) {
-                for (let f = 1; f < numBins; f++) { // 从1开始，跳过直流分量
+                for (let f = 1; f < numBins; f++) {
                     maxVal = Math.max(maxVal, stftData[t][f]);
                 }
             }
             if (maxVal === 0) maxVal = 1e-10;
 
-            // 线性频率刻度 0-24000Hz
             const freqStep = maxFreq / numBins;
-
-            // 绘制热图频谱 - 线性刻度
             const pixelWidth = Math.max(1, chartWidth / stftData.length);
             
             for (let t = 0; t < stftData.length; t++) {
@@ -1063,12 +1028,9 @@
                     const freq = f * freqStep;
                     if (freq > maxFreq) continue;
                     
-                    // 线性映射
                     const y = paddingTop + chartHeight - (freq / maxFreq) * chartHeight;
-                    const nextFreq = (f + 1) * freqStep;
-                    const pixelHeight = Math.max(1, ((nextFreq - freq) / maxFreq) * chartHeight);
+                    const pixelHeight = Math.max(1, ((freqStep) / maxFreq) * chartHeight);
 
-                    // 标准幅度谱
                     const magnitude = stftData[t][f] / maxVal;
                     const db = 20 * Math.log10(magnitude + 1e-10);
                     const normalizedDb = Math.max(0, (db + 90) / 90);
@@ -1081,11 +1043,10 @@
                 }
             }
 
-            // 密集水平网格线 - 线性刻度 0-24000
-            spectrogramCtx.strokeStyle = 'rgba(200, 140, 0, 0.4)';
+            // 网格
+            spectrogramCtx.strokeStyle = 'rgba(60, 60, 90, 0.3)';
             spectrogramCtx.lineWidth = 1;
 
-            // 每2400Hz一条线，共10格
             const freqGridLines = [0, 2400, 4800, 7200, 9600, 12000, 14400, 16800, 19200, 21600, 24000];
             freqGridLines.forEach(freq => {
                 const y = paddingTop + chartHeight - (freq / maxFreq) * chartHeight;
@@ -1095,55 +1056,25 @@
                 spectrogramCtx.stroke();
             });
 
-            // 密集垂直时间网格
-            const timeDivisions = 20;
-            for (let i = 0; i <= timeDivisions; i++) {
-                const x = paddingLeft + (chartWidth / timeDivisions) * i;
-                spectrogramCtx.beginPath();
-                spectrogramCtx.moveTo(x, paddingTop);
-                spectrogramCtx.lineTo(x, height - paddingBottom);
-                spectrogramCtx.stroke();
-            }
-
-            // Y轴频率刻度 - 线性 0-24000
-            spectrogramCtx.fillStyle = '#ffaa00';
+            // Y轴频率刻度
+            spectrogramCtx.fillStyle = '#8a8a9a';
             spectrogramCtx.font = 'bold 16px Consolas, monospace';
             spectrogramCtx.textAlign = 'right';
 
-            const freqLabels = [24000, 21600, 19200, 16800, 14400, 12000, 9600, 7200, 4800, 2400, 0];
+            const freqLabels = [24000, 20000, 16000, 12000, 8000, 4000, 0];
             freqLabels.forEach(freq => {
                 const y = paddingTop + chartHeight - (freq / maxFreq) * chartHeight;
-                spectrogramCtx.fillText(freq.toString(), paddingLeft - 10, y + 5);
-
-                // 刻度线
-                spectrogramCtx.beginPath();
-                spectrogramCtx.moveTo(paddingLeft - 8, y);
-                spectrogramCtx.lineTo(paddingLeft, y);
-                spectrogramCtx.strokeStyle = '#ffaa00';
-                spectrogramCtx.lineWidth = 2;
-                spectrogramCtx.stroke();
+                waveformCtx.fillText(freq >= 1000 ? (freq/1000)+'k' : freq.toString(), paddingLeft - 10, y + 5);
             });
 
             // X轴时间刻度
             spectrogramCtx.textAlign = 'center';
-            spectrogramCtx.font = 'bold 16px Consolas, monospace';
             const timeLabels = 5;
             for (let i = 0; i < timeLabels; i++) {
                 const time = (duration / (timeLabels - 1)) * i;
                 const x = paddingLeft + (chartWidth / (timeLabels - 1)) * i;
-                waveformCtx.fillText(time.toFixed(0), x, height - 20);
-
-                // 刻度线
-                spectrogramCtx.beginPath();
-                spectrogramCtx.moveTo(x, height - paddingBottom);
-                spectrogramCtx.lineTo(x, height - paddingBottom + 12);
-                spectrogramCtx.strokeStyle = '#ffaa00';
-                spectrogramCtx.lineWidth = 2;
-                spectrogramCtx.stroke();
+                spectrogramCtx.fillText(time.toFixed(1) + 's', x, height - 20);
             }
-
-            // X轴标题
-            spectrogramCtx.fillText('时间', paddingLeft + chartWidth / 2, height - 20);
         }
 
         async function startAudio(deviceId) {
@@ -1181,8 +1112,8 @@
 
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
                 analyser = audioContext.createAnalyser();
-                analyser.fftSize = 2048;
-                analyser.smoothingTimeConstant = 0.8;
+                analyser.fftSize = 4096;  // 更大的FFT尺寸，更高的频率分辨率
+                analyser.smoothingTimeConstant = 0.3;  // 降低平滑，更快的动态响应
 
                 const source = audioContext.createMediaStreamSource(mediaStream);
                 source.connect(analyser);
@@ -1246,9 +1177,9 @@
 
             recordingSection.style.display = 'none';
             audioPlayer.src = '';
-            waveformCtx.fillStyle = '#000000';
+            waveformCtx.fillStyle = '#0a0a12';
             waveformCtx.fillRect(0, 0, waveformCanvas.width, waveformCanvas.height);
-            spectrogramCtx.fillStyle = '#000000';
+            spectrogramCtx.fillStyle = '#0a0a12';
             spectrogramCtx.fillRect(0, 0, spectrogramCanvas.width, spectrogramCanvas.height);
         }
 

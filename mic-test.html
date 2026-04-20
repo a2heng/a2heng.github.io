@@ -489,14 +489,8 @@
         let recordedChunks = [];
         let isRecording = false;
 
-        let peakLevel = -60;
         let displayLevel = -60;
-        let lastPeakTime = 0;
-        let lastRiseTime = 0;
-
-        const FALLBACK_SPEED = 0.15;
-        const PEAK_HOLD_TIME = 2000;
-        const BAR_HOLD_TIME = 500;
+        const LEVEL_SMOOTHING = 0.7;  // 电平滑系数 (适中，既平滑又响应快)
 
         const deviceSelect = document.getElementById('deviceSelect');
         const deviceInfo = document.getElementById('deviceInfo');
@@ -591,29 +585,14 @@
 
         function updateMeter(db) {
             const targetLevel = Math.max(-60, Math.min(0, db));
-            const now = Date.now();
 
-            if (targetLevel > displayLevel) {
-                displayLevel = targetLevel;
-                lastRiseTime = now;
-            } else if (now - lastRiseTime > BAR_HOLD_TIME) {
-                displayLevel -= FALLBACK_SPEED;
-                if (displayLevel < -60) displayLevel = -60;
-            }
-
-            if (targetLevel >= peakLevel) {
-                peakLevel = targetLevel;
-                lastPeakTime = now;
-            } else if (now - lastPeakTime > PEAK_HOLD_TIME) {
-                peakLevel = displayLevel;
-            }
+            // 平滑处理 - 快速且平滑
+            displayLevel = displayLevel * LEVEL_SMOOTHING + targetLevel * (1 - LEVEL_SMOOTHING);
 
             const displayPercent = dbToPercent(displayLevel);
-            const peakPercent = dbToPercent(peakLevel);
 
             meterBar.style.width = displayPercent + '%';
             meterBar.className = 'meter-bar ' + getBarColor(displayLevel);
-            meterPeak.style.left = peakPercent + '%';
 
             if (db <= -60) {
                 meterValue.textContent = '-∞ dB';
@@ -631,6 +610,12 @@
         }
 
         // ========== 优化的频谱绘制 ==========
+        // 频谱条峰值保持数组
+        let spectrumPeaks = null;
+        let spectrumSmoothed = null;  // 平滑后的频谱值
+        const SPECTRUM_FALLBACK_SPEED = 0.03;  // 频谱条回落速度 (很慢，超平滑)
+        const SPECTRUM_SMOOTHING = 0.9;  // 频谱平滑系数 (0.9=超平滑)
+
         function drawSpectrum() {
             const width = spectrumCanvas.width;
             const height = spectrumCanvas.height;
@@ -716,21 +701,32 @@
                 const dataArray = new Uint8Array(bufferLength);
                 analyser.getByteFrequencyData(dataArray);
 
-                // 使用128个频带，更密集的显示
-                const barCount = 128;
-                const barGap = 2;
+                // 标准31段EQ中心频率 (ISO标准)
+                const eqFrequencies = [
+                    20, 25, 31.5, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 400, 500,
+                    630, 800, 1000, 1250, 1600, 2000, 2500, 3150, 4000, 5000, 6300, 8000,
+                    10000, 12500, 16000, 20000
+                ];
+                const barCount = eqFrequencies.length;
+                const barGap = 4;
                 const barWidth = (chartWidth - barGap * (barCount - 1)) / barCount;
 
+                // 初始化峰值数组和平滑数组
+                if (!spectrumPeaks || spectrumPeaks.length !== barCount) {
+                    spectrumPeaks = new Array(barCount).fill(0);
+                    spectrumSmoothed = new Array(barCount).fill(0);
+                }
+
                 for (let i = 0; i < barCount; i++) {
-                    // 对数频率映射 - 正确计算频率范围
-                    const logPos1 = i / barCount;
-                    const logPos2 = (i + 1) / barCount;
-                    const freq1 = Math.pow(10, logMin + logPos1 * (logMax - logMin));
-                    const freq2 = Math.pow(10, logMin + logPos2 * (logMax - logMin));
+                    // 获取当前EQ频段的中心频率
+                    const freqCenter = eqFrequencies[i];
+                    // 计算该频段的频率范围 (用相邻频率的中点)
+                    const freqLow = i === 0 ? 20 : Math.sqrt(eqFrequencies[i-1] * freqCenter);
+                    const freqHigh = i === barCount - 1 ? 20000 : Math.sqrt(freqCenter * eqFrequencies[i+1]);
 
                     // 正确的bin计算: bin = freq / nyquist * bufferLength
-                    const bin1 = Math.max(0, Math.floor(freq1 / nyquist * bufferLength));
-                    const bin2 = Math.max(bin1 + 1, Math.floor(freq2 / nyquist * bufferLength));
+                    const bin1 = Math.max(0, Math.floor(freqLow / nyquist * bufferLength));
+                    const bin2 = Math.max(bin1 + 1, Math.floor(freqHigh / nyquist * bufferLength));
 
                     // 计算平均能量 - 使用峰值而不是平均值，增强动态
                     let peak = 0;
@@ -744,38 +740,50 @@
                     // 混合峰值和平均值，增强动态
                     const avg = count > 0 ? sum / count : 0;
                     const mixed = peak * 0.7 + avg * 0.3;
-                    
+
                     // 转换为dB并映射到高度 - 扩展动态范围到-80dB
                     const db = 20 * Math.log10((mixed / 255) + 0.00001);
                     const normalizedDb = Math.max(0, (db + 80) / 80); // -80dB to 0dB
-                    const barHeight = normalizedDb * chartHeight;
 
+                    // 平滑处理 - 超平滑，所有频段一致
+                    spectrumSmoothed[i] = spectrumSmoothed[i] * SPECTRUM_SMOOTHING + normalizedDb * (1 - SPECTRUM_SMOOTHING);
+
+                    // 峰值保持和缓慢回落
+                    if (spectrumSmoothed[i] > spectrumPeaks[i]) {
+                        spectrumPeaks[i] = spectrumSmoothed[i];  // 上升到新峰值
+                    } else {
+                        spectrumPeaks[i] -= SPECTRUM_FALLBACK_SPEED;  // 缓慢回落
+                        if (spectrumPeaks[i] < 0) spectrumPeaks[i] = 0;
+                    }
+
+                    const barHeight = spectrumPeaks[i] * chartHeight;
+
+                    // X轴等距离分布
                     const x = paddingLeft + i * (barWidth + barGap);
                     const y = paddingTop + chartHeight - barHeight;
 
-                    // 根据频率位置计算颜色（频谱条自身的颜色，不是位置）
-                    const freqCenter = (freq1 + freq2) / 2;
+                    // 根据频率位置计算颜色
                     const freqRatio = (Math.log10(freqCenter) - logMin) / (logMax - logMin);
                     
                     // HSL色彩：低频红色(0°)，中频绿色(120°)，高频紫色(270°)
                     const hue = freqRatio * 270;
-                    const saturation = 80 + normalizedDb * 20; // 动态饱和度
-                    const lightness = 30 + normalizedDb * 50;  // 动态亮度
+                    const saturation = 80 + spectrumPeaks[i] * 20; // 动态饱和度
+                    const lightness = 30 + spectrumPeaks[i] * 50;  // 动态亮度
                     
                     spectrumCtx.fillStyle = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
                     
                     // 顶部发光效果
-                    if (normalizedDb > 0.2) {
+                    if (spectrumPeaks[i] > 0.2) {
                         spectrumCtx.shadowColor = `hsl(${hue}, 100%, 70%)`;
-                        spectrumCtx.shadowBlur = 10 + normalizedDb * 15;
+                        spectrumCtx.shadowBlur = 10 + spectrumPeaks[i] * 15;
                     } else {
                         spectrumCtx.shadowBlur = 0;
                     }
                     
                     // 圆角条
-                    const radius = Math.min(2, barWidth / 2);
+                    const radius = Math.min(3, barWidth / 2);
                     spectrumCtx.beginPath();
-                    spectrumCtx.roundRect(x, y, Math.max(1, barWidth), barHeight, [radius, radius, 0, 0]);
+                    spectrumCtx.roundRect(x, y, Math.max(2, barWidth), barHeight, [radius, radius, 0, 0]);
                     spectrumCtx.fill();
                     
                     spectrumCtx.shadowBlur = 0;
@@ -803,15 +811,20 @@
                 }
             };
 
-            mediaRecorder.onstop = () => {
-                const blob = new Blob(recordedChunks, { type: 'audio/webm' });
-                const url = URL.createObjectURL(blob);
+            mediaRecorder.onstop = async () => {
+                const webmBlob = new Blob(recordedChunks, { type: 'audio/webm' });
+                // 转换为 WAV 格式
+                const wavBlob = await convertToWav(webmBlob);
+                const url = URL.createObjectURL(wavBlob);
                 audioPlayer.src = url;
                 recordingSection.style.display = 'block';
                 recordingStatus.textContent = '录音完成';
                 recordingStatus.classList.remove('recording');
 
-                calculateAndDrawAnalysis(blob);
+                // 添加下载按钮
+                addDownloadButton(url);
+
+                calculateAndDrawAnalysis(wavBlob);
             };
 
             mediaRecorder.start();
@@ -820,6 +833,82 @@
             recordBtn.classList.add('recording');
             recordingStatus.textContent = '录音中...';
             recordingStatus.classList.add('recording');
+        }
+
+        // 将音频 Blob 转换为 WAV 格式
+        async function convertToWav(audioBlob) {
+            const arrayBuffer = await audioBlob.arrayBuffer();
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+            
+            const numberOfChannels = audioBuffer.numberOfChannels;
+            const sampleRate = audioBuffer.sampleRate;
+            const format = 1; // PCM
+            const bitDepth = 16;
+            
+            const bytesPerSample = bitDepth / 8;
+            const blockAlign = numberOfChannels * bytesPerSample;
+            
+            // 合并所有通道数据
+            const length = audioBuffer.length;
+            const buffer = new ArrayBuffer(44 + length * blockAlign);
+            const view = new DataView(buffer);
+            
+            // 写入 WAV 头部
+            writeString(view, 0, 'RIFF');
+            view.setUint32(4, 36 + length * blockAlign, true);
+            writeString(view, 8, 'WAVE');
+            writeString(view, 12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, format, true);
+            view.setUint16(22, numberOfChannels, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, sampleRate * blockAlign, true);
+            view.setUint16(32, blockAlign, true);
+            view.setUint16(34, bitDepth, true);
+            writeString(view, 36, 'data');
+            view.setUint32(40, length * blockAlign, true);
+            
+            // 写入音频数据
+            const offset = 44;
+            const channelData = [];
+            for (let i = 0; i < numberOfChannels; i++) {
+                channelData.push(audioBuffer.getChannelData(i));
+            }
+            
+            for (let i = 0; i < length; i++) {
+                for (let channel = 0; channel < numberOfChannels; channel++) {
+                    const sample = Math.max(-1, Math.min(1, channelData[channel][i]));
+                    const intSample = sample < 0 ? sample * 0x8000 : sample * 0x7FFF;
+                    view.setInt16(offset + (i * numberOfChannels + channel) * bytesPerSample, intSample, true);
+                }
+            }
+            
+            return new Blob([buffer], { type: 'audio/wav' });
+        }
+        
+        function writeString(view, offset, string) {
+            for (let i = 0; i < string.length; i++) {
+                view.setUint8(offset + i, string.charCodeAt(i));
+            }
+        }
+        
+        // 添加下载按钮
+        function addDownloadButton(audioUrl) {
+            // 移除旧的下载按钮
+            const oldBtn = document.getElementById('downloadBtn');
+            if (oldBtn) oldBtn.remove();
+            
+            const downloadBtn = document.createElement('a');
+            downloadBtn.id = 'downloadBtn';
+            downloadBtn.href = audioUrl;
+            downloadBtn.download = '录音_' + new Date().toLocaleString().replace(/[/:]/g, '-') + '.wav';
+            downloadBtn.className = 'btn btn-secondary';
+            downloadBtn.style.marginLeft = '12px';
+            downloadBtn.textContent = '下载 WAV';
+            
+            const btnGroup = document.querySelector('.btn-group');
+            btnGroup.appendChild(downloadBtn);
         }
 
         function stopRecording() {
@@ -867,12 +956,14 @@
                 const sampleRate = audioBuffer.sampleRate;
                 const duration = audioBuffer.duration;
 
-                const fftSize = 1024;
-                const hopSize = 512;
-                const maxFrames = 1000;
+                // STFT 频谱参数
+                const windowSize = 960;   // 窗口大小
+                const hopSize = 480;      // hop 大小 (50% overlap)
+                const maxFreq = 16000;    // 最大频率 16kHz
 
+                // 波形数据 - 使用更多采样点让波形更平滑
                 const waveformData = [];
-                const numWaveformPoints = Math.min(channelData.length, 2000);
+                const numWaveformPoints = Math.min(channelData.length, 8000);  // 增加采样点
                 const waveStep = channelData.length / numWaveformPoints;
                 for (let i = 0; i < numWaveformPoints; i++) {
                     const sampleIndex = Math.floor(i * waveStep);
@@ -881,16 +972,103 @@
                     }
                 }
 
-                const maxSamples = Math.min(channelData.length, maxFrames * hopSize + fftSize);
+                // 计算 STFT 频谱
+                const fftSize = 1024;  // FFT 大小 (2的幂次，>= windowSize)
+                const maxSamples = Math.min(channelData.length, 2000 * hopSize + windowSize);
                 const signalSlice = channelData.slice(0, maxSamples);
-                const stftData = FFTLib.stft(signalSlice, fftSize, hopSize, 'hanning');
+                const stftData = computeSTFT(signalSlice, windowSize, hopSize, fftSize);
 
                 drawWaveform(waveformData, duration);
-                drawSpectrogram(stftData, sampleRate, fftSize, duration);
+                drawSpectrogram(stftData, sampleRate, fftSize, duration, maxFreq);
 
             } catch (err) {
                 console.error('分析失败:', err);
             }
+        }
+
+        // 频率转 Mel 刻度
+        function freqToMel(freq) {
+            return 2595 * Math.log10(1 + freq / 700);
+        }
+
+        // Mel 转频率
+        function melToFreq(mel) {
+            return 700 * (Math.pow(10, mel / 2595) - 1);
+        }
+
+        // 创建 Mel 滤波器组
+        function createMelFilterBank(fftSize, sampleRate, melFilterNum, maxFreq) {
+            const minMel = freqToMel(0);
+            const maxMel = freqToMel(maxFreq);
+            const melPoints = new Array(melFilterNum + 2);
+
+            // 在 Mel 刻度上均匀分布
+            for (let i = 0; i < melFilterNum + 2; i++) {
+                const mel = minMel + (maxMel - minMel) * i / (melFilterNum + 1);
+                melPoints[i] = melToFreq(mel);
+            }
+
+            // 转换为 FFT bin 索引
+            const binPoints = melPoints.map(freq => {
+                return Math.floor((fftSize + 1) * freq / sampleRate);
+            });
+
+            // 创建滤波器
+            const filterBank = [];
+            for (let i = 1; i <= melFilterNum; i++) {
+                const filter = new Array(Math.floor(fftSize / 2) + 1).fill(0);
+                const left = binPoints[i - 1];
+                const center = binPoints[i];
+                const right = binPoints[i + 1];
+
+                for (let j = left; j < center; j++) {
+                    if (j >= 0 && j < filter.length) {
+                        filter[j] = (j - left) / (center - left);
+                    }
+                }
+                for (let j = center; j <= right; j++) {
+                    if (j >= 0 && j < filter.length) {
+                        filter[j] = (right - j) / (right - center);
+                    }
+                }
+                filterBank.push(filter);
+            }
+
+            return filterBank;
+        }
+
+        // 计算 STFT 频谱
+        function computeSTFT(signal, windowSize, hopSize, fftSize) {
+            const numFrames = Math.floor((signal.length - windowSize) / hopSize) + 1;
+            const spectrogram = [];
+
+            for (let i = 0; i < numFrames; i++) {
+                const start = i * hopSize;
+                let frame = signal.slice(start, start + windowSize);
+
+                // 应用 Hanning 窗
+                const windowed = new Array(frame.length);
+                for (let n = 0; n < frame.length; n++) {
+                    windowed[n] = frame[n] * 0.5 * (1 - Math.cos(2 * Math.PI * n / (frame.length - 1)));
+                }
+
+                // 零填充到 FFT 大小
+                const padded = new Array(fftSize).fill(0);
+                for (let n = 0; n < windowed.length; n++) {
+                    padded[n] = windowed[n];
+                }
+
+                // FFT
+                const fftResult = FFTLib.fft(padded);
+                const magnitudes = new Array(fftResult.length / 2);
+                for (let k = 0; k < fftResult.length / 2; k++) {
+                    magnitudes[k] = Math.sqrt(fftResult[k][0] * fftResult[k][0] + fftResult[k][1] * fftResult[k][1]);
+                }
+
+                spectrogram.push(magnitudes);
+            }
+
+            return spectrogram;
         }
 
         function drawWaveform(waveformData, duration) {
@@ -961,11 +1139,6 @@
             }
             waveformCtx.stroke();
 
-            // 发光效果
-            waveformCtx.strokeStyle = 'rgba(107, 124, 255, 0.3)';
-            waveformCtx.lineWidth = 6;
-            waveformCtx.stroke();
-
             // Y轴刻度
             waveformCtx.fillStyle = '#8a8a9a';
             waveformCtx.font = 'bold 16px Consolas, monospace';
@@ -987,12 +1160,13 @@
             }
         }
 
-        function drawSpectrogram(stftData, sampleRate, fftSize, duration) {
+        // 绘制 STFT 频谱图 (Linear 频率刻度)
+        function drawSpectrogram(stftData, sampleRate, fftSize, duration, maxFreq) {
             const displayWidth = spectrogramCanvas.offsetWidth;
             const displayHeight = 600;
             spectrogramCanvas.width = displayWidth * 2;
             spectrogramCanvas.height = displayHeight * 2;
-            
+
             const width = spectrogramCanvas.width;
             const height = spectrogramCanvas.height;
             const paddingLeft = 100;
@@ -1007,30 +1181,34 @@
 
             if (stftData.length === 0) return;
 
-            const numBins = stftData[0].length;
-            const maxFreq = 24000;
+            const numFreqBins = stftData[0].length;
+            const nyquist = sampleRate / 2;
+            const freqResolution = nyquist / numFreqBins;
 
+            // 找最大值用于归一化
             let maxVal = 0;
             for (let t = 0; t < stftData.length; t++) {
-                for (let f = 1; f < numBins; f++) {
+                for (let f = 0; f < numFreqBins; f++) {
                     maxVal = Math.max(maxVal, stftData[t][f]);
                 }
             }
             if (maxVal === 0) maxVal = 1e-10;
 
-            const freqStep = maxFreq / numBins;
             const pixelWidth = Math.max(1, chartWidth / stftData.length);
-            
+
+            // 绘制频谱 (Linear 频率刻度)
             for (let t = 0; t < stftData.length; t++) {
                 const x = paddingLeft + t * pixelWidth;
-                
-                for (let f = 0; f < numBins; f++) {
-                    const freq = f * freqStep;
-                    if (freq > maxFreq) continue;
-                    
-                    const y = paddingTop + chartHeight - (freq / maxFreq) * chartHeight;
-                    const pixelHeight = Math.max(1, ((freqStep) / maxFreq) * chartHeight);
 
+                for (let f = 0; f < numFreqBins; f++) {
+                    const freq = f * freqResolution;
+                    if (freq > maxFreq) continue;
+
+                    // Linear 刻度下的 Y 坐标
+                    const y = paddingTop + chartHeight - (freq / maxFreq) * chartHeight;
+                    const pixelHeight = Math.max(1, chartHeight / numFreqBins);
+
+                    // 归一化能量值
                     const magnitude = stftData[t][f] / maxVal;
                     const db = 20 * Math.log10(magnitude + 1e-10);
                     const normalizedDb = Math.max(0, (db + 90) / 90);
@@ -1043,12 +1221,13 @@
                 }
             }
 
-            // 网格
+            // 网格 - Linear 频率刻度
             spectrogramCtx.strokeStyle = 'rgba(60, 60, 90, 0.3)';
             spectrogramCtx.lineWidth = 1;
 
-            const freqGridLines = [0, 2400, 4800, 7200, 9600, 12000, 14400, 16800, 19200, 21600, 24000];
+            const freqGridLines = [0, 2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000];
             freqGridLines.forEach(freq => {
+                if (freq > maxFreq) return;
                 const y = paddingTop + chartHeight - (freq / maxFreq) * chartHeight;
                 spectrogramCtx.beginPath();
                 spectrogramCtx.moveTo(paddingLeft, y);
@@ -1061,10 +1240,11 @@
             spectrogramCtx.font = 'bold 16px Consolas, monospace';
             spectrogramCtx.textAlign = 'right';
 
-            const freqLabels = [24000, 20000, 16000, 12000, 8000, 4000, 0];
+            const freqLabels = [16000, 12000, 8000, 4000, 0];
             freqLabels.forEach(freq => {
+                if (freq > maxFreq) return;
                 const y = paddingTop + chartHeight - (freq / maxFreq) * chartHeight;
-                waveformCtx.fillText(freq >= 1000 ? (freq/1000)+'k' : freq.toString(), paddingLeft - 10, y + 5);
+                spectrogramCtx.fillText(freq >= 1000 ? (freq/1000)+'k' : freq.toString(), paddingLeft - 10, y + 5);
             });
 
             // X轴时间刻度
@@ -1113,7 +1293,7 @@
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
                 analyser = audioContext.createAnalyser();
                 analyser.fftSize = 4096;  // 更大的FFT尺寸，更高的频率分辨率
-                analyser.smoothingTimeConstant = 0.3;  // 降低平滑，更快的动态响应
+                analyser.smoothingTimeConstant = 0.1;  // 进一步降低平滑，更快的动态响应
 
                 const source = audioContext.createMediaStreamSource(mediaStream);
                 source.connect(analyser);

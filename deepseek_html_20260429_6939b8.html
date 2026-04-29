@@ -570,11 +570,13 @@
             .opt-box {
                 padding: 6px 10px;
                 font-size: 0.82rem;
-                flex: 1;
-                min-width: 120px;
+                flex: 1 1 calc(50% - 4px);
+                min-width: 0;
+                max-width: 100%;
                 justify-content: flex-start;
                 text-align: left;
                 white-space: normal;
+                box-sizing: border-box;
             }
             .btn {
                 padding: 7px 12px;

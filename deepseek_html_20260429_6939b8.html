@@ -428,8 +428,10 @@
             flex: 1;
             font-size: 0.95rem;
             color: var(--text-bright);
-            line-height: 1.5;
+            line-height: 1.6;
             word-break: break-word;
+            overflow-wrap: break-word;
+            white-space: pre-wrap;
             min-width: 220px;
         }
 
@@ -487,23 +489,127 @@
         @media (max-width: 680px) {
             .header {
                 padding: 10px 12px;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+            }
+            .logo {
+                font-size: 1.1rem;
+                justify-content: center;
+            }
+            .actions {
+                justify-content: center;
             }
             .main-container {
                 padding: 10px 8px;
             }
+            .upload-zone {
+                padding: 32px 16px;
+            }
+            .upload-zone .icon {
+                font-size: 2.2rem;
+            }
+            .upload-zone .title {
+                font-size: 0.95rem;
+            }
+            .upload-zone .hint {
+                font-size: 0.75rem;
+            }
+            .stats-bar {
+                padding: 10px 12px;
+                justify-content: center;
+            }
+            .stat-tag {
+                font-size: 0.75rem;
+                padding: 3px 8px;
+            }
+            .toolbar {
+                justify-content: center;
+            }
+            .chip {
+                font-size: 0.75rem;
+                padding: 5px 10px;
+            }
+            .toggle-switch {
+                font-size: 0.75rem;
+                padding: 5px 10px;
+            }
+            .search-input {
+                min-width: 100%;
+                order: -1;
+            }
             .question-card {
                 padding: 12px 10px;
             }
+            .card-header {
+                flex-direction: column;
+                gap: 6px;
+            }
+            .q-num {
+                font-size: 0.75rem;
+            }
+            .badge {
+                font-size: 0.65rem;
+                padding: 2px 8px;
+            }
             .stem-text {
-                font-size: 0.88rem;
+                font-size: 0.9rem;
+                line-height: 1.7;
+                min-width: 100%;
+                white-space: pre-wrap;
+                word-break: break-word;
+                overflow-wrap: break-word;
+            }
+            .option-inline {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin: 8px 0;
+                width: 100%;
             }
             .opt-box {
-                padding: 3px 8px;
-                font-size: 0.8rem;
+                padding: 6px 10px;
+                font-size: 0.82rem;
+                flex: 1;
+                min-width: 120px;
+                justify-content: flex-start;
+                text-align: left;
+                white-space: normal;
             }
             .btn {
                 padding: 7px 12px;
                 font-size: 0.8rem;
+            }
+            .judge-indicator {
+                font-size: 0.9rem;
+                margin-top: 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 8px 10px;
+            }
+            .logo {
+                font-size: 1rem;
+            }
+            .main-container {
+                padding: 8px 6px;
+            }
+            .question-card {
+                padding: 10px 8px;
+            }
+            .stem-text {
+                font-size: 0.85rem;
+            }
+            .opt-box {
+                font-size: 0.78rem;
+                min-width: 100px;
+                padding: 5px 8px;
+            }
+            .chip {
+                font-size: 0.7rem;
+                padding: 4px 8px;
             }
         }
     </style>

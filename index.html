@@ -3,412 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>a2heng · 个人主页</title>
-    <meta name="description" content="a2heng 的 AI 音频与效率工具集：PureVox 麦克风降噪、48kHz 语音增强模型、Shuo 本地语音识别、拾字 SnapText 截图 OCR。">
+    <title>a2heng</title>
+    <meta name="description" content="a2heng — AI 音频与效率工具。PureVox、48kHz 语音模型、说·Shuo、拾字 SnapText。">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { color-scheme: light dark; }
 
         :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f5f5f7;
-            --bg-card: #ffffff;
-            --text-primary: #1d1d1f;
-            --text-secondary: #6e6e73;
+            --bg: #ffffff;
+            --text: #1d1d1f;
+            --muted: #86868b;
+            --line: #e5e5ea;
             --accent: #000000;
-            --accent-hover: #333333;
-            --accent-light: rgba(0, 0, 0, 0.05);
-            --success: #34c759;
-            --border: #e5e5ea;
-            --shadow: rgba(0, 0, 0, 0.08);
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg-primary: #000000;
-                --bg-secondary: #0a0a0a;
-                --bg-card: #141414;
-                --text-primary: #f5f5f7;
-                --text-secondary: #86868b;
+                --bg: #000000;
+                --text: #f5f5f7;
+                --muted: #86868b;
+                --line: #262626;
                 --accent: #ffffff;
-                --accent-hover: #cccccc;
-                --accent-light: rgba(255, 255, 255, 0.08);
-                --success: #30d158;
-                --border: #262626;
-                --shadow: rgba(0, 0, 0, 0.4);
             }
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans SC', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.7;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
             min-height: 100vh;
         }
 
-        .container {
-            max-width: 1100px;
+        .wrap {
+            max-width: 640px;
             margin: 0 auto;
             padding: 0 24px;
         }
 
         header {
-            background: var(--bg-primary);
-            border-bottom: 1px solid var(--border);
-            padding: 16px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            padding: 72px 0 40px;
         }
 
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.4em;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .header-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9em;
-            transition: color 0.2s;
-        }
-
-        .header-link:hover {
-            color: var(--text-primary);
-        }
-
-        .hero {
-            padding: 72px 0 48px;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 2.4em;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            margin-bottom: 16px;
-        }
-
-        .hero p {
-            color: var(--text-secondary);
-            font-size: 1.15em;
-            max-width: 640px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-size: 1.5em;
-            text-align: center;
-            margin-bottom: 8px;
-            color: var(--text-primary);
+        header h1 {
+            font-size: 1.6em;
             font-weight: 600;
+            letter-spacing: 0.02em;
         }
 
-        .section-subtitle {
-            text-align: center;
-            color: var(--text-secondary);
-            margin-bottom: 28px;
-            font-size: 0.95em;
+        .intro {
+            color: var(--muted);
+            font-size: 1.05em;
+            margin-top: 16px;
+            max-width: 32em;
         }
 
-        .projects {
-            padding: 32px 0 56px;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .project-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 22px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+        .intro a {
+            color: var(--text);
             text-decoration: none;
-            color: var(--text-primary);
-            transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+            border-bottom: 1px solid var(--line);
+            transition: border-color 0.3s;
         }
 
-        .project-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px var(--shadow);
-        }
-
-        .project-top {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .project-icon {
-            font-size: 1.9em;
-            line-height: 1;
-        }
-
-        .project-name {
-            font-size: 1.15em;
-            font-weight: 600;
-        }
-
-        .project-lang {
-            font-size: 0.75em;
-            color: var(--text-secondary);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2px 10px;
-            margin-left: auto;
-            white-space: nowrap;
-        }
-
-        .project-desc {
-            color: var(--text-secondary);
-            font-size: 0.9em;
-            line-height: 1.6;
-            flex: 1;
-        }
-
-        .project-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .tag {
-            font-size: 0.75em;
-            color: var(--text-secondary);
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 2px 10px;
-        }
-
-        .project-link {
-            font-size: 0.85em;
-            color: var(--accent);
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .contact {
-            padding: 56px 0;
-            text-align: center;
-            border-top: 1px solid var(--border);
-        }
-
-        .contact-links {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            margin-top: 28px;
-            flex-wrap: wrap;
-        }
-
-        .contact-link {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--bg-card);
-            padding: 12px 24px;
-            border-radius: 6px;
-            text-decoration: none;
-            color: var(--text-primary);
-            border: 1px solid var(--border);
-            transition: border-color 0.2s;
-            font-weight: 500;
-            font-size: 0.95em;
-        }
-
-        .contact-link:hover {
+        .intro a:hover {
             border-color: var(--accent);
         }
 
-        .contact-link svg {
-            width: 20px;
-            height: 20px;
-            fill: var(--accent);
+        main {
+            padding-bottom: 96px;
+        }
+
+        .item {
+            padding: 36px 0;
+            border-top: 1px solid var(--line);
+        }
+
+        .item:last-child {
+            border-bottom: 1px solid var(--line);
+        }
+
+        .item a {
+            color: var(--text);
+            text-decoration: none;
+            display: block;
+        }
+
+        .item h2 {
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .item a h2 {
+            transition: opacity 0.3s;
+        }
+
+        .item a:hover h2 {
+            opacity: 0.6;
+        }
+
+        .item p {
+            color: var(--muted);
+            font-size: 0.95em;
+            margin-top: 8px;
+            max-width: 34em;
+        }
+
+        .item .sub {
+            color: var(--muted);
+            font-size: 0.8em;
+            margin-top: 6px;
+            letter-spacing: 0.04em;
         }
 
         footer {
-            padding: 24px 0;
-            text-align: center;
-            color: var(--text-secondary);
-            border-top: 1px solid var(--border);
-            background: var(--bg-primary);
+            padding: 32px 0 48px;
+            border-top: 1px solid var(--line);
+            color: var(--muted);
+            font-size: 0.85em;
         }
 
-        @media (max-width: 768px) {
-            .header-content { flex-direction: column; gap: 12px; }
-            .hero { padding: 48px 0 32px; }
-            .hero h1 { font-size: 1.8em; }
+        footer a {
+            color: var(--text);
+            text-decoration: none;
+            border-bottom: 1px solid var(--line);
+            transition: border-color 0.3s;
+        }
+
+        footer a:hover {
+            border-color: var(--accent);
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container header-content">
-            <div class="logo">a2heng</div>
-            <div class="header-right">
-                <a href="#projects" class="header-link">项目</a>
-                <a href="mic-test.html" class="header-link">麦克风测试</a>
-                <a href="https://github.com/a2heng" class="header-link" target="_blank">GitHub</a>
-            </div>
-        </div>
-    </header>
+    <div class="wrap">
+        <header>
+            <h1>a2heng</h1>
+            <p class="intro">
+                做 AI 音频与效率工具。关注本地、实时、轻量的体验，代码开源在
+                <a href="https://github.com/a2heng" target="_blank">GitHub</a>。
+            </p>
+        </header>
 
-    <section class="hero">
-        <div class="container">
-            <h1>AI 音频 · 效率工具集</h1>
-            <p>专注于本地、实时、轻量的音频与效率工具。开源代码都在 GitHub，欢迎围观。</p>
-        </div>
-    </section>
-
-    <section class="projects" id="projects">
-        <div class="container">
-            <h2 class="section-title">项目</h2>
-            <p class="section-subtitle">我的近期开源项目</p>
-            <div class="projects-grid">
-
-                <a href="https://github.com/a2heng/PureVox" target="_blank" class="project-card">
-                    <div class="project-top">
-                        <span class="project-icon">🎙️</span>
-                        <span class="project-name">PureVox</span>
-                        <span class="project-lang">C</span>
-                    </div>
-                    <p class="project-desc">轻量 AI 降噪、声纹提取与回声消除。支持网页、安卓、Linux、Windows 任意麦克风输入，输出干净音频到 PC。</p>
-                    <div class="project-tags">
-                        <span class="tag">降噪</span>
-                        <span class="tag">TSE</span>
-                        <span class="tag">AEC</span>
-                        <span class="tag">跨平台</span>
-                    </div>
-                    <span class="project-link">查看源码 →</span>
-                </a>
-
-                <a href="https://github.com/a2heng/lightweight-denoise-48k" target="_blank" class="project-card">
-                    <div class="project-top">
-                        <span class="project-icon">🎵</span>
-                        <span class="project-name">lightweight-denoise-48k</span>
-                        <span class="project-lang">Python</span>
-                    </div>
-                    <p class="project-desc">面向 48kHz 音频的轻量实时流式语音降噪模型，主打低 CPU 占用与高效率。</p>
-                    <div class="project-tags">
-                        <span class="tag">ONNX</span>
-                        <span class="tag">48kHz</span>
-                        <span class="tag">实时流式</span>
-                    </div>
-                    <span class="project-link">查看源码 →</span>
-                </a>
-
-                <a href="https://github.com/a2heng/lightweight-aec-48k" target="_blank" class="project-card">
-                    <div class="project-top">
-                        <span class="project-icon">📡</span>
-                        <span class="project-name">lightweight-aec-48k</span>
-                        <span class="project-lang">Python</span>
-                    </div>
-                    <p class="project-desc">48kHz 实时、低延迟回声消除模型，为通话与语音交互场景设计，兼顾效率与低 CPU。</p>
-                    <div class="project-tags">
-                        <span class="tag">AEC</span>
-                        <span class="tag">ONNX</span>
-                        <span class="tag">低延迟</span>
-                    </div>
-                    <span class="project-link">查看源码 →</span>
-                </a>
-
-                <a href="https://github.com/a2heng/shuo" target="_blank" class="project-card">
-                    <div class="project-top">
-                        <span class="project-icon">🗣️</span>
-                        <span class="project-name">说 · Shuo</span>
-                        <span class="project-lang">Python</span>
-                    </div>
-                    <p class="project-desc">本地语音识别 GUI：Qwen3-ASR (ONNX CPU) + Qwen3.5 文本后处理。纯本地、无需 GPU 与 PyTorch。</p>
-                    <div class="project-tags">
-                        <span class="tag">ASR</span>
-                        <span class="tag">ONNX</span>
-                        <span class="tag">本地离线</span>
-                    </div>
-                    <span class="project-link">查看源码 →</span>
-                </a>
-
-                <a href="https://github.com/a2heng/snaptext" target="_blank" class="project-card">
-                    <div class="project-top">
-                        <span class="project-icon">📷</span>
-                        <span class="project-name">拾字 SnapText</span>
-                        <span class="project-lang">Python</span>
-                    </div>
-                    <p class="project-desc">极简本地截图 + 本地 onnx OCR（X11 / KDE）。Alt+X 截图复制，Alt+C OCR 复制，托盘常驻，无确认弹窗。</p>
-                    <div class="project-tags">
-                        <span class="tag">截图</span>
-                        <span class="tag">OCR</span>
-                        <span class="tag">本地</span>
-                    </div>
-                    <span class="project-link">查看源码 →</span>
-                </a>
-
-            </div>
-        </div>
-    </section>
-
-    <section class="contact">
-        <div class="container">
-            <h2 class="section-title">关于我</h2>
-            <p style="color: var(--text-secondary);">关注 AI 音频降噪与效率工具，欢迎交流与合作</p>
-            <div class="contact-links">
-                <a href="https://github.com/a2heng" target="_blank" class="contact-link">
-                    <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                    GitHub
-                </a>
-                <a href="https://space.bilibili.com/10850943" target="_blank" class="contact-link">
-                    <svg viewBox="0 0 24 24"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373z"/></svg>
-                    哔哩哔哩
-                </a>
-                <a href="mic-test.html" class="contact-link">
-                    🎤 麦克风测试
+        <main>
+            <div class="item">
+                <a href="https://github.com/a2heng/PureVox" target="_blank">
+                    <h2>PureVox</h2>
+                    <p>轻量 AI 降噪、声纹提取与回声消除，支持网页 / 安卓 / Linux / Windows 麦克风输入。</p>
+                    <div class="sub">C · 降噪 · TSE · AEC</div>
                 </a>
             </div>
-        </div>
-    </section>
 
-    <footer>
-        <div class="container">
-            <p>© <span id="current-year"></span> a2heng. Made with ❤️</p>
-        </div>
-    </footer>
+            <div class="item">
+                <a href="https://github.com/a2heng/lightweight-denoise-48k" target="_blank">
+                    <h2>lightweight-denoise-48k</h2>
+                    <p>面向 48kHz 的轻量实时流式语音降噪模型，低 CPU 占用。</p>
+                    <div class="sub">Python · ONNX · 48kHz</div>
+                </a>
+            </div>
+
+            <div class="item">
+                <a href="https://github.com/a2heng/lightweight-aec-48k" target="_blank">
+                    <h2>lightweight-aec-48k</h2>
+                    <p>48kHz 实时低延迟回声消除模型，为通话与语音交互设计。</p>
+                    <div class="sub">Python · AEC · 低延迟</div>
+                </a>
+            </div>
+
+            <div class="item">
+                <a href="https://github.com/a2heng/shuo" target="_blank">
+                    <h2>说 · Shuo</h2>
+                    <p>本地语音识别 GUI，Qwen3-ASR (ONNX CPU) + 文本后处理，无需 GPU 与 PyTorch。</p>
+                    <div class="sub">Python · ASR · 本地离线</div>
+                </a>
+            </div>
+
+            <div class="item">
+                <a href="https://github.com/a2heng/snaptext" target="_blank">
+                    <h2>拾字 SnapText</h2>
+                    <p>极简本地截图 + 本地 onnx OCR，托盘常驻，快捷键即用。</p>
+                    <div class="sub">Python · 截图 · OCR · 本地</div>
+                </a>
+            </div>
+        </main>
+
+        <footer>
+            <p>
+                <a href="mic-test.html">麦克风测试</a>
+                ·
+                <a href="https://github.com/a2heng" target="_blank">GitHub</a>
+                ·
+                <span id="year"></span> a2heng
+            </p>
+        </footer>
+    </div>
 
     <script>
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
+        document.getElementById('year').textContent = new Date().getFullYear();
     </script>
 </body>
 </html>

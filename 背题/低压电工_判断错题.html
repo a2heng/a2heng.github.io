@@ -1,0 +1,2055 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<title>低压电工 · 判断错题专攻</title><style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto}
+body{font-family:"Microsoft YaHei",system-ui,sans-serif;background:#f4f6f9;color:#111;padding:64px 0 40px}
+.topbar{position:fixed;top:0;left:0;right:0;height:56px;background:#fff;border-bottom:1px solid #e5e9f0;display:flex;align-items:center;gap:14px;padding:0 16px;z-index:50}
+h1{font-size:17px;color:#1e293b;white-space:nowrap}
+.switch{font-size:13px;color:#2563eb;font-weight:600;text-decoration:none;border:1px solid #bfdbfe;border-radius:8px;padding:5px 12px;background:#eff6ff;white-space:nowrap}
+.toc{display:flex;gap:6px;overflow-x:auto;max-width:calc(100vw - 420px);padding-bottom:2px}
+.toc a{font-size:12px;color:#475569;text-decoration:none;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:6px;padding:3px 8px;white-space:nowrap;flex:none}
+.toc a:hover{background:#dbeafe;color:#1d4ed8}
+main{max-width:1300px;margin:12px auto;padding:0 14px}
+.grp h2{font-size:19px;margin:24px 4px 8px;padding-left:12px;border-left:6px solid #2563eb;color:#1e293b}
+.grp h2 small{color:#94a3b8;font-weight:400;margin-left:8px;font-size:13px}
+.qindex{margin:0 4px 10px;line-height:2;font-size:12px}
+.qindex a{color:#64748b;text-decoration:none;margin-right:7px;white-space:nowrap}
+.qindex a:hover{color:#2563eb;text-decoration:underline}
+.sub{margin:14px 4px 9px;padding:5px 12px;background:#e2e8f0;border-radius:8px;font-size:13px;font-weight:700;color:#334155;letter-spacing:1px}
+.sub span{float:right;font-weight:400;color:#64748b}
+.blk{display:flex;background:#fff;border:1px solid #e2e8f0;border-radius:12px;margin-bottom:9px;overflow:hidden;break-inside:avoid;scroll-margin-top:66px}
+aside.ans{flex:0 0 104px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#fff;padding:10px 4px;text-align:center}
+.ans b{font-size:38px;line-height:1;font-family:Georgia,serif}
+.ans span{font-size:10.5px;opacity:.85}
+.ans em{font-style:normal;font-size:12px;font-weight:700;border:1.5px solid rgba(255,255,255,.75);border-radius:20px;padding:0 10px;line-height:19px}
+.ans.b{background:#2563eb}.ans.g{background:#16a34a}.ans.x{background:#dc2626}
+.bd{flex:1;padding:9px 13px;min-width:0}
+.stem{font-size:15px;font-weight:600;line-height:1.55}
+.stem i{font-style:normal;color:#94a3b8;font-size:12px;margin-right:6px;font-weight:400}
+ul.opts{list-style:none;margin:7px 0 0;display:flex;flex-wrap:wrap;gap:5px 14px}
+ul.opts li{font-size:13.5px;color:#334155;display:flex;align-items:flex-start;gap:6px;min-width:120px;flex:1 1 auto}
+ul.opts u{text-decoration:none;background:#eef2ff;color:#4f46e5;border-radius:5px;width:19px;height:19px;line-height:19px;text-align:center;font-size:11.5px;flex:none}
+ul.opts u.r{background:#2563eb;color:#fff;font-weight:700}
+ul.opts li.hasimg{flex-basis:100%;align-items:center}
+ul.opts li.hasimg .pics{width:100%;justify-content:flex-start;margin-top:6px}
+.mem{margin-top:8px;background:#fef9c3;border-left:4px solid #eab308;border-radius:0 8px 8px 0;padding:6px 10px;font-size:14.5px;font-weight:600;color:#713f12}
+.mem span{background:#eab308;color:#fff;font-size:11px;border-radius:5px;padding:2px 7px;margin-right:8px;font-weight:400}
+.ok,.bad,.err,.note{font-size:13.5px;line-height:1.65;margin-top:5px;padding:1px 0 1px 10px;border-left:3px solid transparent}
+.ok{border-color:#22c55e;color:#14532d}.bad{border-color:#f87171;color:#7f1d1d}
+.err{border-color:#111;background:#fee2e2;color:#000;font-weight:700}
+.note{border-color:#cbd5e1;color:#475569}
+.pics{display:flex;gap:10px;flex-wrap:wrap;margin-top:7px}
+.pics figure{text-align:center}
+.pics img{max-height:88px;max-width:170px;border:1px solid #ddd;border-radius:6px;background:#fff}
+.pics figcaption{font-size:10px;color:#94a3b8}
+</style></head>
+<body>
+<div class="topbar"><h1>低压电工 · 判断错题（✗）</h1><a class="switch" style="margin-left:0" href="低压电工_原始排序.html">→ 原始</a><a class="switch" style="margin-left:0" href="低压电工_聚合排序.html">→ 聚合</a>
+<nav class="toc"><a href="#cat_触电急救">触电急救 9</a><a href="#cat_法规与管理">法规与管理 37</a><a href="#cat_安全用具">安全用具 10</a><a href="#cat_测量仪表">测量仪表 25</a><a href="#cat_漏电保护">漏电保护 11</a><a href="#cat_接地接零与防护">接地接零与防护 22</a><a href="#cat_防雷与静电">防雷与静电 4</a><a href="#cat_电机与变压器">电机与变压器 27</a><a href="#cat_低压电器">低压电器 45</a><a href="#cat_照明与插座">照明与插座 12</a><a href="#cat_导线与线路">导线与线路 13</a><a href="#cat_防火防爆">防火防爆 6</a><a href="#cat_电工基础">电工基础 48</a><a href="#cat_综合安全">综合安全 11</a></nav>
+<span style="margin-left:auto;font-size:11.5px;color:#64748b">判断×共 <b style="color:#dc2626">280</b> 题</span>
+</div>
+<main>
+<section class="grp" id="cat_触电急救"><h2>触电急救<small>9错</small></h2>
+<nav class="qindex"><a href="#q577">577</a> <a href="#q644">644</a> <a href="#q955">955</a> <a href="#q958">958</a> <a href="#q960">960</a> <a href="#q962">962</a> <a href="#q1006">1006</a> <a href="#q1092">1092</a> <a href="#q1094">1094</a></nav>
+<div class="blk" id="q577">
+<aside class="ans x"><b>✖</b><span>判断 #577</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#577</i>对电击所致的心搏骤停病人实施胸外心脏挤压法，应该每分钟挤压60~80次。</p>
+<p class="mem"><span>秒记</span>胸外挤压80~100次/分以上（新指南100~120次）。</p>
+<p class="note">错在频率取值：每分钟60~80次过慢，无法维持有效血液循环；规定应为每分钟80~100次（按现行急救指南为100~120次）。</p>
+</div></div>
+<div class="blk" id="q644">
+<aside class="ans x"><b>✖</b><span>判断 #644</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#644</i>当有异物进入眼内，应及时用手揉眼，把异物揉出来。</p>
+<p class="mem"><span>秒记</span>眼入异物勿揉，冲洗后就医。</p>
+<p class="note">错在用手揉眼：揉眼会将异物压入划伤角膜并引起感染；应轻提眼睑让泪水冲带异物或用清水冲洗，无效时及时就医。</p>
+</div></div>
+<div class="blk" id="q955">
+<aside class="ans x"><b>✖</b><span>判断 #955</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#955</i>职工在工作时间和工作岗位，突发疾病死亡或者在72小时之内经抢救无效死亡的，视同工伤。</p>
+<p class="mem"><span>秒记</span>突发疾病视同工伤的界限是48小时。</p>
+<p class="note">《工伤保险条例》第15条：在工作时间和工作岗位突发疾病死亡或在48小时之内经抢救无效死亡的视同工伤，72小时说法错误。</p>
+</div></div>
+<div class="blk" id="q958">
+<aside class="ans x"><b>✖</b><span>判断 #958</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#958</i>在安全事故发生后，负有报告职责的人员不报或者谎报事故情况，贻误事故抢救，情节严重的，将被处以罚款或拘留。</p>
+<p class="mem"><span>秒记</span>不报谎报罪：情节严重3年以下，特别严重3~7年。</p>
+<p class="note">刑法第139条之一对不报、谎报事故情况贻误抢救情节严重的处三年以下有期徒刑或拘役，属刑事自由刑，不是“罚款或拘留”的行政处理。</p>
+</div></div>
+<div class="blk" id="q960">
+<aside class="ans x"><b>✖</b><span>判断 #960</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#960</i>易燃易爆物品、危险化学品等危险物品的生产、经营、储存、运输单位，建筑施工单位，商场、娱乐场所、旅游景区等人员密集场所经营单位，应当每年组织1次生产安全事故应急救援预案演练，并将演练情况报送所在地县级以上地方人民政府负有安全生产监督管理职责的部门。</p>
+<p class="mem"><span>秒记</span>高危单位和人员密集场所预案演练每半年1次。</p>
+<p class="note">《生产安全事故应急条例》规定此类单位应当至少每半年组织1次应急救援预案演练并报送属地县级以上监管部门，“每年1次”频次不足。</p>
+</div></div>
+<div class="blk" id="q962">
+<aside class="ans x"><b>✖</b><span>判断 #962</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#962</i>依据《最高人民法院、最高人民检察院关于办理危害生产安全刑事案件适用法律若干问题的解释》规定，构成《刑法》规定的安全生产的犯罪行为，只要在安全事故发生后积极组织、参与事故抢救，或者积极配合调查、主动赔偿损失，就可以酌情从轻处罚。</p>
+<p class="mem"><span>秒记</span>抢救赔偿只是“可酌情”考量，不是保底从轻。</p>
+<p class="note">司法解释将积极组织抢救、配合调查、赔偿损失等列为可以酌情从宽的量刑考量因素，是否从轻由司法机关综合裁量；“只要…就”把它绝对化，且不影响犯罪成立。</p>
+</div></div>
+<div class="blk" id="q1006">
+<aside class="ans x"><b>✖</b><span>判断 #1006</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1006</i>在生产安全事故发生后，事故现场人员李某立即打电话报告企业负责人，可电话一直打不通，于是李某就自行离开了事故现场。结果，事故抢救时机被贻误，造成了严重后果。根据刑法等有关规定，李某履行了报告职责，只是联系不上企业负责人，因此不用被追究刑事责任。</p>
+<p class="mem"><span>秒记</span>报告渠道不止一条，弃逃耽误抢救要担责。</p>
+<p class="note">打不通负责人电话仍可向其他负责人或政府监管部门报告并参与抢救；自行离开贻误抢救造成严重后果，符合消极不报情形的将被追究刑事责任。</p>
+</div></div>
+<div class="blk" id="q1092">
+<aside class="ans x"><b>✖</b><span>判断 #1092</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1092</i>发现有人触电后，应立即通知医院派救护车来抢救，在医生来到前，现场人员不能对触电者进行抢救，以免造成二次伤害。</p>
+<p class="mem"><span>秒记</span>先脱离电源、就地心肺复苏，绝不干等医生</p>
+<p class="note">违背急救原则：发现有人触电应立即设法脱离电源后就地抢救；对假死状态越早实施心肺复苏存活率越高，等医生到场再动手会贻误黄金抢救时间。</p>
+</div></div>
+<div class="blk" id="q1094">
+<aside class="ans x"><b>✖</b><span>判断 #1094</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1094</i>脱离电源后，触电者神志清醒，应让触电者来回走动，加强血液循环。</p>
+<p class="mem"><span>秒记</span>清醒也要静卧休息，不许走动</p>
+<p class="note">处置错误：脱离电源后即使神志清醒也应使其就地平躺静卧、严密观察脉搏呼吸，让其走动会加重心脏负担并可能诱发迟发性休克或跌倒二次伤害。</p>
+</div></div>
+</section>
+<section class="grp" id="cat_法规与管理"><h2>法规与管理<small>37错</small></h2>
+<nav class="qindex"><a href="#q617">617</a> <a href="#q658">658</a> <a href="#q779">779</a> <a href="#q853">853</a> <a href="#q854">854</a> <a href="#q881">881</a> <a href="#q896">896</a> <a href="#q938">938</a> <a href="#q951">951</a> <a href="#q954">954</a> <a href="#q959">959</a> <a href="#q961">961</a> <a href="#q966">966</a> <a href="#q967">967</a> <a href="#q968">968</a> <a href="#q972">972</a> <a href="#q974">974</a> <a href="#q975">975</a> <a href="#q977">977</a> <a href="#q983">983</a> <a href="#q985">985</a> <a href="#q990">990</a> <a href="#q992">992</a> <a href="#q993">993</a> <a href="#q994">994</a> <a href="#q995">995</a> <a href="#q997">997</a> <a href="#q1003">1003</a> <a href="#q1004">1004</a> <a href="#q1007">1007</a> <a href="#q1017">1017</a> <a href="#q1019">1019</a> <a href="#q1020">1020</a> <a href="#q1024">1024</a> <a href="#q1171">1171</a> <a href="#q1173">1173</a> <a href="#q1174">1174</a></nav>
+<div class="blk" id="q617">
+<aside class="ans x"><b>✖</b><span>判断 #617</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#617</i>某作业人员在上岗作业期间，故意从高空坠落而自残，此时用人单位本着以人为本的理念，视同该员工为工伤。该用人单位的做法是正确的。</p>
+<p class="mem"><span>秒记</span>自残自杀不得认定为工伤。</p>
+<p class="note">错在&quot;视同工伤&quot;：《工伤保险条例》规定职工自残或者自杀的情形不得认定为工伤或视同工伤，用人单位的做法是错误的。</p>
+</div></div>
+<div class="blk" id="q658">
+<aside class="ans x"><b>✖</b><span>判断 #658</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#658</i>用人单位应当按时缴纳工伤保险费，由单位和职工个人按照一定比例分摊。</p>
+<p class="mem"><span>秒记</span>工伤保险全由单位缴，个人不缴。</p>
+<p class="note">《工伤保险条例》规定工伤保险费由用人单位按时全额缴纳，职工个人不缴费，不存在按比例分摊。</p>
+</div></div>
+<div class="blk" id="q779">
+<aside class="ans x"><b>✖</b><span>判断 #779</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#779</i>赵某初中毕业后就业，在平时的工作中自学了很多电工方面的技术知识，打算申领电工作业《特种作业操作证》，依据《特种作业人员安全技术培训考核管理规定》，赵某可以不参加相应的安全培训，直接申请考试。</p>
+<p class="mem"><span>秒记</span>特种作业必须先培训考核合格持证上岗。</p>
+<p class="note">依据《特种作业人员安全技术培训考核管理规定》，申领操作证必须先参加专门的安全技术培训并考核合格，自学不能免除培训环节。</p>
+</div></div>
+<div class="blk" id="q853">
+<aside class="ans x"><b>✖</b><span>判断 #853</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#853</i>依据《突发事件应对法》，突发事件应对工作实行预防为主、防治结合的原则。</p>
+<p class="mem"><span>秒记</span>突发事件应对实行预防为主、预防与应急相结合。</p>
+<p class="note">《突发事件应对法》确立的原则是&quot;预防为主、预防与应急相结合&quot;，并非&quot;预防为主、防治结合&quot;，后者属其他法律的提法。</p>
+</div></div>
+<div class="blk" id="q854">
+<aside class="ans x"><b>✖</b><span>判断 #854</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#854</i>合理的规章制度是保障安全生产的有效措施，工矿企业等单位有条件的应该建立适合本单位情况的安全生产规章制度。</p>
+<p class="mem"><span>秒记</span>所有工矿企业单位都必须建立安全生产规章制度。</p>
+<p class="note">安全生产法律要求各生产经营单位依照规定建立健全本单位的安全生产规章制度，这是法定义务，不是&quot;有条件的&quot;企业才做的事情。</p>
+</div></div>
+<div class="blk" id="q881">
+<aside class="ans x"><b>✖</b><span>判断 #881</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#881</i>电工特种作业目录分为两个项目:高压电工作业和低压电工作业。</p>
+<p class="mem"><span>秒记</span>电工目录不止高压、低压两项，还有电缆、试验、保护、防爆电气等。</p>
+<p class="note">电工作业特种作业目录除高压电工作业和低压电工作业外，还包括电力电缆作业、电气试验作业、继电保护作业、防爆电气作业等项目，说&quot;只有两个项目&quot;不准确。</p>
+</div></div>
+<div class="blk" id="q896">
+<aside class="ans x"><b>✖</b><span>判断 #896</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#896</i>为了仔细观察电力设备的运行状况，巡视人员可以越过设备的围栏。</p>
+<p class="mem"><span>秒记</span>巡视设备严禁越过围栏，无论何种理由。</p>
+<p class="note">围栏以内即可能是接近带电设备的危险区，巡视人员只能在规定的通道上观望，&quot;为了仔细观察可以越过围栏&quot;严重违反安全规程。</p>
+</div></div>
+<div class="blk" id="q938">
+<aside class="ans x"><b>✖</b><span>判断 #938</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#938</i>依据《生产安全事故报告和调查处理条例》，事故发生后，事故现场有关人员应当立即向应急管理部门报告。</p>
+<p class="mem"><span>秒记</span>现场人员先报本单位负责人，负责人1小时内报政府。</p>
+<p class="note">《生产安全事故报告和调查处理条例》规定现场有关人员应当立即向本单位负责人报告，由负责人接报后1小时内向县级以上政府负有安全生产监督管理职责的部门报告，并非现场人员直报应急管理部门。</p>
+</div></div>
+<div class="blk" id="q951">
+<aside class="ans x"><b>✖</b><span>判断 #951</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#951</i>张某在生产、作业过程中违反安全生产管理制度，导致发生机械伤害事故，虽然造成3人重伤，但无人死亡；依据刑法及有关规定，张某不会被追究刑事责任。</p>
+<p class="mem"><span>秒记</span>重伤3人即达重大责任事故罪立案追诉线。</p>
+<p class="note">追诉标准为死亡1人以上或重伤3人以上等情形，造成3人重伤虽无人死亡仍构成犯罪，应当追究刑事责任。</p>
+</div></div>
+<div class="blk" id="q954">
+<aside class="ans x"><b>✖</b><span>判断 #954</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#954</i>只有用人单位才有权对违反《中华人民共和国职业病防治法》的行为进行检举和控告，有关部门收到相关的检举和控告后，应当及时处理。</p>
+<p class="mem"><span>秒记</span>任何单位和个人都有权检举控告职业病违法。</p>
+<p class="note">《职业病防治法》赋予全社会监督权，“只有用人单位才有权”把主体范围限缩得过窄，任何组织和个人均可检举控告，有关部门应及时处理。</p>
+</div></div>
+<div class="blk" id="q959">
+<aside class="ans x"><b>✖</b><span>判断 #959</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#959</i>因生产安全事故受到损害的从业人员，依法享有工伤保险后，不得再提出赔偿要求。</p>
+<p class="mem"><span>秒记</span>工伤照享，民事赔偿照样可主张。</p>
+<p class="note">《安全生产法》规定因事故受到损害的从业人员除依法享有工伤保险外，依照民事法律尚有获得赔偿权利的，仍有权提出赔偿要求。</p>
+</div></div>
+<div class="blk" id="q961">
+<aside class="ans x"><b>✖</b><span>判断 #961</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#961</i>依据当前的相关政策，特种作业人员初次取证时应提交本人的体检证明，复审和延期换证时由个人健康书面承诺就可以了。</p>
+<p class="mem"><span>秒记</span>体检证明已取消：初领复审一律健康书面承诺。</p>
+<p class="note">按现行“放管服”政策，健康证明事项改为告知承诺，初次取证也不必再提交体检证明，题目“初次取证应提交体检证明”不符合现行做法。</p>
+</div></div>
+<div class="blk" id="q966">
+<aside class="ans x"><b>✖</b><span>判断 #966</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#966</i>依据《特种作业人员安全技术培训考核管理规定》，已经取得职业高中、技工学校及中专以上学历的毕业生从事与其所学专业相应的特种作业，持学历证明经考核发证机关同意，可以免予所有的安全培训，直接申请考试。</p>
+<p class="mem"><span>秒记</span>学历只能免部分相关培训，考核一场少不了。</p>
+<p class="note">相关规定允许专业对口的职高、技校、中专及以上学历毕业生经考核发证机关同意免予部分相关安全培训，绝不可能“免予所有的安全培训”，且必须参加考核。</p>
+</div></div>
+<div class="blk" id="q967">
+<aside class="ans x"><b>✖</b><span>判断 #967</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#967</i>依据《特种作业人员安全技术培训考核管理规定》，特种作业人员取得特种作业操作证后，定期的复审或者延期复审不需要再参加安全培训，可直接申请考试。</p>
+<p class="mem"><span>秒记</span>复审前须培训并考试合格（不少于8学时）。</p>
+<p class="note">复审或延期复审前应参加必要的安全培训并考试合格，提交培训考试合格记录，不能不经培训直接申请考试。</p>
+</div></div>
+<div class="blk" id="q968">
+<aside class="ans x"><b>✖</b><span>判断 #968</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#968</i>依据《特种作业人员安全技术培训考核管理规定》，理论考试不及格的，允许补考1次；实操考试不及格的，不得补考。</p>
+<p class="mem"><span>秒记</span>理论、实操不及格都可补考1次。</p>
+<p class="note">规定允许考试不及格者补考1次（理论和实操均可），补考仍不及格须重新参加相应安全技术培训；“实操不得补考”与规定相反。</p>
+</div></div>
+<div class="blk" id="q972">
+<aside class="ans x"><b>✖</b><span>判断 #972</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#972</i>生产经营单位应当建立健全并落实生产安全事故隐患排查治理制度，如实记录事故隐患排查治理情况。但有时为避免不必要的恐慌，重大事故隐患排查治理情况可不向从业人员通报。</p>
+<p class="mem"><span>秒记</span>隐患排查治理情况必须向职工通报，不容捂盖。</p>
+<p class="note">《安全生产法》要求如实记录隐患排查治理情况并通过职工大会、公示栏等方式向从业人员通报，“可不通报”违反公开义务。</p>
+</div></div>
+<div class="blk" id="q974">
+<aside class="ans x"><b>✖</b><span>判断 #974</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#974</i>生产经营单位的普通从业人员，无权了解其作业场所和工作岗位存在的危险因素、防范措施及事故应急措施，也不必要对本单位的安全生产工作提出建议。</p>
+<p class="mem"><span>秒记</span>危险因素有知情权，安全管理有建议权。</p>
+<p class="note">从业人员依法有权了解作业场所和岗位的危险因素、防范措施及事故应急措施，并可对本单位安全生产工作提出建议，“无权了解、不必要建议”剥夺了法定权利。</p>
+</div></div>
+<div class="blk" id="q975">
+<aside class="ans x"><b>✖</b><span>判断 #975</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#975</i>生产经营单位的从业人员有依法获得安全生产保障的义务，并适当地行使安全生产方面的权利。</p>
+<p class="mem"><span>秒记</span>获得保障是权利，遵章守纪是义务。</p>
+<p class="note">原句把权利和义务弄反：依法获得安全生产保障是权利，且权利应依法充分行使，不存在只“适当地”行使一说。</p>
+</div></div>
+<div class="blk" id="q977">
+<aside class="ans x"><b>✖</b><span>判断 #977</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#977</i>擅自进入生产、储存易燃易爆危险品场所，因违反了消防安全规定，最高将被处以五百元以下罚款，但不会被拘留。</p>
+<p class="mem"><span>秒记</span>擅闯易燃易爆场所：情节严重可拘5日。</p>
+<p class="note">《消防法》第63条对该行为处警告或五百元以下罚款，情节严重的处五日以下拘留，“不会被拘留”漏掉了加重档。</p>
+</div></div>
+<div class="blk" id="q983">
+<aside class="ans x"><b>✖</b><span>判断 #983</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#983</i>对于接触职业危害因素的特种作业人员，如果上岗前未进行职业健康检查，则用人单位必须在上岗后的一个月内开展补救性措施。</p>
+<p class="mem"><span>秒记</span>岗前体检不过关不准上岗，没有“一个月补救”。</p>
+<p class="note">《职业病防治法》规定未经上岗前职业健康检查的劳动者不得安排从事接触职业病危害的作业，法律上不存在事后限期补救制度。</p>
+</div></div>
+<div class="blk" id="q985">
+<aside class="ans x"><b>✖</b><span>判断 #985</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#985</i>从业人员不落实岗位安全责任，违反安全生产规章制度或者操作规程的，由应急管理部门给予批评教育并给予处分。</p>
+<p class="mem"><span>秒记</span>违章操作批评教育＋单位内部处分。</p>
+<p class="note">《安全生产法》规定由生产经营单位给予批评教育并依照有关规章制度给予处分，处理主体是本单位而非应急管理部门。</p>
+</div></div>
+<div class="blk" id="q990">
+<aside class="ans x"><b>✖</b><span>判断 #990</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#990</i>承担职业病诊断的医疗卫生机构因设备或其他问题，可拒绝劳动者进行职业病诊断的要求。</p>
+<p class="mem"><span>秒记</span>职业病诊断机构不得拒绝劳动者诊断请求。</p>
+<p class="note">《职业病防治法》规定承担职业病诊断的医疗卫生机构应当受理劳动者的诊断要求，设备或其他问题不能成为拒绝理由。</p>
+</div></div>
+<div class="blk" id="q992">
+<aside class="ans x"><b>✖</b><span>判断 #992</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#992</i>因工外出期间，由于工作原因受到伤害或者发生事故下落不明的，应当及时治疗及查找，但不能认定为工伤。</p>
+<p class="mem"><span>秒记</span>因工外出受伤或事故下落不明应认定工伤。</p>
+<p class="note">《工伤保险条例》第14条明确“因工外出期间，由于工作原因受到伤害或者发生事故下落不明”应认定为工伤，原说法正好相反。</p>
+</div></div>
+<div class="blk" id="q993">
+<aside class="ans x"><b>✖</b><span>判断 #993</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#993</i>张某从事电工作业已12周年，到了第二轮复审换证时间。依据《特种作业人员安全技术培训考核管理规定》有关要求，张某提出延长复审申请，当地考核发证部门应当同意其申请，免予当次复审，直接发放新证。</p>
+<p class="mem"><span>秒记</span>10年老电工只是复审改6年一次，复审照做不免。</p>
+<p class="note">连续从事本工种10年以上且守法情况良好的，可经发证机关同意将复审间隔延长为每6年1次，但不存在“免予当次复审直接发放新证”的制度。</p>
+</div></div>
+<div class="blk" id="q994">
+<aside class="ans x"><b>✖</b><span>判断 #994</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#994</i>从业人员发现直接危及人身安全的紧急情况时，必须经管理人员同意才能停止作业，不得擅自采取可能的应急措施后撤离作业场所。</p>
+<p class="mem"><span>秒记</span>遇险即撤，不必等管理人员批准。</p>
+<p class="note">紧急避险权：发现直接危及人身安全的紧急情况，有权在采取可能的应急措施后停止作业、撤离作业场所，不得因此降低待遇或解除劳动合同。</p>
+</div></div>
+<div class="blk" id="q995">
+<aside class="ans x"><b>✖</b><span>判断 #995</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#995</i>生产经营单位发生生产安全事故后，事故现场有关人员应当立即报告本单位负责人，但不可以直接向当地负有安全生产监督管理职责的部门报告。</p>
+<p class="mem"><span>秒记</span>情况紧急可直接报当地安监部门。</p>
+<p class="note">《生产安全事故报告和调查处理条例》允许紧急情况下现场人员直接向县级以上负有安全生产监督管理职责的部门报告，“不可以直接报告”说法过死。</p>
+</div></div>
+<div class="blk" id="q997">
+<aside class="ans x"><b>✖</b><span>判断 #997</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#997</i>在生产、作业中违反有关安全管理的规定，关闭、破坏直接关系生产安全的监控、报警、防护、救生设备、设施，虽然具有发生重大伤亡事故或者其他严重后果的危险，但实际上却侥幸尚未发生事故，则不会被追究刑事责任。</p>
+<p class="mem"><span>秒记</span>关闭破坏监控防护设施造成现实危险即入罪。</p>
+<p class="note">刑法第134条之一针对的是实际事故发生前的“现实危险”状态，关闭、破坏直接关系生产安全的监控、报警、防护、救生设备设施即使侥幸未出事也构成危险作业罪。</p>
+</div></div>
+<div class="blk" id="q1003">
+<aside class="ans x"><b>✖</b><span>判断 #1003</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1003</i>从业人员在作业过程中，应当正确佩戴和使用劳动防护用品，因未佩戴和使用劳动防护用品导致伤害的，不可以认定为工伤。</p>
+<p class="mem"><span>秒记</span>未戴劳保品受伤仍是工伤（无过错原则）。</p>
+<p class="note">工伤认定实行无过错责任原则，只有故意犯罪、醉酒吸毒、自杀自残三种情形才排除认定，未佩戴劳保用品不影响工伤认定。</p>
+</div></div>
+<div class="blk" id="q1004">
+<aside class="ans x"><b>✖</b><span>判断 #1004</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1004</i>制定《安全生产法》的目的，是为了推动经济加速发展，有利于防止和减少安全生产事故，保障人民生命和财产安全。</p>
+<p class="mem"><span>秒记</span>立法目的首在防事故保安全，非“加速发展”。</p>
+<p class="note">《安全生产法》立法目的是加强安全生产工作、防止和减少生产安全事故、保障人民生命财产安全、促进经济社会持续健康发展，“推动经济加速发展”不在其中。</p>
+</div></div>
+<div class="blk" id="q1007">
+<aside class="ans x"><b>✖</b><span>判断 #1007</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1007</i>在生产、作业中违反有关安全管理的规定，因而发生重大伤亡事故或者造成其他严重后果，情节特别恶劣的，处三年以下有期徒刑或者拘役。</p>
+<p class="mem"><span>秒记</span>情节特别恶劣档是3年以上7年以下。</p>
+<p class="note">刑法第134条把“情节特别恶劣”的量刑提高到三年以上七年以下有期徒刑，原句错给了三年以下的基本档。</p>
+</div></div>
+<div class="blk" id="q1017">
+<aside class="ans x"><b>✖</b><span>判断 #1017</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1017</i>如从业人员自愿与生产经营单位订立协议，则可免除或者减轻其对从业人员因生产安全事故伤亡依法应承担的责任。</p>
+<p class="mem"><span>秒记</span>生死免责协议签了也白签。</p>
+<p class="note">《安全生产法》禁止生产经营单位以任何形式与从业人员订立免除或减轻其事故伤亡责任的协议，自愿签订同样无效。</p>
+</div></div>
+<div class="blk" id="q1019">
+<aside class="ans x"><b>✖</b><span>判断 #1019</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1019</i>李某在江苏省取得《特种作业操作证》，到浙江省从事同一工种作业，依据《特种作业人员安全技术培训考核管理规定》，李某应重新参加培训，经考核再次取证，方可上岗作业。</p>
+<p class="mem"><span>秒记</span>同工种跨省有效，不用再考证。</p>
+<p class="note">特种作业操作证在全国范围内有效，江苏省核发的证件到浙江省从事同一工种作业无须重新培训再次取证，只需按规定复审（可就近申请）。</p>
+</div></div>
+<div class="blk" id="q1020">
+<aside class="ans x"><b>✖</b><span>判断 #1020</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1020</i>李某为提高生产效率、增加工资收入，违反有关安全管理的规定，关闭了安全防护装置，这种行为会带来发生重大伤亡事故的现实危险，所幸的是没有发生生产安全事故，所以李某不会被追究刑事责任。</p>
+<p class="mem"><span>秒记</span>危险作业罪盯“现实危险”，不看有没有真出事。</p>
+<p class="note">关闭安全防护装置已形成发生重大伤亡事故的现实危险即满足危险作业罪要件，“没发生事故就不追责”违背刑法修正案（十一）规定。</p>
+</div></div>
+<div class="blk" id="q1024">
+<aside class="ans x"><b>✖</b><span>判断 #1024</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1024</i>安全生产是管理者的责任，生产经营单位的普通从业人员，不必要对本单位的安全生产工作提出意见或建议。</p>
+<p class="mem"><span>秒记</span>建议权人人都有，不只管理者。</p>
+<p class="note">对本单位安全生产工作提出意见或建议是从业人员的法定权利，普通员工参与安全治理正是《安全生产法》倡导的方向。</p>
+</div></div>
+<div class="blk" id="q1171">
+<aside class="ans x"><b>✖</b><span>判断 #1171</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1171</i>为了保证电气作业的安全性，新入厂的工作人员只有接受工厂、车间等部门的两级安全教育，才能从事电气作业。</p>
+<p class="mem"><span>秒记</span>安全教育三级：厂、车间、班组</p>
+<p class="note">错在“两级”。新人须经厂（公司）、车间、班组三级安全教育考核合格，从事电气作业还须特种作业培训取证后方可上岗。</p>
+</div></div>
+<div class="blk" id="q1173">
+<aside class="ans x"><b>✖</b><span>判断 #1173</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1173</i>工作票是准许在电气设备上工作的书面命令，是执行保证安全技术措施的书面依据，一般有三种格式。</p>
+<p class="mem"><span>秒记</span>工作票只有两种格式</p>
+<p class="note">错在“三种格式”。按《电业安全工作规程》，工作票分第一种工作票和第二种工作票两种，没有第三种格式。</p>
+</div></div>
+<div class="blk" id="q1174">
+<aside class="ans x"><b>✖</b><span>判断 #1174</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1174</i>在电气施工中，必须遵守国家有关安全的规章制度，安装电气线路时应根据实际情况以方便使用者的原则来安装。</p>
+<p class="mem"><span>秒记</span>电气安装以安全为先，不图方便</p>
+<p class="note">错在“以方便使用者来安装”。电气施工必须遵守国家有关安全规程，首要原则是安全可靠，不允许为方便降低绝缘、线径等安全要求。</p>
+</div></div>
+</section>
+<section class="grp" id="cat_安全用具"><h2>安全用具<small>10错</small></h2>
+<nav class="qindex"><a href="#q626">626</a> <a href="#q718">718</a> <a href="#q852">852</a> <a href="#q878">878</a> <a href="#q879">879</a> <a href="#q907">907</a> <a href="#q1164">1164</a> <a href="#q1168">1168</a> <a href="#q1192">1192</a> <a href="#q1195">1195</a></nav>
+<div class="blk" id="q626">
+<aside class="ans x"><b>✖</b><span>判断 #626</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#626</i>尖嘴钳头部尖细，不适用于在狭小空间操作。</p>
+<p class="mem"><span>秒记</span>尖嘴钳专用于狭小空间精细操作。</p>
+<p class="note">结论说反了：头部尖细正是为了能够伸入狭小空间夹持细小零件，&quot;不适用于狭小空间操作&quot;的表述错误。</p>
+</div></div>
+<div class="blk" id="q718">
+<aside class="ans x"><b>✖</b><span>判断 #718</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#718</i>使用竹梯作业时，梯子放置与地面夹角50°左右为宜。</p>
+<p class="mem"><span>秒记</span>梯子与地面夹角约60°。</p>
+<p class="note">夹角太小梯身过分倾斜、底部受力和稳定性变差，竹梯安放以与地面成60°左右为宜，并非50°。</p>
+</div></div>
+<div class="blk" id="q852">
+<aside class="ans x"><b>✖</b><span>判断 #852</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#852</i>一般防护安全用具有携带型接地线、临时遮拦、绝缘垫、绝缘手套、标示牌、防护目镜等。</p>
+<p class="mem"><span>秒记</span>绝缘手套、绝缘垫属辅助绝缘安全用具，不在一般防护用具之列。</p>
+<p class="note">携带型接地线、临时遮拦、标示牌、防护目镜等属一般防护安全用具；绝缘手套、绝缘垫是绝缘安全用具中的辅助安全用具，把它们混列为一般防护用具是错误的。</p>
+</div></div>
+<div class="blk" id="q878">
+<aside class="ans x"><b>✖</b><span>判断 #878</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#878</i>一号电工刀比二号电工刀的刀柄长度短。</p>
+<p class="mem"><span>秒记</span>一号电工刀的刀柄长度比二号的长。</p>
+<p class="note">电工刀按规格编号，号码越大刀身越小，二号刀柄短于一号，&quot;一号比二号短&quot;与实际规格正好相反。</p>
+</div></div>
+<div class="blk" id="q879">
+<aside class="ans x"><b>✖</b><span>判断 #879</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#879</i>属于I类的移动式电气设备及手持式电动工具，可不安装剩余电流保护装置。</p>
+<p class="mem"><span>秒记</span>Ⅰ类手持电动工具必须安装剩余电流保护装置。</p>
+<p class="note">Ⅰ类设备仅靠基本绝缘加PE保护，一旦绝缘损坏外壳即带电极易伤人，规范要求此类设备和工具的供电回路必须装设剩余电流保护装置，&quot;可不安装&quot;错误。</p>
+</div></div>
+<div class="blk" id="q907">
+<aside class="ans x"><b>✖</b><span>判断 #907</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#907</i>测试对地电压为50V以上的带电设备时，氖泡式低压验电器就应显示有电。</p>
+<p class="mem"><span>秒记</span>氖泡验电笔60V以下不亮，量程60~500V。</p>
+<p class="note">氖泡有起辉门槛电压（约60V），50V达不到起辉条件未必发光，“50V以上就应显示有电”高估了其灵敏度。</p>
+</div></div>
+<div class="blk" id="q1164">
+<aside class="ans x"><b>✖</b><span>判断 #1164</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1164</i>用电笔验电时，应赤脚站立，保证与大地有良好的接触。</p>
+<p class="mem"><span>秒记</span>验电要穿绝缘鞋，严禁赤脚站立</p>
+<p class="note">错在“赤脚站立”。赤脚使人体与大地直接导通，脚下电位异常时会失去全部绝缘防护；正确做法是穿绝缘鞋、站在干燥地面或绝缘垫上验电。</p>
+</div></div>
+<div class="blk" id="q1168">
+<aside class="ans x"><b>✖</b><span>判断 #1168</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1168</i>低压验电器可以验出500V以下的电压。</p>
+<p class="mem"><span>秒记</span>低压验电器只能验60~500V</p>
+<p class="note">错在“500V以下”范围过宽。验电笔氖管的起辉电压约60~100V，低于起辉电压的电压显示不出来，适用范围一般是60（100）~500V。</p>
+</div></div>
+<div class="blk" id="q1192">
+<aside class="ans x"><b>✖</b><span>判断 #1192</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1192</i>手持式电动工具接线可以随意加长。</p>
+<p class="mem"><span>秒记</span>电源线不得随意加长</p>
+<p class="note">随意加长会使接头增多、截面变小、绝缘受损，易过热漏电拉断芯线；确需延长应采用合格的完整电缆并固定牢靠。</p>
+</div></div>
+<div class="blk" id="q1195">
+<aside class="ans x"><b>✖</b><span>判断 #1195</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1195</i>手持电动工具有两种分类方式，即按工作电压分类和按防潮程度分类。</p>
+<p class="mem"><span>秒记</span>手持电动工具按防触电分Ⅰ、Ⅱ、Ⅲ类</p>
+<p class="note">错在分类方式。手持电动工具按防止触电的保护方式（绝缘类别）分为Ⅰ类、Ⅱ类、Ⅲ类，不是按工作电压或防潮程度分类。</p>
+</div></div>
+</section>
+<section class="grp" id="cat_测量仪表"><h2>测量仪表<small>25错</small></h2>
+<nav class="qindex"><a href="#q593">593</a> <a href="#q665">665</a> <a href="#q666">666</a> <a href="#q682">682</a> <a href="#q691">691</a> <a href="#q731">731</a> <a href="#q758">758</a> <a href="#q790">790</a> <a href="#q805">805</a> <a href="#q825">825</a> <a href="#q826">826</a> <a href="#q851">851</a> <a href="#q906">906</a> <a href="#q930">930</a> <a href="#q1103">1103</a> <a href="#q1104">1104</a> <a href="#q1109">1109</a> <a href="#q1111">1111</a> <a href="#q1113">1113</a> <a href="#q1114">1114</a> <a href="#q1115">1115</a> <a href="#q1116">1116</a> <a href="#q1201">1201</a> <a href="#q1227">1227</a> <a href="#q1232">1232</a></nav>
+<div class="blk" id="q593">
+<aside class="ans x"><b>✖</b><span>判断 #593</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#593</i>确定漏电范围时，应取下分路熔断器或拉下开关刀闸，电流表若不变化，则表明是分路漏电。</p>
+<p class="mem"><span>秒记</span>取下某分路熔丝后表不变→漏电不在该分路。</p>
+<p class="note">判断逻辑颠倒：取下某一分路的熔断器或拉下刀闸后，电流表读数明显减小（恢复正常或为零）才说明漏电在该分路；读数不变化表明漏电发生在干线或其他分路上。</p>
+</div></div>
+<div class="blk" id="q665">
+<aside class="ans x"><b>✖</b><span>判断 #665</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#665</i>使用兆欧表测量前不必切断被测设备的电源。</p>
+<p class="mem"><span>秒记</span>测绝缘先停电、验电、放电。</p>
+<p class="note">兆欧表输出数百伏以上高压，带电测量既危及人身和仪表、读数也不真实，测量前必须切断被测设备电源并对电容性设备放电。</p>
+</div></div>
+<div class="blk" id="q666">
+<aside class="ans x"><b>✖</b><span>判断 #666</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#666</i>用钳表测量电动机空转电流时，应当用小电流档一次测量。</p>
+<p class="mem"><span>秒记</span>测空载电流由大量程挡逐步减小。</p>
+<p class="note">电动机启动瞬间冲击电流很大，直接用小电流挡一次测量会打坏钳表表头，应先选大挡再逐步下调换挡。</p>
+</div></div>
+<div class="blk" id="q682">
+<aside class="ans x"><b>✖</b><span>判断 #682</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#682</i>低压电笔的测量范围为400V以下。</p>
+<p class="mem"><span>秒记</span>低压试电笔范围60~500V。</p>
+<p class="note">氖泡式低压验电笔的适用测量范围约为60~500V，“400V以下”的说法不准确。</p>
+</div></div>
+<div class="blk" id="q691">
+<aside class="ans x"><b>✖</b><span>判断 #691</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#691</i>摇表可以直接对被测设备进行绝缘测量。</p>
+<p class="mem"><span>秒记</span>摇表测量前必须停电放电。</p>
+<p class="note">不能“直接”测：先切断被测设备电源并验电，电容性设备还要充分放电，测完后再次放电才能触碰接线。</p>
+</div></div>
+<div class="blk" id="q731">
+<aside class="ans x"><b>✖</b><span>判断 #731</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#731</i>剩余动作电流小于或等于0.3A的剩余电流保护器属于高灵敏度剩余电流保护器。</p>
+<p class="mem"><span>秒记</span>高灵敏度RCD动作值≤30mA。</p>
+<p class="note">剩余电流保护器按剩余动作电流分级：高灵敏度为≤30mA（0.03A），0.3A已超出该界限，不能可靠防止人身直接接触电击。</p>
+</div></div>
+<div class="blk" id="q758">
+<aside class="ans x"><b>✖</b><span>判断 #758</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#758</i>测量交流电路的有功电能时，电压线圈、电流线圈可任意接在线路上。</p>
+<p class="mem"><span>秒记</span>电压线圈并联电流线圈串联。</p>
+<p class="note">电能计量有严格接线规则：电压线圈并接于被测电路两端、电流线圈串接入回路，端钮极性与进出线顺序都不能任意接，否则计量不准甚至烧表。</p>
+</div></div>
+<div class="blk" id="q790">
+<aside class="ans x"><b>✖</b><span>判断 #790</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#790</i>电工仪表的精确度等级分为0.5、1、3等。</p>
+<p class="mem"><span>秒记</span>仪表精度等级为0.1、0.2、0.5、1.0、1.5、2.5、5.0级。</p>
+<p class="note">我国电工仪表准确度等级共七级，不存在&quot;3&quot;级，题中所列等级遗漏并有杜撰。</p>
+</div></div>
+<div class="blk" id="q805">
+<aside class="ans x"><b>✖</b><span>判断 #805</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#805</i>接地电阻测试仪只能测量线路的绝缘电阻。</p>
+<p class="mem"><span>秒记</span>接地电阻测试仪测的是接地电阻，不是绝缘电阻。</p>
+<p class="note">接地电阻测试仪(接地摇表)配合辅助接地棒测量接地装置的对地电阻；测量线路绝缘电阻应使用兆欧表，两种仪器功能不同。</p>
+</div></div>
+<div class="blk" id="q825">
+<aside class="ans x"><b>✖</b><span>判断 #825</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#825</i>用钳形电流表测量电动机空转电流时，不需要档位变换可直接进行测量。</p>
+<p class="mem"><span>秒记</span>钳形表测前先置最大量程档，必要时再逐级换档。</p>
+<p class="note">测量电动机空载电流前并不知道电流大小，必须先选高档位试测再酌情调小，&quot;不需要档位变换直接测量&quot;会因过量程打表损坏仪表或读数失真。</p>
+</div></div>
+<div class="blk" id="q826">
+<aside class="ans x"><b>✖</b><span>判断 #826</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#826</i>使用万用表电阻档能够精确测量变压器的线圈电阻。</p>
+<p class="mem"><span>秒记</span>变压器线圈电阻要用电桥精测，万用表只能粗略估测。</p>
+<p class="note">变压器线圈电阻值小且测量要求精确，应采用直流双臂电桥等精密仪器；万用表电阻档误差大、测试电压有限，谈不上&quot;精确测量&quot;。</p>
+</div></div>
+<div class="blk" id="q851">
+<aside class="ans x"><b>✖</b><span>判断 #851</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#851</i>三相电度表应按正相序接线，经电流互感器接线极性错误也不影响测量结果。</p>
+<p class="mem"><span>秒记</span>三相电度表按正相序接线，CT极性错误直接影响计量。</p>
+<p class="note">三相电度表不但要按正相序接线，经电流互感器接入时还必须保证极性正确，极性接反会使计量的方向和数值发生错误。</p>
+</div></div>
+<div class="blk" id="q906">
+<aside class="ans x"><b>✖</b><span>判断 #906</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#906</i>在单相电度表前允许安装开关，以方便用户维护电度表。</p>
+<p class="mem"><span>秒记</span>表前禁自装开关，总开关装在电度表后。</p>
+<p class="note">电度表进线侧属供电部门封管范围，用户自行加装开关破坏封印、留窃电隐患；用户的总开关应装在电度表之后的负荷侧。</p>
+</div></div>
+<div class="blk" id="q930">
+<aside class="ans x"><b>✖</b><span>判断 #930</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#930</i>一般额定电压为380V的三相异步电动机，用500V的兆欧表测量绝缘电阻应大于0.2MΩ才可使用。</p>
+<p class="mem"><span>秒记</span>380V电机500V摇表测，绝缘≥0.5MΩ。</p>
+<p class="note">低压电动机绝缘电阻合格值为不低于0.5MΩ，0.2MΩ不达标不得投入使用。</p>
+</div></div>
+<div class="blk" id="q1103">
+<aside class="ans x"><b>✖</b><span>判断 #1103</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1103</i>所有的电桥均是测量直流电阻的。</p>
+<p class="mem"><span>秒记</span>电桥分直流、交流，交流桥还能测C和L</p>
+<p class="note">一概而论错误：除惠斯登电桥等直流电桥测电阻外，交流电桥用于测量电容、电感和交流阻抗，并非所有电桥只测直流电阻。</p>
+</div></div>
+<div class="blk" id="q1104">
+<aside class="ans x"><b>✖</b><span>判断 #1104</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1104</i>万用表使用后，转换开关可置于任意位置。</p>
+<p class="mem"><span>秒记</span>收表拨交流电压最高档或OFF</p>
+<p class="note">收存习惯错误：万用表用完应把转换开关拨到交流电压最高档（或OFF档），防止下次误测时烧坏表头，任意放置不安全。</p>
+</div></div>
+<div class="blk" id="q1109">
+<aside class="ans x"><b>✖</b><span>判断 #1109</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1109</i>电动势的正方向规定为从低电位指向高电位，所以测量时电压表应正极接电源负极、而电压表负极接电源的正极。</p>
+<p class="mem"><span>秒记</span>电压表正极必须接高电位（正极）</p>
+<p class="note">接法错误：电动势虽规定由低电位指向高电位，但测量时电压表正极应接电源正极（高电位）、负极接负极，接反会使指针反偏打弯表针。</p>
+</div></div>
+<div class="blk" id="q1111">
+<aside class="ans x"><b>✖</b><span>判断 #1111</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1111</i>电流的大小用电流表来测量，测量时将其并联在电路中。</p>
+<p class="mem"><span>秒记</span>电流表串联接入电路</p>
+<p class="note">接法错误：测电流必须将电流表**串联**在被测电路中让电流全部流过表头；并联相当于把电路短路，会烧表甚至引发事故。</p>
+</div></div>
+<div class="blk" id="q1113">
+<aside class="ans x"><b>✖</b><span>判断 #1113</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1113</i>电度表是专门用来测量设备功率的装置。</p>
+<p class="mem"><span>秒记</span>电度表计电能（kWh），不是测功率</p>
+<p class="note">功能混淆：电度表（电能表）累计计量的是用电的电能（千瓦时），测量功率应使用功率表。</p>
+</div></div>
+<div class="blk" id="q1114">
+<aside class="ans x"><b>✖</b><span>判断 #1114</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1114</i>直流电流表可以用于交流电路测量。</p>
+<p class="mem"><span>秒记</span>磁电系直流表不能直接测交流</p>
+<p class="note">原理不适配：磁电系仪表通入交流时转动力矩的平均值为零、指针基本不偏转，故直流电流表不能直接用于交流电路测量。</p>
+</div></div>
+<div class="blk" id="q1115">
+<aside class="ans x"><b>✖</b><span>判断 #1115</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1115</i>交流钳形电流表可测量交直流电流。</p>
+<p class="mem"><span>秒记</span>交流钳表只测交流，直流要用霍尔钳表</p>
+<p class="note">原理限制：交流钳形电流表按电磁感应原理工作，恒定的直流不产生变化磁通、无感应读数，只能测交流；测直流须用霍尔效应式直流钳形表。</p>
+</div></div>
+<div class="blk" id="q1116">
+<aside class="ans x"><b>✖</b><span>判断 #1116</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1116</i>电压的大小用电压表来测量，测量时将其串联在电路中。</p>
+<p class="mem"><span>秒记</span>电压表并联在被测两端</p>
+<p class="note">接法错误：测电压必须把电压表**并联**在被测元件或电源两端；串联接入时电路近似断开，既测不到正确电压又影响电路工作。</p>
+</div></div>
+<div class="blk" id="q1201">
+<aside class="ans x"><b>✖</b><span>判断 #1201</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1201</i>万用表测量电压时是通过改变并联附加电阻的阻值来改变测量不同电压的量程。</p>
+<p class="mem"><span>秒记</span>电压档串倍压电阻扩程</p>
+<p class="note">错在“并联附加电阻”。万用表测电压是在表头上串联不同阻值的附加电阻改变量程；并联分流电阻是扩大电流档量程的手段。</p>
+</div></div>
+<div class="blk" id="q1227">
+<aside class="ans x"><b>✖</b><span>判断 #1227</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1227</i>10kV以下运行的阀型避雷器的绝缘电阻应每年测量一次。</p>
+<p class="mem"><span>秒记</span>阀型避雷器绝缘电阻每半年测一次</p>
+<p class="note">错在周期。10kV以下运行的阀型避雷器绝缘电阻应每半年测量一次（运行工况复杂时每3个月一次），而不是每年一次。</p>
+</div></div>
+<div class="blk" id="q1232">
+<aside class="ans x"><b>✖</b><span>判断 #1232</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1232</i>电路中电流大小可以用电流表进行测量，测量时是将电流表并联在电路中。</p>
+<p class="mem"><span>秒记</span>电流表必须串联接入电路</p>
+<p class="note">错在“并联”。电流表内阻很小，并联相当于短路易烧表；测电流必须将电流表串联进被测回路。</p>
+</div></div>
+</section>
+<section class="grp" id="cat_漏电保护"><h2>漏电保护<small>11错</small></h2>
+<nav class="qindex"><a href="#q608">608</a> <a href="#q616">616</a> <a href="#q740">740</a> <a href="#q804">804</a> <a href="#q845">845</a> <a href="#q888">888</a> <a href="#q902">902</a> <a href="#q1148">1148</a> <a href="#q1170">1170</a> <a href="#q1277">1277</a> <a href="#q1279">1279</a></nav>
+<div class="blk" id="q608">
+<aside class="ans x"><b>✖</b><span>判断 #608</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#608</i>剩余电流保护器负荷侧的中性线可以接地。</p>
+<p class="mem"><span>秒记</span>RCD负荷侧零线严禁接地。</p>
+<p class="note">错在违反接线规则：剩余电流保护器负荷侧的中性线一旦接地，部分电流会经大地分流返回，等效形成剩余电流，导致RCD误动作或拒动，因此负荷侧中性线不得接地。</p>
+</div></div>
+<div class="blk" id="q616">
+<aside class="ans x"><b>✖</b><span>判断 #616</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#616</i>剩余电流保护装置功能不同时，执行元件相同。</p>
+<p class="mem"><span>秒记</span>功能不同，执行元件也不同。</p>
+<p class="note">错在&quot;相同&quot;二字：剩余电流保护装置的功能各不相同（有的仅具有剩余电流保护功能，有的兼有过载、短路保护等），相应的执行元件也随之不同，并非都一样。</p>
+</div></div>
+<div class="blk" id="q740">
+<aside class="ans x"><b>✖</b><span>判断 #740</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#740</i>在低压配电系统中装设剩余电流保护装置只能防止直接接触电击事故。</p>
+<p class="mem"><span>秒记</span>RCD防间接接触为主兼防直接接触。</p>
+<p class="note">剩余电流保护装置的主要任务是防止间接接触电击和漏电火灾，高灵敏度（≤30mA）快速型还可作直接接触电击的后备保护，说“只能防止直接接触”既片面又主次颠倒。</p>
+</div></div>
+<div class="blk" id="q804">
+<aside class="ans x"><b>✖</b><span>判断 #804</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#804</i>使用Ⅲ类工具，必须装设额定漏电动作电流不大于30mA、动作不多于0.1s的漏电保护器。</p>
+<p class="mem"><span>秒记</span>Ⅲ类工具用特低电压供电，无须装漏电保护器。</p>
+<p class="note">Ⅲ类工具由42V及以下安全特低电压供电本身就安全，规范未要求装设漏电保护器；30mA、0.1s的限制是针对使用Ⅰ类工具的条件要求。</p>
+</div></div>
+<div class="blk" id="q845">
+<aside class="ans x"><b>✖</b><span>判断 #845</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#845</i>正常工作条件下的直接接触触电防护，主要依靠剩余电流保护装置发挥防护的作用。</p>
+<p class="mem"><span>秒记</span>直接接触防护靠绝缘遮栏等基本措施，剩余电流保护只作补充。</p>
+<p class="note">正常条件下防止直接接触主要依靠绝缘、遮拦、外护罩及安全距离等基本防护手段；剩余电流保护装置属于附加的补充防护，不能作为主要依靠。</p>
+</div></div>
+<div class="blk" id="q888">
+<aside class="ans x"><b>✖</b><span>判断 #888</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#888</i>剩余电流保护器的额定动作电流是指能使剩余电流保护器动作的最大电流。</p>
+<p class="mem"><span>秒记</span>额定剩余动作电流IΔn是规定的动作阈值，达到该值就应动作。</p>
+<p class="note">IΔn是在规定条件下使剩余电流保护器动作的规定电流值，凡是达到或超过该值的剩余电流都应使保护器动作，把它说成&quot;能使保护器动作的最大电流&quot;在概念上是颠倒的。</p>
+</div></div>
+<div class="blk" id="q902">
+<aside class="ans x"><b>✖</b><span>判断 #902</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#902</i>剩余电流保护装置是指电路中相间短路故障所产生的故障电流超过规定值时，能够自动切断电源或报警的保护装置。</p>
+<p class="mem"><span>秒记</span>剩余电流保护针对漏电(接地故障)，相间短路保护另有专门装置。</p>
+<p class="note">题干所述&quot;相间短路故障电流超过规定值自动切断电源或报警&quot;是过电流(短路)保护装置的定义；剩余电流保护装置检测的是相线对地泄漏造成的电流矢量和(剩余电流)，两者保护对象和检测原理完全不同。</p>
+</div></div>
+<div class="blk" id="q1148">
+<aside class="ans x"><b>✖</b><span>判断 #1148</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1148</i>接了漏电开关之后，设备外壳就不需要再接地或接零了。</p>
+<p class="mem"><span>秒记</span>漏保不能替代接地接零保护</p>
+<p class="note">保护体系认识错误：漏电保护开关只是附加的剩余电流保护，设备外壳仍必须按规定接地或接零，二者互相补充、缺一不可。</p>
+</div></div>
+<div class="blk" id="q1170">
+<aside class="ans x"><b>✖</b><span>判断 #1170</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1170</i>漏电开关只有在有人触电时才会动作。</p>
+<p class="mem"><span>秒记</span>漏电即动作，不必等触电</p>
+<p class="note">错在“只有有人触电才动作”。剩余电流装置检测到线路或设备泄漏电流达到整定值（如30mA级）就跳闸，还能防漏电火灾和单相接地故障。</p>
+</div></div>
+<div class="blk" id="q1277">
+<aside class="ans x"><b>✖</b><span>判断 #1277</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1277</i>机关、学校、企业、住宅等建筑物内的插座回路不需要安装漏电保护装置。</p>
+<p class="mem"><span>秒记</span>插座回路必须装漏电保护</p>
+<p class="note">错在“不需要”。机关、学校、企业、住宅建筑内的插座回路是人员经常接触用电的场合，按规范都必须安装漏电保护装置（额定动作电流不大于30mA）。</p>
+</div></div>
+<div class="blk" id="q1279">
+<aside class="ans x"><b>✖</b><span>判断 #1279</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1279</i>单相220V电源供电的电气设备，应选用三极式漏电保护装置。</p>
+<p class="mem"><span>秒记</span>单相220V选二极漏电保护</p>
+<p class="note">错在“三极式”。单相220V（一相一零）供电的电气设备应选用二极漏电保护装置，同时断开相线和零线；三极用于三相三线、四极用于三相四线。</p>
+</div></div>
+</section>
+<section class="grp" id="cat_接地接零与防护"><h2>接地接零与防护<small>22错</small></h2>
+<nav class="qindex"><a href="#q585">585</a> <a href="#q588">588</a> <a href="#q633">633</a> <a href="#q668">668</a> <a href="#q727">727</a> <a href="#q744">744</a> <a href="#q797">797</a> <a href="#q823">823</a> <a href="#q830">830</a> <a href="#q850">850</a> <a href="#q885">885</a> <a href="#q908">908</a> <a href="#q914">914</a> <a href="#q1005">1005</a> <a href="#q1027">1027</a> <a href="#q1093">1093</a> <a href="#q1097">1097</a> <a href="#q1154">1154</a> <a href="#q1193">1193</a> <a href="#q1210">1210</a> <a href="#q1275">1275</a> <a href="#q1284">1284</a></nav>
+<div class="blk" id="q585">
+<aside class="ans x"><b>✖</b><span>判断 #585</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#585</i>感知概率为50%时，成年男性的平均感知电流值约为1.1mA，最小为0.5mA，成年女性约为0.6mA。</p>
+<p class="mem"><span>秒记</span>男感知1.1mA，女0.7mA。</p>
+<p class="note">数据有误：感知概率50%时成年男性平均感知电流约1.1mA（最小约0.5mA）是正确的，但成年女性约为0.7mA而非0.6mA。</p>
+</div></div>
+<div class="blk" id="q588">
+<aside class="ans x"><b>✖</b><span>判断 #588</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#588</i>接地线颜色用黑/白双色表示。</p>
+<p class="mem"><span>秒记</span>PE线/接地线用黄绿双色。</p>
+<p class="note">色标错误：接地线（保护导体）规定采用黄绿双色专用标识，黑白双色不是接地线的颜色；N线（零线）用淡蓝色。</p>
+</div></div>
+<div class="blk" id="q633">
+<aside class="ans x"><b>✖</b><span>判断 #633</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#633</i>人体触电后能够自主摆脱的电流称为感知电流。</p>
+<p class="mem"><span>秒记</span>能自主摆脱的电流叫摆脱电流（约16mA）。</p>
+<p class="note">概念混淆：人体触电后能够自主摆脱的最大电流称为摆脱电流；感知电流则是引起人有轻微感觉的最小电流（成年男子约1.1mA），两者不能混为一谈。</p>
+</div></div>
+<div class="blk" id="q668">
+<aside class="ans x"><b>✖</b><span>判断 #668</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#668</i>拆除接地线应先拆除接地端再拆除导体端。</p>
+<p class="mem"><span>秒记</span>拆地线先导体端后接地端。</p>
+<p class="note">装设时先接接地端后接导体端，拆除正相反；若先拆接地端，地线失去接地保护，再拆导体端遇突然来电会直接伤人。</p>
+</div></div>
+<div class="blk" id="q727">
+<aside class="ans x"><b>✖</b><span>判断 #727</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#727</i>在TN-C、TN-C-S系统的中性线上应装设熔断器。</p>
+<p class="mem"><span>秒记</span>PEN中性线严禁装熔断器。</p>
+<p class="note">TN-C、TN-C-S系统的中性线兼作保护线，一旦装熔断器并在故障时熔断，全部设备外壳将经负载连通相线带电、接零保护失效，故严禁装设。</p>
+</div></div>
+<div class="blk" id="q744">
+<aside class="ans x"><b>✖</b><span>判断 #744</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#744</i>电击对人体的伤害通常要比电伤小。</p>
+<p class="mem"><span>秒记</span>电击是体内伤害比电伤更危险。</p>
+<p class="note">电击是电流通过人体内部伤害心脏、肺和神经系统，是最危险的触电形式；电伤只是体外局部的电弧灼伤等创伤。通常电击危害更大，题中说反了。</p>
+</div></div>
+<div class="blk" id="q797">
+<aside class="ans x"><b>✖</b><span>判断 #797</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#797</i>建筑施工现场临时用电中照明灯具的金属外壳可不接保护零线。</p>
+<p class="mem"><span>秒记</span>灯具金属外壳必须接保护零线（PE）。</p>
+<p class="note">施工现场临时用电规范要求照明灯具的金属外壳一律与保护零线可靠连接以防外壳漏电伤人，&quot;可不接&quot;违反强制性规定。</p>
+</div></div>
+<div class="blk" id="q823">
+<aside class="ans x"><b>✖</b><span>判断 #823</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#823</i>Ⅲ类移动式电气设备在外壳上没有接地端子，但在内部有接地端子，自设备内引出带有保护插头的电源线。</p>
+<p class="mem"><span>秒记</span>Ⅲ类设备内外都不设接地端子；带保护插头电源线是Ⅰ类特征。</p>
+<p class="note">Ⅲ类移动式设备由安全特低电压供电，不需要也不设置接地端子；所述&quot;内部有接地端子、自设备内引出带保护插头的电源线&quot;属于Ⅰ类设备的特征，二者拼在一起必然错误。</p>
+</div></div>
+<div class="blk" id="q830">
+<aside class="ans x"><b>✖</b><span>判断 #830</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#830</i>一般情况下，接地电网的单相触电比不接地电网的危险性小。</p>
+<p class="mem"><span>秒记</span>接地电网的单相触电危险性更大。</p>
+<p class="note">中性点接地电网发生单相触电时人体承受相电压，电流经人体和大地构成回路且数值较大；不接地电网还受对地阻抗制约，相比之下危险性较小，题说&quot;接地电网危险性小&quot;正好说反。</p>
+</div></div>
+<div class="blk" id="q850">
+<aside class="ans x"><b>✖</b><span>判断 #850</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#850</i>移动式电气设备应有独立接地体。</p>
+<p class="mem"><span>秒记</span>移动式设备经电源线PE线接地，不设独立接地体。</p>
+<p class="note">移动式电气设备随机搬动，无法各自埋设独立接地体，其保护接地是通过供电软线中专门的PE芯线接到公用接地系统实现的。</p>
+</div></div>
+<div class="blk" id="q885">
+<aside class="ans x"><b>✖</b><span>判断 #885</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#885</i>人体能够感觉，但不遭受伤害的电流称为摆脱电流。</p>
+<p class="mem"><span>秒记</span>有感觉但不受伤的是感知电流；摆脱电流是人能自主摆脱的最大电流。</p>
+<p class="note">引起人有感觉而无害的最小电流是感知电流(成人约1mA左右)；摆脱电流则是人触电后尚能自己摆脱带电体的最大电流(一般为10mA以上)，题干把两个概念搞混了。</p>
+</div></div>
+<div class="blk" id="q908">
+<aside class="ans x"><b>✖</b><span>判断 #908</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#908</i>接地装置中的接地线是埋在地下与土壤直接接触的金属导体。</p>
+<p class="mem"><span>秒记</span>埋地触土金属体叫接地体，连接壳体的才是接地线。</p>
+<p class="note">直接埋在地下与土壤接触的金属导体称接地体（接地极）；接地线是连接接地体与设备金属外壳、构架之间的导体，本题概念张冠李戴。</p>
+</div></div>
+<div class="blk" id="q914">
+<aside class="ans x"><b>✖</b><span>判断 #914</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#914</i>人体触电时，人体电阻越小，流过人体的电流就越小，也就越安全。</p>
+<p class="mem"><span>秒记</span>I=U/R，电阻越小电流越大越危险。</p>
+<p class="note">电压一定时人体电阻越小流过电流越大，越过摆脱阈、心室颤动阈就越危险，原说法方向完全颠倒。</p>
+</div></div>
+<div class="blk" id="q1005">
+<aside class="ans x"><b>✖</b><span>判断 #1005</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1005</i>只要多加小心并保持一定的间距，生产、储存、经营易燃易爆危险品的场所可以与居住场所设置在同一建筑物内。</p>
+<p class="mem"><span>秒记</span>易燃易爆场所与居住建筑：一律分家。</p>
+<p class="note">《消防法》明确生产、储存、经营易燃易爆危险品的场所不得与居住场所设置在同一建筑物内，并保持安全距离，属绝对禁止性规定，无“多加小心”例外。</p>
+</div></div>
+<div class="blk" id="q1027">
+<aside class="ans x"><b>✖</b><span>判断 #1027</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1027</i>IT系统是保护接零系统。</p>
+<p class="mem"><span>秒记</span>IT＝不接地电源＋保护接地；TN才是接零。</p>
+<p class="note">IT系统电源中性点不接地或经阻抗接地，设备外露可导电部分各自经PE线直接接地（保护接地）；保护接零是TN系统的特征。</p>
+</div></div>
+<div class="blk" id="q1093">
+<aside class="ans x"><b>✖</b><span>判断 #1093</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1093</i>通电时间增加，人体电阻因出汗而增加，导致通过人体的电流减小。</p>
+<p class="mem"><span>秒记</span>出汗电阻变小、电流变大，通电越久越危险</p>
+<p class="note">因果颠倒：通电时间增加人体出汗增多，皮肤电阻反而**减小**，通过人体的电流**增大**，触电危险性加重而不是减轻。</p>
+</div></div>
+<div class="blk" id="q1097">
+<aside class="ans x"><b>✖</b><span>判断 #1097</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1097</i>两相触电危险性比单相触电小。</p>
+<p class="mem"><span>秒记</span>两相触电最危险，扛的是线电压</p>
+<p class="note">说反了：两相触电时人体承受线电压（约为相电压的√3倍）且电流直接经心脏回路，其危险性比单相触电大得多。</p>
+</div></div>
+<div class="blk" id="q1154">
+<aside class="ans x"><b>✖</b><span>判断 #1154</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1154</i>可以用相线碰地线的方法检查地线是否接地良好。</p>
+<p class="mem"><span>秒记</span>禁用相线碰地线试火，用接地电阻表测</p>
+<p class="note">方法违规：用相线碰地线等于人为制造单相接地短路，会产生强烈电弧火花、烧蚀线路甚至引发火灾，检测接地是否良好应使用接地电阻测量仪。</p>
+</div></div>
+<div class="blk" id="q1193">
+<aside class="ans x"><b>✖</b><span>判断 #1193</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1193</i>Ⅱ类设备和Ⅲ类设备都要采取接地或接零措施。</p>
+<p class="mem"><span>秒记</span>Ⅱ类靠双重绝缘，Ⅲ类靠低电压，不用接地接零</p>
+<p class="note">错在“都要接地或接零”。Ⅱ类设备用双重/加强绝缘防触电，Ⅲ类设备用不超过50V的安全特低电压，自身已有保护措施，不需再采取接地或接零。</p>
+</div></div>
+<div class="blk" id="q1210">
+<aside class="ans x"><b>✖</b><span>判断 #1210</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1210</i>绝缘老化只是一种化学变化。</p>
+<p class="mem"><span>秒记</span>绝缘老化含化学和物理两类变化</p>
+<p class="note">错在“只是化学变化”。老化既有热、氧作用下的化学老化，也有受潮、机械应力、强电场等造成的物理性能劣化，并非单一的化学变化。</p>
+</div></div>
+<div class="blk" id="q1275">
+<aside class="ans x"><b>✖</b><span>判断 #1275</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1275</i>TN-C-S系统是干线部分保护零线与工作零线完全共用的系统。</p>
+<p class="mem"><span>秒记</span>TN-C-S前段PEN合一，后段PE/N分开</p>
+<p class="note">错在“完全共用”。TN-C-S系统干线前半部分PEN线合一，经重复接地点之后分开为PE线和N线并保持分开；全程完全共用的系统是TN-C。</p>
+</div></div>
+<div class="blk" id="q1284">
+<aside class="ans x"><b>✖</b><span>判断 #1284</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1284</i>SELV只作为接地系统的电击保护。</p>
+<p class="mem"><span>秒记</span>SELV不接地，靠电气隔离</p>
+<p class="note">错在“接地系统”。SELV（安全特低电压）是与大地和其他回路电气隔离的不接地系统，靠隔离变压器获得安全电压；接地型的特低电压系统另有类别。</p>
+</div></div>
+</section>
+<section class="grp" id="cat_防雷与静电"><h2>防雷与静电<small>4错</small></h2>
+<nav class="qindex"><a href="#q709">709</a> <a href="#q949">949</a> <a href="#q1223">1223</a> <a href="#q1224">1224</a></nav>
+<div class="blk" id="q709">
+<aside class="ans x"><b>✖</b><span>判断 #709</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#709</i>防雷装置的引下线应满足足够的机械强度、耐腐蚀和热稳定的要求，如用钢绞线，其截面不得小于35m㎡??。</p>
+<p class="mem"><span>秒记</span>钢绞线引下线截面不得小于25mm²。</p>
+<p class="note">对机械强度、耐腐蚀和热稳定的总要求没错，但规范对钢绞线引下线的截面要求是不小于25mm²，不是35mm²。</p>
+</div></div>
+<div class="blk" id="q949">
+<aside class="ans x"><b>✖</b><span>判断 #949</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#949</i>接闪杆可以用镀锌钢管焊成，其长度应在1m以上时，钢管直径不得小于20mm。</p>
+<p class="mem"><span>秒记</span>针长1~2m：钢管≥25mm、圆钢≥16mm。</p>
+<p class="note">20mm钢管只适用于1m以下的短针；长度1m以上时针径应加大，钢管不得小于25mm，原数据错配。</p>
+</div></div>
+<div class="blk" id="q1223">
+<aside class="ans x"><b>✖</b><span>判断 #1223</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1223</i>雷电后造成架空线路产生高电压冲击波，这种雷电称为直击雷。</p>
+<p class="mem"><span>秒记</span>架空线上的冲击波是感应雷</p>
+<p class="note">错在“称为直击雷”。雷云放电在架空线路上感应出的高电压冲击波属于感应雷（感应过电压沿线路侵入）；直击雷是雷电直接击中线路或建筑物本体。</p>
+</div></div>
+<div class="blk" id="q1224">
+<aside class="ans x"><b>✖</b><span>判断 #1224</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1224</i>雷电按其传播方式可分为直击雷和感应雷两种。</p>
+<p class="mem"><span>秒记</span>雷害分直击雷、感应雷、雷电波侵入</p>
+<p class="note">错在“只有两种”。按传播（危害）形式，雷电除直击雷、感应雷外还有雷电波侵入等方式，遗漏了重要的方式之一。</p>
+</div></div>
+</section>
+<section class="grp" id="cat_电机与变压器"><h2>电机与变压器<small>27错</small></h2>
+<nav class="qindex"><a href="#q611">611</a> <a href="#q612">612</a> <a href="#q632">632</a> <a href="#q637">637</a> <a href="#q655">655</a> <a href="#q657">657</a> <a href="#q676">676</a> <a href="#q679">679</a> <a href="#q700">700</a> <a href="#q750">750</a> <a href="#q773">773</a> <a href="#q784">784</a> <a href="#q807">807</a> <a href="#q818">818</a> <a href="#q819">819</a> <a href="#q874">874</a> <a href="#q898">898</a> <a href="#q901">901</a> <a href="#q929">929</a> <a href="#q1028">1028</a> <a href="#q1253">1253</a> <a href="#q1255">1255</a> <a href="#q1257">1257</a> <a href="#q1264">1264</a> <a href="#q1267">1267</a> <a href="#q1268">1268</a> <a href="#q1270">1270</a></nav>
+<div class="blk" id="q611">
+<aside class="ans x"><b>✖</b><span>判断 #611</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#611</i>单相异步电动机的体积虽然较同容量的三相异步电动机大，但功率因数、效率和过载能力都比同容量的三相异步电动机高。</p>
+<p class="mem"><span>秒记</span>单相机体积大，功率因数效率过载全偏低。</p>
+<p class="note">错在高低的表述：与同容量的三相异步电动机相比，单相异步电动机的功率因数、效率和过载能力都比较低而不是高。</p>
+</div></div>
+<div class="blk" id="q612">
+<aside class="ans x"><b>✖</b><span>判断 #612</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#612</i>单相异步电动机采用三相交流电源，电动机功率一般都比较小。</p>
+<p class="mem"><span>秒记</span>单相机就用单相电源。</p>
+<p class="note">错在电源类型：单相异步电动机采用的是单相交流电源而非三相交流电源；受起动转矩和供电方式限制，其功率一般都比较小。</p>
+</div></div>
+<div class="blk" id="q632">
+<aside class="ans x"><b>✖</b><span>判断 #632</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#632</i>对新安装或久未使用过的三相异步电动机，在通电使用前不需要进行检查工作，就可以直接使用。</p>
+<p class="mem"><span>秒记</span>新装/久置电机通电前必须检查。</p>
+<p class="note">&quot;不需要检查直接使用&quot;错误：新安装或久未使用的三相异步电动机通电前必须检查绝缘电阻、接线方式和转动是否灵活等，防止受潮、缺相、卡死等隐患导致烧毁。</p>
+</div></div>
+<div class="blk" id="q637">
+<aside class="ans x"><b>✖</b><span>判断 #637</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#637</i>速度继电器由定子、转子、触点、同步电机等部分组成。</p>
+<p class="mem"><span>秒记</span>速度继电器=永磁转子+笼环定子+触点，无&quot;同步电机&quot;。</p>
+<p class="note">组成部分错误：速度继电器由转子（永久磁铁）、定子（笼型空心圆环）、可动支架、触点系统及端盖等组成，并不包含&quot;同步电机&quot;这样的部件。</p>
+</div></div>
+<div class="blk" id="q655">
+<aside class="ans x"><b>✖</b><span>判断 #655</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#655</i>使用改变磁极对数来调速的电机一般都是绕线式电动机。</p>
+<p class="mem"><span>秒记</span>变极调速只用于笼型电动机。</p>
+<p class="note">变极调速靠改变定子绕组接线来变更极对数，转子须为笼型结构方能自动适应；绕线式转子带滑环炭刷，极对数无法改变，说法错误。</p>
+</div></div>
+<div class="blk" id="q657">
+<aside class="ans x"><b>✖</b><span>判断 #657</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#657</i>三相交流对称电路中，如采用星形接线时，线电压等于相电压。</p>
+<p class="mem"><span>秒记</span>星形接线线电压=√3相电压。</p>
+<p class="note">星形接法中线电压是相电压的√3倍（如380V与220V），并不相等。</p>
+</div></div>
+<div class="blk" id="q676">
+<aside class="ans x"><b>✖</b><span>判断 #676</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#676</i>开启式负荷开关用于电动机控制电路时，其额定电流应不小于电动机额定电流。</p>
+<p class="mem"><span>秒记</span>开关控电机额定电流须放大数倍。</p>
+<p class="note">电动机启动电流为额定的4~7倍，开关额定电流仅“不小于”电机额定电流扛不住启动冲击，应按启动电流要求放大余量选用。</p>
+</div></div>
+<div class="blk" id="q679">
+<aside class="ans x"><b>✖</b><span>判断 #679</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#679</i>胶壳开关适合用于直接控制5.5kW以上的交流电动机。</p>
+<p class="mem"><span>秒记</span>胶壳开关只宜控5.5kW以下电机。</p>
+<p class="note">胶壳（开启式）负荷开关无强力灭弧手段，5.5kW以上电动机启动电流大、电弧强，直接控制会烧损开关甚至飞弧伤人。</p>
+</div></div>
+<div class="blk" id="q700">
+<aside class="ans x"><b>✖</b><span>判断 #700</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#700</i>电动机转子的旋转方向与旋转磁场的旋转方向相反。</p>
+<p class="mem"><span>秒记</span>转子转向与旋转磁场相同。</p>
+<p class="note">转子因“追赶”旋转磁场而旋转，两者转向必定一致，只是转速略慢（n&lt;n₁）才切割导条产生转矩，说相反是错的。</p>
+</div></div>
+<div class="blk" id="q750">
+<aside class="ans x"><b>✖</b><span>判断 #750</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#750</i>定子三相绕组的结构是不对称的。</p>
+<p class="mem"><span>秒记</span>定子三相绕组必须对称。</p>
+<p class="note">三相绕组的匝数、线径和空间分布彼此对称（互差120°电角度），才能产生平衡的三相磁场，“结构不对称”说法错误。</p>
+</div></div>
+<div class="blk" id="q773">
+<aside class="ans x"><b>✖</b><span>判断 #773</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#773</i>热继电器在对电机进行过载保护时，应具备电压值可调的能力。</p>
+<p class="mem"><span>秒记</span>热继电器可调整定电流非电压。</p>
+<p class="note">热继电器按电流发热原理动作，具备可调性的是动作（整定）电流值，用以匹配不同容量电动机的额定电流；“电压值可调”说法错误。</p>
+</div></div>
+<div class="blk" id="q784">
+<aside class="ans x"><b>✖</b><span>判断 #784</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#784</i>在保证一定大小的启动转矩前提下，电动机的启动电流应尽量大。</p>
+<p class="mem"><span>秒记</span>在保证启动转矩前提下，启动电流应尽量小。</p>
+<p class="note">启动电流过大会造成电网电压骤降、绕组过热和机械冲击，正确的工艺要求是把启动电流限制得尽量小，而不是尽量大。</p>
+</div></div>
+<div class="blk" id="q807">
+<aside class="ans x"><b>✖</b><span>判断 #807</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#807</i>作业时可以允许水滴、油污及杂物落到电动机上，清理干净即可。</p>
+<p class="mem"><span>秒记</span>严防水滴油污杂物落到电动机上，事后清理不算合规。</p>
+<p class="note">杂物和水油进入机内会破坏绝缘、堵塞风道甚至卡阻转子，作业中必须预先防护，绝不能&quot;允许落下后再清理干净&quot;。</p>
+</div></div>
+<div class="blk" id="q818">
+<aside class="ans x"><b>✖</b><span>判断 #818</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#818</i>异步电动机转子串频敏变阻器启动的转矩大，适合重载启动。</p>
+<p class="mem"><span>秒记</span>频敏变阻器启动转矩较小，适合轻载启动。</p>
+<p class="note">绕线型电动机转子串频敏变阻器启动平滑但等效电阻不能分级调节到位，启动转矩偏小，适用于轻载启动；重载启动应采用转子串入分级电阻并逐级切除的方式。</p>
+</div></div>
+<div class="blk" id="q819">
+<aside class="ans x"><b>✖</b><span>判断 #819</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#819</i>组合开关不可以直接启动5kW以下的电动机。</p>
+<p class="mem"><span>秒记</span>组合开关可以直接启动5kW以下的电动机。</p>
+<p class="note">HZ系列组合开关具有一定的闭合和通断能力，规范允许用它直接启动5kW及以下的小容量电动机，题中说&quot;不可以&quot;与事实相反。</p>
+</div></div>
+<div class="blk" id="q874">
+<aside class="ans x"><b>✖</b><span>判断 #874</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#874</i>电磁起动器起动按钮上并联的动合辅助触头在按钮松开后使控制电路仍能接通，保持电动机的连续运行，通常将这种作用称为机械闭锁或接触器闭锁。</p>
+<p class="mem"><span>秒记</span>松开按钮仍保持接通的作用叫自锁（自保持），不叫机械闭锁。</p>
+<p class="note">起动按钮两端并联动合辅助触头实现按钮复位后电路继续接通，该作用的规范名称是&quot;自锁&quot;(自保持)；机械闭锁是另一种依靠器械的联锁方式，此处名词用错了。</p>
+</div></div>
+<div class="blk" id="q898">
+<aside class="ans x"><b>✖</b><span>判断 #898</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#898</i>定子是指电动机的旋转部分。</p>
+<p class="mem"><span>秒记</span>定子是固定不动的部分，旋转的部分叫转子。</p>
+<p class="note">电动机由固定的定子和旋转的转子两大部分组成，说&quot;定子是指电动机的旋转部分&quot;恰好把两者说反，旋转部分是转子。</p>
+</div></div>
+<div class="blk" id="q901">
+<aside class="ans x"><b>✖</b><span>判断 #901</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#901</i>当电源电压恒定时，异步电动机最大转矩会随着负载的增加而增加。</p>
+<p class="mem"><span>秒记</span>最大转矩只随电源电压平方变化，与负载大小无关。</p>
+<p class="note">电源电压恒定时，异步电动机最大转矩Tmax∝U²仅由电压、频率和电机参数决定；负载增加只会使转差率增大直至堵转，绝不会使最大转矩增大。</p>
+</div></div>
+<div class="blk" id="q929">
+<aside class="ans x"><b>✖</b><span>判断 #929</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#929</i>转子串频敏变阻器启动时，转速很低，转子频率很小。</p>
+<p class="mem"><span>秒记</span>启动瞬间n≈0，s=1，f2=sf1≈50Hz最大。</p>
+<p class="note">启动初期转速很低、转差率接近1，转子频率f2=s·f1达到最大而不是很小；频敏变阻器正是靠高频时阻抗大来限流增矩。</p>
+</div></div>
+<div class="blk" id="q1028">
+<aside class="ans x"><b>✖</b><span>判断 #1028</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1028</i>在断电之后，电动机停转，当电网再次来电，电动机能自行启动的运行方式称为失压保护。</p>
+<p class="mem"><span>秒记</span>失压保护＝来电不自行启动；能自启动反而危险。</p>
+<p class="note">断电后电动机停转、复电时若能自行启动说明丧失了失压保护，会突然启动伤人；失压保护恰恰防止这种自启动。</p>
+</div></div>
+<div class="blk" id="q1253">
+<aside class="ans x"><b>✖</b><span>判断 #1253</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1253</i>为改善电动机的启动及运行性能，笼形异步电动机转子铁芯一般采用直槽结构。</p>
+<p class="mem"><span>秒记</span>转子铁芯用斜槽改善性能</p>
+<p class="note">错在“直槽结构”。笼形异步电动机转子槽通常做成斜槽（扭斜一个定子齿距），可削弱谐波、减小附加转矩，从而改善启动及运行性能。</p>
+</div></div>
+<div class="blk" id="q1255">
+<aside class="ans x"><b>✖</b><span>判断 #1255</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1255</i>对于异步电动机，国家标准规定3kW以下的电动机均采用三角形联结。</p>
+<p class="mem"><span>秒记</span>3kW及以下星形(Y)接法</p>
+<p class="note">错在“三角形联结”。国家标准规定3kW及以下的笼形异步电动机定子绕组均采用星形（Y形）联结，4kW及以上才采用三角形联结。</p>
+</div></div>
+<div class="blk" id="q1257">
+<aside class="ans x"><b>✖</b><span>判断 #1257</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1257</i>电机运行时发出沉闷声是电机在正常运行的声音。</p>
+<p class="mem"><span>秒记</span>正常声均匀轻快，沉闷声是故障</p>
+<p class="note">错在“正常运行的声音”。电机正常运行时声音均匀轻快；发出沉闷声说明过载、缺相等异常，应查明原因。</p>
+</div></div>
+<div class="blk" id="q1264">
+<aside class="ans x"><b>✖</b><span>判断 #1264</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1264</i>三相电动机的转子和定子要同时通电才能工作。</p>
+<p class="mem"><span>秒记</span>只给定子通电，转子靠电磁感应</p>
+<p class="note">错在“同时通电”。三相异步电动机只有定子绕组接三相电源，转子不直接接电源（绕线式仅经滑环接启动电阻），转子电流由电磁感应产生。</p>
+</div></div>
+<div class="blk" id="q1267">
+<aside class="ans x"><b>✖</b><span>判断 #1267</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1267</i>电动机的短路试验是给电机施加35V左右的电压。</p>
+<p class="mem"><span>秒记</span>堵转从零升压至额定电流，380V电机约75~90V</p>
+<p class="note">错在“35V左右”。短路试验是将转子固定不转，调压器电压从零逐渐升高至定子电流达到额定值为止，380V电动机此时的短路电压一般在75~90V之间。</p>
+</div></div>
+<div class="blk" id="q1268">
+<aside class="ans x"><b>✖</b><span>判断 #1268</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1268</i>电机在正常运行时，如闻到焦臭味，则说明电动机速度过快。</p>
+<p class="mem"><span>秒记</span>焦臭味＝绝缘受损，与速度快慢无关</p>
+<p class="note">错在“速度过快”。正常运行不会有焦臭味；出现焦味说明绕组过热致绝缘烧损（过载、短路等），并非速度问题，应立即停电检查。</p>
+</div></div>
+<div class="blk" id="q1270">
+<aside class="ans x"><b>✖</b><span>判断 #1270</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1270</i>对电机轴承润滑的检查，可通电转动电动机转轴，看是否转动灵活，听有无异声。</p>
+<p class="mem"><span>秒记</span>断电后用手盘动转轴查轴承</p>
+<p class="note">错在“通电转动电动机”。检查轴承润滑应在停电状态下手动转动转轴，看是否灵活、听有无异音；通电运转是试运行，不属于轴承润滑检查方法。</p>
+</div></div>
+</section>
+<section class="grp" id="cat_低压电器"><h2>低压电器<small>45错</small></h2>
+<nav class="qindex"><a href="#q584">584</a> <a href="#q590">590</a> <a href="#q594">594</a> <a href="#q609">609</a> <a href="#q610">610</a> <a href="#q623">623</a> <a href="#q647">647</a> <a href="#q648">648</a> <a href="#q649">649</a> <a href="#q656">656</a> <a href="#q680">680</a> <a href="#q688">688</a> <a href="#q704">704</a> <a href="#q716">716</a> <a href="#q717">717</a> <a href="#q737">737</a> <a href="#q739">739</a> <a href="#q754">754</a> <a href="#q755">755</a> <a href="#q759">759</a> <a href="#q786">786</a> <a href="#q802">802</a> <a href="#q821">821</a> <a href="#q822">822</a> <a href="#q840">840</a> <a href="#q847">847</a> <a href="#q875">875</a> <a href="#q877">877</a> <a href="#q903">903</a> <a href="#q933">933</a> <a href="#q1059">1059</a> <a href="#q1060">1060</a> <a href="#q1062">1062</a> <a href="#q1063">1063</a> <a href="#q1065">1065</a> <a href="#q1066">1066</a> <a href="#q1068">1068</a> <a href="#q1071">1071</a> <a href="#q1075">1075</a> <a href="#q1076">1076</a> <a href="#q1081">1081</a> <a href="#q1082">1082</a> <a href="#q1085">1085</a> <a href="#q1152">1152</a> <a href="#q1206">1206</a></nav>
+<div class="blk" id="q584">
+<aside class="ans x"><b>✖</b><span>判断 #584</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#584</i>隔离开关和熔断器串联组合成一个单元时，称为熔断器式隔离开关。</p>
+<p class="mem"><span>秒记</span>熔断体当动触头才算熔断器式隔离开关。</p>
+<p class="note">错在名称界定不严：只有熔断体本身直接充当开关动触头构成一体的电器（如刀熔开关）才称&quot;熔断器式隔离开关&quot;；隔离开关与熔断器仅以串联方式组装在同一单元内的，属于隔离开关熔断器组一类组合电器，二者术语并不等同。</p>
+</div></div>
+<div class="blk" id="q590">
+<aside class="ans x"><b>✖</b><span>判断 #590</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#590</i>负荷开关具有在故障情况下接通或开断短路电流的能力。</p>
+<p class="mem"><span>秒记</span>负荷开关只切负荷，短路靠熔断器。</p>
+<p class="note">错在能力夸大：负荷开关只有简单的灭弧装置，只能在正常情况下接通和开断负荷电流，不具有开断短路电流的能力，短路保护须由与其串联的熔断器完成。</p>
+</div></div>
+<div class="blk" id="q594">
+<aside class="ans x"><b>✖</b><span>判断 #594</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#594</i>装有灭弧罩的隔离开关具有一定的灭弧能力，可以切断负荷电流和一般故障电流。</p>
+<p class="mem"><span>秒记</span>隔离开关无论带不带灭弧罩都不切负荷。</p>
+<p class="note">错在&quot;可以切断负荷电流和一般故障电流&quot;：隔离开关即使装有简单灭弧罩，也只允许分合很小的容性、感性电流，严禁接通或切断负荷电流和故障电流；能够通断负荷电流的是负荷开关。</p>
+</div></div>
+<div class="blk" id="q609">
+<aside class="ans x"><b>✖</b><span>判断 #609</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#609</i>保护熔丝熔断后，未经查明原因之前，可以更换熔丝送电。</p>
+<p class="mem"><span>秒记</span>先查明原因，再换同规格熔丝送电。</p>
+<p class="note">错在盲目送电：熔丝熔断多为短路或过载所致，未经查明原因就直接更换送电会再次投入故障，必须先排除故障、按原规格更换熔丝后方可恢复送电。</p>
+</div></div>
+<div class="blk" id="q610">
+<aside class="ans x"><b>✖</b><span>判断 #610</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#610</i>熔断器的额定电压是从过载角度出发作出的规定。</p>
+<p class="mem"><span>秒记</span>额定电流按发热定，额定电压按电路电压定。</p>
+<p class="note">错在&quot;过载角度&quot;：熔断器的额定电流是从长期工作发热（温升）角度确定的；而额定电压是使熔断器与所在电路的电压等级相适应、保证分断安全的参数，不从过载角度出发作出规定。</p>
+</div></div>
+<div class="blk" id="q623">
+<aside class="ans x"><b>✖</b><span>判断 #623</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#623</i>隔离开关的作用是承担接通和断开电流任务，将电路与电源隔开。</p>
+<p class="mem"><span>秒记</span>隔离开关不带载操作，只隔离电源。</p>
+<p class="note">错在功能描述：隔离开关没有（或仅有极简单的）灭弧能力，不能承担接通和断开电流的任务，其作用是不带负荷时分合电路、形成明显断开点将设备与电源隔开。</p>
+</div></div>
+<div class="blk" id="q647">
+<aside class="ans x"><b>✖</b><span>判断 #647</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#647</i>交流接触器带有灭弧装置，因此能通断负荷电流和短路电流。</p>
+<p class="mem"><span>秒记</span>接触器只断负荷电流，不分断短路电流。</p>
+<p class="note">灭弧装置只够熄灭分断负荷电流时的电弧；短路电流太大，分断会烧毁粘焊触头甚至炸裂，切断短路要靠断路器或熔断器。</p>
+</div></div>
+<div class="blk" id="q648">
+<aside class="ans x"><b>✖</b><span>判断 #648</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#648</i>HD、HS刀型隔离开关适用于交流50Hz、额定电压至交流380V、直流440V，额定电流可达2500A的成套配电装置中。</p>
+<p class="mem"><span>秒记</span>HD/HS刀开关最大额定电流为1500A。</p>
+<p class="note">适用电压、用途的表述无误，错在“可达2500A”：该系列额定电流规格最大到1500A。</p>
+</div></div>
+<div class="blk" id="q649">
+<aside class="ans x"><b>✖</b><span>判断 #649</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#649</i>根据熔断器的保护特性可知，熔体通过的电流越大，熔化时间越长。</p>
+<p class="mem"><span>秒记</span>反时限特性：电流越大熔断越快。</p>
+<p class="note">熔体靠发热熔断，通过的电流越大发热越猛、熔化时间越短，而不是越长。</p>
+</div></div>
+<div class="blk" id="q656">
+<aside class="ans x"><b>✖</b><span>判断 #656</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#656</i>时间继电器的文字符号为KM。</p>
+<p class="mem"><span>秒记</span>时间继电器KT，KM是接触器。</p>
+<p class="note">时间继电器的文字符号是KT；KM表示接触器，把时间继电器写成KM混淆了两类电器。</p>
+</div></div>
+<div class="blk" id="q680">
+<aside class="ans x"><b>✖</b><span>判断 #680</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#680</i>接触器用于就地频繁地接通或断开交、直流主电路及小容量控制电路。</p>
+<p class="mem"><span>秒记</span>接触器：远距离频繁通断大容量电路。</p>
+<p class="note">接触器的定位是远距离、频繁地接通和分断交、直流主电路及大容量控制电路；写成“就地”“小容量”不符合其功能特性。</p>
+</div></div>
+<div class="blk" id="q688">
+<aside class="ans x"><b>✖</b><span>判断 #688</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#688</i>HK系列隔离开关适用于工业企业配电网中不频繁操作的场所，作为电气设备及线路的过载或短路保护设备。</p>
+<p class="mem"><span>秒记</span>题述功能属封闭式(铁壳)开关。</p>
+<p class="note">“工业企业配电网中不频繁操作…过载或短路保护设备”的描述对应封闭式负荷开关（如HH系列）；HK系列是开启式负荷开关，无外壳、灭弧薄弱，不承担该职能。</p>
+</div></div>
+<div class="blk" id="q704">
+<aside class="ans x"><b>✖</b><span>判断 #704</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#704</i>开启式负荷开关接线时，用电设备应接在开关上部的出线端，电源线接在开关下部的进线端。</p>
+<p class="mem"><span>秒记</span>电源接上部进线端，负载接下部。</p>
+<p class="note">正确接法是电源线接开关上部进线端、用电设备接下部出线端；题中上下接反后闸刀拉开时刀片和熔体一侧仍带电，更换熔丝极易触电。</p>
+</div></div>
+<div class="blk" id="q716">
+<aside class="ans x"><b>✖</b><span>判断 #716</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#716</i>常用的主令电器有按钮、行程开关、交流接触器、热继电器等。</p>
+<p class="mem"><span>秒记</span>主令电器不含接触器和热继电器。</p>
+<p class="note">主令电器是发布命令控制其他电器动作的电器，如按钮、行程开关、万能转换开关等；接触器是执行电器、热继电器是保护电器，都不属于主令电器。</p>
+</div></div>
+<div class="blk" id="q717">
+<aside class="ans x"><b>✖</b><span>判断 #717</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#717</i>常用的开启式负荷开关可水平安装也可垂直安装。</p>
+<p class="mem"><span>秒记</span>开启式开关须垂直装、手柄朝上。</p>
+<p class="note">规定必须垂直安装且合闸状态手柄朝上，闸刀依靠重力不会自行落下合闸；水平安装或倒装存在自动合闸送电的危险。</p>
+</div></div>
+<div class="blk" id="q737">
+<aside class="ans x"><b>✖</b><span>判断 #737</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#737</i>主令电器用于接通或断开配电线路。</p>
+<p class="mem"><span>秒记</span>主令电器只发指令不通断配电线路。</p>
+<p class="note">主令电器（按钮、行程开关等）的作用是在控制电路中发出指令或信号操纵其他电器；接通或断开配电线路靠的是断路器、接触器、负荷开关等配电电器。</p>
+</div></div>
+<div class="blk" id="q739">
+<aside class="ans x"><b>✖</b><span>判断 #739</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#739</i>时间继电器按动作原理可分为电压式和电流式。</p>
+<p class="mem"><span>秒记</span>按原理分空气阻尼电磁电动晶体管式。</p>
+<p class="note">时间继电器按动作原理分为电磁式、空气阻尼式、电动式、晶体管（电子）式等；“电压式、电流式”是电压/电流继电器按线圈参数的分类，与此无关。</p>
+</div></div>
+<div class="blk" id="q754">
+<aside class="ans x"><b>✖</b><span>判断 #754</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#754</i>对停止按钮而言，按下按钮帽时触头闭合，松开后触头自动断开复位。</p>
+<p class="mem"><span>秒记</span>停止按钮按下断开松开闭合。</p>
+<p class="note">停止按钮采用常闭触头：按下按钮帽触头断开、松开后自动复位闭合；“按下闭合、松开断开”是常开（启动）按钮的特征，题述颠倒了。</p>
+</div></div>
+<div class="blk" id="q755">
+<aside class="ans x"><b>✖</b><span>判断 #755</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#755</i>开关电器中的电弧如果不能及时熄灭，可能会造成电路不能可靠接通。</p>
+<p class="mem"><span>秒记</span>电弧不灭=电路不能可靠断开。</p>
+<p class="note">电弧具有强导电性，只要电弧延续燃烧电路中仍有电流流过，后果是电路不能可靠“断开”并烧损触头；题中写成“不能可靠接通”，错在对象颠倒。</p>
+</div></div>
+<div class="blk" id="q759">
+<aside class="ans x"><b>✖</b><span>判断 #759</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#759</i>电容器组断路器跳闸后可以强送电。</p>
+<p class="mem"><span>秒记</span>电容器组跳闸严禁强送。</p>
+<p class="note">断路器跳闸说明存在故障，未查明原因处理前强送会遭遇残余电荷引起的高倍数涌流和过电压，可能使故障扩大甚至爆炸，故禁止强送。</p>
+</div></div>
+<div class="blk" id="q786">
+<aside class="ans x"><b>✖</b><span>判断 #786</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#786</i>接触器按主触头通过电流的种类，分为高压接触器和低压接触器。</p>
+<p class="mem"><span>秒记</span>按主触头电流种类分交流接触器和直流接触器。</p>
+<p class="note">接触器按主触头通过电流的种类分为交流接触器和直流接触器；分高压、低压是按电压等级的分类，题干混淆了两种分类方法。</p>
+</div></div>
+<div class="blk" id="q802">
+<aside class="ans x"><b>✖</b><span>判断 #802</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#802</i>交流接触器的辅助触头当电磁线圈得电时，动合触头先闭合，动断触头再断开。</p>
+<p class="mem"><span>秒记</span>线圈得电时动断触头先断开，动合触头后闭合。</p>
+<p class="note">衔铁吸合过程中动断触头先分离、动合触头随后才闭合；若动合先闭合会造成电路短接，题述先后顺序颠倒错误。</p>
+</div></div>
+<div class="blk" id="q821">
+<aside class="ans x"><b>✖</b><span>判断 #821</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#821</i>接触器的文字符号为KT。</p>
+<p class="mem"><span>秒记</span>接触器文字符号是KM，KT是时间继电器。</p>
+<p class="note">文字符号KM表示接触器；KT用以标注时间继电器，二者含义不同不可混用。</p>
+</div></div>
+<div class="blk" id="q822">
+<aside class="ans x"><b>✖</b><span>判断 #822</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#822</i>电磁式继电器具有与电源同步的功能。</p>
+<p class="mem"><span>秒记</span>电磁式继电器只是电磁动作元件，没有&quot;与电源同步&quot;的功能。</p>
+<p class="note">电磁式继电器基于电磁吸力原理对输入信号作出反应，不存在与电源同步的概念；具有同步性能的是同步电机这类旋转设备。</p>
+</div></div>
+<div class="blk" id="q840">
+<aside class="ans x"><b>✖</b><span>判断 #840</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#840</i>电磁式交流接触器和直流接触器都装有短路环，以消除铁芯的振动和噪声。</p>
+<p class="mem"><span>秒记</span>只有交流接触器装短路环，直流接触器不需要。</p>
+<p class="note">直流励磁的磁通恒定、吸力不过零，无振动噪声之患，不装短路环；短路环专为消除交流铁芯的振动和噪声而设，&quot;都装有&quot;错误。</p>
+</div></div>
+<div class="blk" id="q847">
+<aside class="ans x"><b>✖</b><span>判断 #847</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#847</i>熔断器是一种最简单的保护电器，它并联于电路中。</p>
+<p class="mem"><span>秒记</span>熔断器串联在电路中，过电流时熔体熔断。</p>
+<p class="note">熔断器必须串联于被保护回路，全部负载电流流过熔体，过载或短路时熔体熔断切断电路；并联在电路中根本起不到保护作用。</p>
+</div></div>
+<div class="blk" id="q875">
+<aside class="ans x"><b>✖</b><span>判断 #875</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#875</i>交流接触器的铁芯上套有一个铜制的短路环，是为了提高铁芯的磁通量，增强铁芯的吸合力。</p>
+<p class="mem"><span>秒记</span>短路环用于消除交流铁芯振动和噪声，不是增强吸力。</p>
+<p class="note">交变磁通过零时吸力短暂消失会引起铁芯振动，短路环的感应电流使磁通过零延后，削平脉动消噪增稳，它并不能&quot;提高磁通量增强吸合力&quot;。</p>
+</div></div>
+<div class="blk" id="q877">
+<aside class="ans x"><b>✖</b><span>判断 #877</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#877</i>自动切换电器是依靠外力(如人力)操作，完成电路的接通或分断等操作，如接触器、继电器等。</p>
+<p class="mem"><span>秒记</span>依靠人力(外力)操作的是非自动切换(手动)电器。</p>
+<p class="note">自动切换电器是按自身参数变化或外来信号(电、气、液等指令)自动完成接通分断的电器，如接触器、继电器；依靠人力操作的刀开关、按钮等属于非自动(手动)切换电器，题干把两类定义对调了。</p>
+</div></div>
+<div class="blk" id="q903">
+<aside class="ans x"><b>✖</b><span>判断 #903</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#903</i>热继电器的双金属片弯曲的速度与电流大小有关，电流越大，速度越快，这种特性称为正比时限特性。</p>
+<p class="mem"><span>秒记</span>过载电流越大动作越快，这叫反时限特性。</p>
+<p class="note">热继电器双金属片弯曲速度确实随电流增大而加快，其动作时间随过载倍数增大而缩短，这种特性的规范名称是反时限特性，&quot;正比时限特性&quot;术语错误。</p>
+</div></div>
+<div class="blk" id="q933">
+<aside class="ans x"><b>✖</b><span>判断 #933</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#933</i>低压断路器的触头系统包括主触头、辅助触头，其中辅助触头是用来辅助主触头分、合主电路的。</p>
+<p class="mem"><span>秒记</span>主触头管主电路，辅助触头干控制信号。</p>
+<p class="note">分合主电路是主触头的职能；辅助触头接在控制回路中实现自锁、联锁和信号指示，并不用来辅助分合主电路。</p>
+</div></div>
+<div class="blk" id="q1059">
+<aside class="ans x"><b>✖</b><span>判断 #1059</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1059</i>中间继电器实际上是一种动作与释放值可调节的电压继电器。</p>
+<p class="mem"><span>秒记</span>中间继电器动作值固定不可调</p>
+<p class="note">属性错误：中间继电器触点多、触点容量小，起增加信号数量和放大信号的作用，其动作值与释放值由结构固定不可调；可调节的是电压继电器。</p>
+</div></div>
+<div class="blk" id="q1060">
+<aside class="ans x"><b>✖</b><span>判断 #1060</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1060</i>热继电器是利用双金属片受热弯曲而推动触点动作的一种保护电器，它主要用于线路的速断保护。</p>
+<p class="mem"><span>秒记</span>热继电器管过载，不做速断</p>
+<p class="note">功能错：热继电器靠双金属片受热弯曲推动触点动作，实现反时限的过载保护；速断保护由熔断器或断路器电磁脱扣完成。</p>
+</div></div>
+<div class="blk" id="q1062">
+<aside class="ans x"><b>✖</b><span>判断 #1062</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1062</i>万能转换开关的定位结构一般采用滚轮卡转轴辐射型结构。</p>
+<p class="mem"><span>秒记</span>定位结构是滚轮卡棘轮，不是卡转轴</p>
+<p class="note">结构表述错误：万能转换开关的定位结构一般采用滚轮卡棘轮辐射型结构，靠棘轮限位获得准确的档位定位。</p>
+</div></div>
+<div class="blk" id="q1063">
+<aside class="ans x"><b>✖</b><span>判断 #1063</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1063</i>自动开关属于手动电器。</p>
+<p class="mem"><span>秒记</span>自动开关属自动电器</p>
+<p class="note">归类错误：自动开关（低压断路器）能在故障时依靠脱扣机构自动分断电路，属于自动切换电器，不是手动电器。</p>
+</div></div>
+<div class="blk" id="q1065">
+<aside class="ans x"><b>✖</b><span>判断 #1065</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1065</i>熔断器的特性，是通过熔体的电压值越高，熔断时间越短。</p>
+<p class="mem"><span>秒记</span>电流越大熔断越快（反时限安秒特性）</p>
+<p class="note">物理量弄错：熔断器特性是通过熔体的电流越大、熔断时间越短的反时限安秒特性，熔断快慢与电压高低无关。</p>
+</div></div>
+<div class="blk" id="q1066">
+<aside class="ans x"><b>✖</b><span>判断 #1066</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1066</i>交流接触器常见的额定最高工作电压达到6000V。</p>
+<p class="mem"><span>秒记</span>接触器额定电压一般1140V及以下</p>
+<p class="note">数量级错误：我国生产的交流接触器额定工作电压通常在1140V及以下，常见的最高也就是千伏级出头，达不到6000V。</p>
+</div></div>
+<div class="blk" id="q1068">
+<aside class="ans x"><b>✖</b><span>判断 #1068</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1068</i>热继电器的双金属片是由一种热膨胀系数不同的金属材料辗压而成。</p>
+<p class="mem"><span>秒记</span>双金属片=两种膨胀系数不同的金属轧成</p>
+<p class="note">关键词错误：双金属片是由**两种**热膨胀系数不同的金属材料辗压结合而成，受热后向膨胀系数小的一侧弯曲。</p>
+</div></div>
+<div class="blk" id="q1071">
+<aside class="ans x"><b>✖</b><span>判断 #1071</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1071</i>行程开关的作用是将机械行走的长度用电信号传出。</p>
+<p class="mem"><span>秒记</span>行程开关只发&quot;到位&quot;信号，不测长度</p>
+<p class="note">功能错：行程开关是被运动部件上的撞块碰撞后改变触点状态的位置指令电器，把机械位移转换为触点动作信号，不能传出机械行走的长短。</p>
+</div></div>
+<div class="blk" id="q1075">
+<aside class="ans x"><b>✖</b><span>判断 #1075</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1075</i>刀开关在作隔离开关选用时，要求刀开关的额定电流要大于或等于线路实际的故障电流。</p>
+<p class="mem"><span>秒记</span>按最大负荷电流选，不按故障电流选</p>
+<p class="note">依据错：刀开关作隔离开关用时，额定电流应大于或等于线路正常工作的最大负荷电流；按故障电流选既无必要也不合理（隔离用不需分断故障电流）。</p>
+</div></div>
+<div class="blk" id="q1076">
+<aside class="ans x"><b>✖</b><span>判断 #1076</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1076</i>目前我国生产的接触器额定电流一般大于或等于630A。</p>
+<p class="mem"><span>秒记</span>接触器额定电流一般不超过630A</p>
+<p class="note">档次错误：目前国产接触器额定电流规格大多在630A及以下、小至几安培，&quot;一般大于或等于630A&quot;不符合实际产品序列。</p>
+</div></div>
+<div class="blk" id="q1081">
+<aside class="ans x"><b>✖</b><span>判断 #1081</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1081</i>中间继电器的动作值与释放值可调节。</p>
+<p class="mem"><span>秒记</span>中间继电器动作值释放值不可调</p>
+<p class="note">结构特点错：中间继电器没有调节反力弹簧之类的整定装置，动作值与释放值出厂即定、不能调节，这正是它与（欠）电压继电器的差别。</p>
+</div></div>
+<div class="blk" id="q1082">
+<aside class="ans x"><b>✖</b><span>判断 #1082</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1082</i>频率的自动调节补偿是热继电器的一个功能。</p>
+<p class="mem"><span>秒记</span>热继电器只管过载，不懂频率</p>
+<p class="note">张冠李戴：热继电器仅利用电流热效应做过载保护，既不检测频率，更不具备频率自动调节补偿功能。</p>
+</div></div>
+<div class="blk" id="q1085">
+<aside class="ans x"><b>✖</b><span>判断 #1085</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1085</i>断路器在选用时，要求断路器的额定通断能力要大于或等于被保护线路中可能出现的最大负载电流。</p>
+<p class="mem"><span>秒记</span>通断能力应对最大短路电流，不是负载电流</p>
+<p class="note">校核对象错：断路器的额定通断能力必须大于或等于被保护线路可能出现的**最大短路电流**；用最大负载电流校核远远不够，短路时分断不了会烧毁断路器。</p>
+</div></div>
+<div class="blk" id="q1152">
+<aside class="ans x"><b>✖</b><span>判断 #1152</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1152</i>为安全起见，更换熔断器时，最好断开负载。</p>
+<p class="mem"><span>秒记</span>换熔断器必须先切电源，仅断负载不够</p>
+<p class="note">要求不到位：为确保安全，更换熔断器前必须**切断电源**，使熔断器两端均无电；只断开负载时上端仍带电，照样有触电和短路危险。</p>
+</div></div>
+<div class="blk" id="q1206">
+<aside class="ans x"><b>✖</b><span>判断 #1206</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1206</i>为保证零线安全，三相四线的零线必须加装熔断器。</p>
+<p class="mem"><span>秒记</span>零线上严禁装熔断器</p>
+<p class="note">错在“加装熔断器”。三相四线制的零线若熔断会中断回路并可能使设备外壳带上危险电位，因此零线上严禁安装熔断器和开关。</p>
+</div></div>
+</section>
+<section class="grp" id="cat_照明与插座"><h2>照明与插座<small>12错</small></h2>
+<nav class="qindex"><a href="#q646">646</a> <a href="#q685">685</a> <a href="#q780">780</a> <a href="#q836">836</a> <a href="#q891">891</a> <a href="#q1043">1043</a> <a href="#q1044">1044</a> <a href="#q1157">1157</a> <a href="#q1158">1158</a> <a href="#q1159">1159</a> <a href="#q1167">1167</a> <a href="#q1185">1185</a></nav>
+<div class="blk" id="q646">
+<aside class="ans x"><b>✖</b><span>判断 #646</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#646</i>电缆隧道内应有照明，其电压应采用工频电压。</p>
+<p class="mem"><span>秒记</span>隧道内潮湿封闭，照明须用安全低电压。</p>
+<p class="note">隧道属潮湿、导电良好的危险场所，照明应采用安全特低电压（如36V及以下）供电，不能用一般工频电源电压，说法错误。</p>
+</div></div>
+<div class="blk" id="q685">
+<aside class="ans x"><b>✖</b><span>判断 #685</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#685</i>荧光灯的灯管不用与镇流器、启辉器配套使用。</p>
+<p class="mem"><span>秒记</span>荧光灯须配镇流器和启辉器。</p>
+<p class="note">镇流器负责限流并提供脉冲高压，启辉器帮助预热点燃，三者必须配套荧光灯才能启动并稳定工作。</p>
+</div></div>
+<div class="blk" id="q780">
+<aside class="ans x"><b>✖</b><span>判断 #780</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#780</i>LED电光源和传统照明电光源相比，其特点为安全、节能、寿命长、显色性好和价格低廉。</p>
+<p class="mem"><span>秒记</span>LED安全节能寿命长显色性好，但价格并不低廉。</p>
+<p class="note">LED电光源目前制造成本和售价均高于传统光源，&quot;价格低廉&quot;不属于其特点；安全、节能、寿命长、显色性好等优点属实。</p>
+</div></div>
+<div class="blk" id="q836">
+<aside class="ans x"><b>✖</b><span>判断 #836</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#836</i>照明开关种类很多，选择时仅考虑美观即可。</p>
+<p class="mem"><span>秒记</span>选照明开关首先考虑适用和安全，美观是次要因素。</p>
+<p class="note">选择照明开关应根据电压等级、负载容量、环境潮湿粉尘等条件确定类型规格，只考虑美观既不安全也不实用。</p>
+</div></div>
+<div class="blk" id="q891">
+<aside class="ans x"><b>✖</b><span>判断 #891</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#891</i>LED的供电电压一般为220V，发光元件密封在环氧树脂内，安全可靠，所以特别适用于公共场所和对供电电压有要求的特殊场所。</p>
+<p class="mem"><span>秒记</span>LED用低压直流供电，220V须经驱动电路变换，并非直接220V供电。</p>
+<p class="note">LED发光二极管正向压降只有几伏，需由恒流驱动电路把市电变换成所需的低压直流电，说&quot;供电电压一般为220V&quot;不符合其工作原理；其发光元件封装在环氧树脂内、安全适用的优点则属实。</p>
+</div></div>
+<div class="blk" id="q1043">
+<aside class="ans x"><b>✖</b><span>判断 #1043</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1043</i>施工现场大型照明灯应将直射光线射入空中。</p>
+<p class="mem"><span>秒记</span>照明灯要控光定向，不许直射空中</p>
+<p class="note">错在&quot;直射射入空中&quot;：施工现场大型照明灯应加装遮光罩、调整投射角来控制光束，防止光污染和眩光影响居民、行人和车辆安全。</p>
+</div></div>
+<div class="blk" id="q1044">
+<aside class="ans x"><b>✖</b><span>判断 #1044</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1044</i>在潮湿和易触及带电体场所的照明电源电压，应不大于36V。</p>
+<p class="mem"><span>秒记</span>潮湿易触电场所≤24V，特别潮湿≤12V</p>
+<p class="note">数值错误：潮湿和易触及带电体场所的照明电源电压不得大于24V，特别潮湿场所、金属容器内不得大于12V，36V达不到这些特殊场所的安全要求。</p>
+</div></div>
+<div class="blk" id="q1157">
+<aside class="ans x"><b>✖</b><span>判断 #1157</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1157</i>吊灯安装在桌子上方时，与桌子的垂直距离不少于1.5m。</p>
+<p class="mem"><span>秒记</span>桌面上方吊灯距桌面不少于0.7m</p>
+<p class="note">数值错误：吊灯安装在桌子上方时，与桌面的垂直距离不应少于0.7m；1.5m的规定不符合安装要求。</p>
+</div></div>
+<div class="blk" id="q1158">
+<aside class="ans x"><b>✖</b><span>判断 #1158</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1158</i>当灯具达不到最小高度时，应采用24V以下电压。</p>
+<p class="mem"><span>秒记</span>高度不够时改用36V及以下安全电压</p>
+<p class="note">数值错误：当灯具安装高度达不到规定的最小高度时，应采用36V及以下的安全电压供电，24V的说法低于标准规定数值。</p>
+</div></div>
+<div class="blk" id="q1159">
+<aside class="ans x"><b>✖</b><span>判断 #1159</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1159</i>危险场所室内的吊灯与地面距离不少于3m。</p>
+<p class="mem"><span>秒记</span>室内吊灯距地面下限按2.5m一档掌握</p>
+<p class="note">数值错误：按规程室内吊灯距地面一般不应少于2.5m，当低于该高度时应加装防护或改用安全电压，&quot;不少于3m&quot;并非此处的规定数值。</p>
+</div></div>
+<div class="blk" id="q1167">
+<aside class="ans x"><b>✖</b><span>判断 #1167</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1167</i>特殊场所暗装的插座安装高度不小于1.5m。</p>
+<p class="mem"><span>秒记</span>特殊场所暗装插座不低于0.15m</p>
+<p class="note">错在“1.5m”。规范要求特殊场所暗装的插座安装高度不应小于0.15m（一般暗装插座距地不低于0.3m），1.5m数值错误。</p>
+</div></div>
+<div class="blk" id="q1185">
+<aside class="ans x"><b>✖</b><span>判断 #1185</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1185</i>通电的时间越长，灯泡消耗的电能越少，电流所做的功也就越大。</p>
+<p class="mem"><span>秒记</span>W=Pt，时间越长电能越多</p>
+<p class="note">错在结论相反。W=UIt，电压电流一定时通电时间越长，灯泡消耗电能越多，电流做的功也越大，“电能越少”自相矛盾。</p>
+</div></div>
+</section>
+<section class="grp" id="cat_导线与线路"><h2>导线与线路<small>13错</small></h2>
+<nav class="qindex"><a href="#q607">607</a> <a href="#q662">662</a> <a href="#q710">710</a> <a href="#q748">748</a> <a href="#q756">756</a> <a href="#q912">912</a> <a href="#q1130">1130</a> <a href="#q1209">1209</a> <a href="#q1211">1211</a> <a href="#q1217">1217</a> <a href="#q1221">1221</a> <a href="#q1240">1240</a> <a href="#q1283">1283</a></nav>
+<div class="blk" id="q607">
+<aside class="ans x"><b>✖</b><span>判断 #607</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#607</i>使用电气设备时，由于导线截面选择过小，当电流较大时不会因发热过大而引发火灾。</p>
+<p class="mem"><span>秒记</span>导线选细过流必发热，可引发火灾。</p>
+<p class="note">结论说反：导线截面选择过小时其允许载流量不足，电流较大时会长期过度发热、加速绝缘老化直至短路引发火灾，&quot;不会&quot;二字错误。</p>
+</div></div>
+<div class="blk" id="q662">
+<aside class="ans x"><b>✖</b><span>判断 #662</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#662</i>电缆外护层代号第一个数字表示外皮层类型，第二个数字表示铠装层类型。</p>
+<p class="mem"><span>秒记</span>外护层首位铠装、次位外被。</p>
+<p class="note">电缆外护层数字代号中第一个数字表示铠装层类型，第二个数字表示外被层类型，题目正说反了。</p>
+</div></div>
+<div class="blk" id="q710">
+<aside class="ans x"><b>✖</b><span>判断 #710</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#710</i>各种类型的绝缘导线，其允许工作温度为50℃。</p>
+<p class="mem"><span>秒记</span>PVC线70℃橡皮线65℃。</p>
+<p class="note">允许工作温度由绝缘材料决定：聚氯乙烯绝缘线70℃、橡皮绝缘线65℃左右，各类导线一律写50℃没有依据。</p>
+</div></div>
+<div class="blk" id="q748">
+<aside class="ans x"><b>✖</b><span>判断 #748</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#748</i>电缆保护管的内径尺寸应等于电缆外径尺寸。</p>
+<p class="mem"><span>秒记</span>保护管内径≥电缆外径1.5倍。</p>
+<p class="note">内径等于电缆外径根本无法穿入，更谈不上散热与弯曲半径，规范要求保护管内径不小于电缆外径的1.5倍。</p>
+</div></div>
+<div class="blk" id="q756">
+<aside class="ans x"><b>✖</b><span>判断 #756</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#756</i>移动式电气设备电源应采用高强度铜芯橡皮护套硬绝缘电缆。</p>
+<p class="mem"><span>秒记</span>移动设备要用橡套软电缆。</p>
+<p class="note">移动式设备电源经常弯折拖拽，必须采用高强度铜芯橡皮护套软（柔软型）绝缘电缆，用“硬”绝缘电缆会疲劳断芯，说法错误。</p>
+</div></div>
+<div class="blk" id="q912">
+<aside class="ans x"><b>✖</b><span>判断 #912</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#912</i>每台电容器与母线相连的接线可以直接采用硬母线连接的方式。</p>
+<p class="mem"><span>秒记</span>电容器接母线用软导线，缓冲胀缩应力。</p>
+<p class="note">电容器运行发热使壳体反复胀缩，硬母线直连会把应力传到瓷套管造成渗漏油损坏，必须经软导线过渡连接。</p>
+</div></div>
+<div class="blk" id="q1130">
+<aside class="ans x"><b>✖</b><span>判断 #1130</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1130</i>电容器放电的方法就是将其两端用导线连接。</p>
+<p class="mem"><span>秒记</span>须经放电电阻放电，不许直接短接两端</p>
+<p class="note">方法不当：用导线直接把两端短接，瞬间放电电流冲击极大、产生强烈火花，会损坏电容器电极，正确的做法是通过合适的放电电阻放电后再可靠接地。</p>
+</div></div>
+<div class="blk" id="q1209">
+<aside class="ans x"><b>✖</b><span>判断 #1209</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1209</i>根据用电性质，电力线路可分为动力线路和配电线路。</p>
+<p class="mem"><span>秒记</span>电力线路分输电线路和配电线路</p>
+<p class="note">错在“动力线路和配电线路”。按用电性质分类，电力线路分为远距离输送电能的输电（送电）线路和面向用户的配电线路两大类。</p>
+</div></div>
+<div class="blk" id="q1211">
+<aside class="ans x"><b>✖</b><span>判断 #1211</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1211</i>导线的工作电压应大于其额定电压。</p>
+<p class="mem"><span>秒记</span>工作电压不得超过额定电压</p>
+<p class="note">关系说反了。额定电压是导线长期安全运行的最高限值，工作电压高于额定电压会加速绝缘老化甚至击穿；正确要求是工作电压不超过额定电压。</p>
+</div></div>
+<div class="blk" id="q1217">
+<aside class="ans x"><b>✖</b><span>判断 #1217</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1217</i>导线接头的抗拉强度必须与原导线的抗拉强度相同。</p>
+<p class="mem"><span>秒记</span>接头强度不低于原导线80%</p>
+<p class="note">错在“必须相同”。规范只要求导线接头的抗拉强度不小于原导线抗拉强度的80%，实际工艺难以做到与原导线完全相同。</p>
+</div></div>
+<div class="blk" id="q1221">
+<aside class="ans x"><b>✖</b><span>判断 #1221</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1221</i>导线接头位置应尽量在绝缘子固定处，以方便统一扎线。</p>
+<p class="mem"><span>秒记</span>接头避开绝缘子固定处</p>
+<p class="note">错在“设在绝缘子固定处”。该处导线承受弯曲和绑扎应力最大，接头强度偏低易出问题；接头应设在受力小、便于检修的档距中间位置。</p>
+</div></div>
+<div class="blk" id="q1240">
+<aside class="ans x"><b>✖</b><span>判断 #1240</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1240</i>导体电阻的大小与导体的长度成反比，与横截面积成正比，并与材料的性质有关。</p>
+<p class="mem"><span>秒记</span>R=ρL/S：长正比、粗反比</p>
+<p class="note">长度和截面积的关系说反了。导体电阻与长度成正比、与横截面积成反比，并随材料电阻率ρ不同而不同。</p>
+</div></div>
+<div class="blk" id="q1283">
+<aside class="ans x"><b>✖</b><span>判断 #1283</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1283</i>电力线路敷设时可以采用突然剪断导线的办法松线。</p>
+<p class="mem"><span>秒记</span>松线要缓放，严禁突然剪断导线</p>
+<p class="note">错在“突然剪断”。突然剪断导线会产生猛烈回摆弹跳，易伤人和倒杆断线；放线松线必须平稳缓慢、统一指挥。</p>
+</div></div>
+</section>
+<section class="grp" id="cat_防火防爆"><h2>防火防爆<small>6错</small></h2>
+<nav class="qindex"><a href="#q684">684</a> <a href="#q978">978</a> <a href="#q979">979</a> <a href="#q998">998</a> <a href="#q1054">1054</a> <a href="#q1128">1128</a></nav>
+<div class="blk" id="q684">
+<aside class="ans x"><b>✖</b><span>判断 #684</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#684</i>使用灭火器扑灭初起火灾时要对准火焰的中部喷射。</p>
+<p class="mem"><span>秒记</span>灭火要对准火焰根部。</p>
+<p class="note">只有对着火焰根部喷射覆盖可燃物才能窒息灭火，对准火焰中部喷不到着火源，没有效果。</p>
+</div></div>
+<div class="blk" id="q978">
+<aside class="ans x"><b>✖</b><span>判断 #978</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#978</i>如果能够十分小心，则可以在认为安全的前提下，在具有火灾、爆炸危险的场所适当吸烟、使用明火。</p>
+<p class="mem"><span>秒记</span>火灾爆炸场所吸烟用火＝绝对禁止。</p>
+<p class="note">禁止性规定没有“足够小心就可以”的例外空间，《消防法》明令禁止，违者罚款乃至拘留。</p>
+</div></div>
+<div class="blk" id="q979">
+<aside class="ans x"><b>✖</b><span>判断 #979</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#979</i>人员密集场所发生火灾，该场所的现场工作人员应当立即组织、引导在场人员进行灭火，控制火情，不得擅自疏散。</p>
+<p class="mem"><span>秒记</span>着火先救人疏散，不是留在原地灭火。</p>
+<p class="note">《消防法》规定人员密集场所发生火灾时现场工作人员应立即组织、引导在场人员疏散；“不得擅自疏散”颠倒了生命优先原则。</p>
+</div></div>
+<div class="blk" id="q998">
+<aside class="ans x"><b>✖</b><span>判断 #998</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#998</i>为加强防盗工作，企业可以对人员密集场所的窗户加设封闭式防盗窗。</p>
+<p class="mem"><span>秒记</span>密集场所门窗不得设逃生救援障碍物。</p>
+<p class="note">《消防法》规定人员密集场所的门窗不得设置影响逃生和灭火救援的障碍物，加设封闭式防盗窗阻塞逃生通道，属违法行为。</p>
+</div></div>
+<div class="blk" id="q1054">
+<aside class="ans x"><b>✖</b><span>判断 #1054</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1054</i>在爆炸危险场所，应采用三相四线制，单相三线制方式供电。</p>
+<p class="mem"><span>秒记</span>爆炸危险场所用三相五线制（TN-S）</p>
+<p class="note">制式错误：爆炸危险场所必须采用三相五线制（三相五线＋专用PE线）、单相三线制供电；四线制无专用保护线，故障电压易引燃引爆。</p>
+</div></div>
+<div class="blk" id="q1128">
+<aside class="ans x"><b>✖</b><span>判断 #1128</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1128</i>当电容器爆炸时，应立即检查。</p>
+<p class="mem"><span>秒记</span>爆炸先断电源隔离，严禁马上凑近检查</p>
+<p class="note">顺序错误：电容器爆炸时应立即切断电源、隔离故障电容器组，待充分放电冷却后再检查处理，立即检查会有炸裂伤人危险。</p>
+</div></div>
+</section>
+<section class="grp" id="cat_电工基础"><h2>电工基础<small>48错</small></h2>
+<nav class="qindex"><a href="#q579">579</a> <a href="#q604">604</a> <a href="#q628">628</a> <a href="#q660">660</a> <a href="#q661">661</a> <a href="#q670">670</a> <a href="#q693">693</a> <a href="#q694">694</a> <a href="#q695">695</a> <a href="#q720">720</a> <a href="#q732">732</a> <a href="#q733">733</a> <a href="#q742">742</a> <a href="#q778">778</a> <a href="#q794">794</a> <a href="#q809">809</a> <a href="#q831">831</a> <a href="#q832">832</a> <a href="#q835">835</a> <a href="#q860">860</a> <a href="#q870">870</a> <a href="#q876">876</a> <a href="#q889">889</a> <a href="#q890">890</a> <a href="#q915">915</a> <a href="#q917">917</a> <a href="#q945">945</a> <a href="#q952">952</a> <a href="#q1029">1029</a> <a href="#q1057">1057</a> <a href="#q1058">1058</a> <a href="#q1122">1122</a> <a href="#q1123">1123</a> <a href="#q1125">1125</a> <a href="#q1127">1127</a> <a href="#q1131">1131</a> <a href="#q1132">1132</a> <a href="#q1149">1149</a> <a href="#q1183">1183</a> <a href="#q1184">1184</a> <a href="#q1186">1186</a> <a href="#q1215">1215</a> <a href="#q1222">1222</a> <a href="#q1233">1233</a> <a href="#q1238">1238</a> <a href="#q1244">1244</a> <a href="#q1246">1246</a> <a href="#q1286">1286</a></nav>
+<div class="blk" id="q579">
+<aside class="ans x"><b>✖</b><span>判断 #579</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#579</i>欧姆定律是反映电路中电流、电压、电位三者之间关系的定律。</p>
+<p class="mem"><span>秒记</span>欧姆定律三量：电流、电压、电阻。</p>
+<p class="note">错在&quot;电位&quot;一词：欧姆定律I=U/R反映的是电路中电流、电压、电阻三者之间的关系，与&quot;电位&quot;无关。</p>
+</div></div>
+<div class="blk" id="q604">
+<aside class="ans x"><b>✖</b><span>判断 #604</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#604</i>在交流电路中，电阻、纯电感和纯电容都是耗能元件。</p>
+<p class="mem"><span>秒记</span>只有电阻耗能，L、C只是储能交换。</p>
+<p class="note">错在把电感和电容也算作耗能元件：纯电感、纯电容在一个周期内的平均消耗功率为零，它们只与电源进行能量的往复交换，并非耗能元件。</p>
+</div></div>
+<div class="blk" id="q628">
+<aside class="ans x"><b>✖</b><span>判断 #628</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#628</i>引出中性线或零线的三相制系统称为三相三线制系统。</p>
+<p class="mem"><span>秒记</span>引出中性线/零线的是三相四线制。</p>
+<p class="note">名称错配：在三相制系统中引出中性线（零线）的应称为三相四线制系统，三相三线制系统不引出中性线。</p>
+</div></div>
+<div class="blk" id="q660">
+<aside class="ans x"><b>✖</b><span>判断 #660</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#660</i>并联电容器补偿装置是电力系统中重要的无功补偿设备，用以补偿系统的容性无功，提高功率因数，降低系统损耗，支撑系统电压。</p>
+<p class="mem"><span>秒记</span>并联电容补感性无功、提高功率因数。</p>
+<p class="note">并联电容器向系统注入容性无功去抵消负荷的感性无功，说是“补偿系统的容性无功”方向颠倒了。</p>
+</div></div>
+<div class="blk" id="q661">
+<aside class="ans x"><b>✖</b><span>判断 #661</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#661</i>滤波电容器主要用于滤除谐波，不具有无功补偿的作用。</p>
+<p class="mem"><span>秒记</span>滤波电容也能补偿无功。</p>
+<p class="note">滤波电容器与电抗器调谐滤除谐波的同时，对基波呈容性，本身就兼有无功补偿功能，并非“不具有”。</p>
+</div></div>
+<div class="blk" id="q670">
+<aside class="ans x"><b>✖</b><span>判断 #670</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#670</i>判断导体内的感应电动势的方向时，应使用左手定则。</p>
+<p class="mem"><span>秒记</span>感应电动势方向用右手定则。</p>
+<p class="note">右手定则（发电机定则）判定感应电动势方向；左手定则判定载流导体在磁场中所受电磁力的方向，两者不能混用。</p>
+</div></div>
+<div class="blk" id="q693">
+<aside class="ans x"><b>✖</b><span>判断 #693</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#693</i>用小磁针做实验，小磁针转动静止后指北的一端叫S极。</p>
+<p class="mem"><span>秒记</span>指北端是N极不是S极。</p>
+<p class="note">磁针自由转动静止后指向地理北方的一端称为北极（N极），指南的一端才是S极。</p>
+</div></div>
+<div class="blk" id="q694">
+<aside class="ans x"><b>✖</b><span>判断 #694</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#694</i>三相交流对称电路中，如采用三角形接线时，线电流等于相电流。</p>
+<p class="mem"><span>秒记</span>三角接线线电流=√3相电流。</p>
+<p class="note">三角形接法中线电流是相电流的√3倍，且滞后相应相电流30°，并不相等。</p>
+</div></div>
+<div class="blk" id="q695">
+<aside class="ans x"><b>✖</b><span>判断 #695</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#695</i>装于户外的电容器可以日光直接照射。</p>
+<p class="mem"><span>秒记</span>户外电容器应遮阳防晒。</p>
+<p class="note">日光直晒使电容器温升超高、外壳和绝缘油加速老化渗漏，户外安装应有遮阳防晒措施，不能任其暴晒。</p>
+</div></div>
+<div class="blk" id="q720">
+<aside class="ans x"><b>✖</b><span>判断 #720</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#720</i>两个电阻并联，其等效电阻比其中任何一个电阻都大。</p>
+<p class="mem"><span>秒记</span>并联电阻小于其中最小者。</p>
+<p class="note">两电阻并联等效电阻R=R₁R₂/(R₁+R₂)，必定小于R₁和R₂中较小的一个，说“比任何一个都大”正好说反。</p>
+</div></div>
+<div class="blk" id="q732">
+<aside class="ans x"><b>✖</b><span>判断 #732</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#732</i>当电阻R两端的电压U一定时，电阻R消耗的电功率P与电阻R的大小成正比。</p>
+<p class="mem"><span>秒记</span>U一定时P=U²/R与R成反比。</p>
+<p class="note">由I=U/R和P=UI可得P=U²/R，电压一定时电阻越大消耗功率越小，是反比关系而非正比。</p>
+</div></div>
+<div class="blk" id="q733">
+<aside class="ans x"><b>✖</b><span>判断 #733</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#733</i>防护电容器用于1kV以下系统，削弱系统的过电压。</p>
+<p class="mem"><span>秒记</span>防护电容用于1kV以上系统。</p>
+<p class="note">防护电容器一般用于1kV以上的高压系统中，与避雷器配合削弱大气过电压、保护设备绝缘，不是用于1kV以下。</p>
+</div></div>
+<div class="blk" id="q742">
+<aside class="ans x"><b>✖</b><span>判断 #742</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#742</i>感应电动势的方向与磁力线方向、导体运动方向无关。</p>
+<p class="mem"><span>秒记</span>感应电动势方向由磁场与运动方向定。</p>
+<p class="note">由右手定则可知，感应电动势的方向恰恰取决于磁力线方向和导体运动方向两个因素，题中“无关”说法错误。</p>
+</div></div>
+<div class="blk" id="q778">
+<aside class="ans x"><b>✖</b><span>判断 #778</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#778</i>将10A的直流电流和最大值为10A的交流电流分别通过阻值相同的电阻，则在同一时间内通过交流电流的电阻发热大。</p>
+<p class="mem"><span>秒记</span>幅值10A交流有效值仅约7.07A，发热比10A直流小。</p>
+<p class="note">发热按有效值计：直流10A发热对应有效值10A；最大值10A的正弦交流有效值为10/√2≈7.07A，同一时间内交流发热更小，题说交流发热大错误。</p>
+</div></div>
+<div class="blk" id="q794">
+<aside class="ans x"><b>✖</b><span>判断 #794</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#794</i>电容器室必须装设采暖装置。</p>
+<p class="mem"><span>秒记</span>电容器室要通风降温，不需装采暖装置。</p>
+<p class="note">电容器运行本身发热，室内应加强通风降温防止过热鼓胀，采暖升温反而不利且增加火灾风险，故不要求装设采暖装置。</p>
+</div></div>
+<div class="blk" id="q809">
+<aside class="ans x"><b>✖</b><span>判断 #809</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#809</i>线圈中通过的电流越小，在其周围产生的磁场强度就越强。</p>
+<p class="mem"><span>秒记</span>电流越小磁场越弱，磁场强度与电流成正比。</p>
+<p class="note">通电线圈周围磁场强度与通过的电流成正比，电流越小磁场越弱，&quot;电流越小磁场越强&quot;颠倒了因果关系。</p>
+</div></div>
+<div class="blk" id="q831">
+<aside class="ans x"><b>✖</b><span>判断 #831</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#831</i>在电路中A、B两点的电压用UAB表示，则UAB=UB-UA。</p>
+<p class="mem"><span>秒记</span>UAB=UA−UB（从前一点减后一点）。</p>
+<p class="note">A、B两点间的电压等于A点电位减B点电位，即UAB=UA−UB；写成UB−UA不但数值不符而且极性相反。</p>
+</div></div>
+<div class="blk" id="q832">
+<aside class="ans x"><b>✖</b><span>判断 #832</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#832</i>当通过电阻R的电流I一定时，电阻R消耗的电功率P与电阻R的大小成反比。</p>
+<p class="mem"><span>秒记</span>电流一定时P=I²R，功率与电阻成正比。</p>
+<p class="note">由焦耳定律P=I²R可知，通过电阻的电流I一定时，消耗功率与电阻R成正比；&quot;成反比&quot;只在电压U一定、按P=U²/R分析时才成立。</p>
+</div></div>
+<div class="blk" id="q835">
+<aside class="ans x"><b>✖</b><span>判断 #835</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#835</i>仓库的电源开关应该安装在仓库内，以保证库内不工作时不充电。</p>
+<p class="mem"><span>秒记</span>仓库电源开关应装在仓库外。</p>
+<p class="note">电源开关设在库外，可在库内出现险情时随时断电，并可避免开关分合闸火花引燃库内物品，&quot;装在仓库内&quot;错误。</p>
+</div></div>
+<div class="blk" id="q860">
+<aside class="ans x"><b>✖</b><span>判断 #860</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#860</i>电压的换算单位1kV=109mV。</p>
+<p class="mem"><span>秒记</span>1kV=10³V=10⁶mV。</p>
+<p class="note">千伏到毫伏相距三个千进制位共六个数量级，1kV=1000000mV=10⁶mV，题给的10⁹多了三个数量级。</p>
+</div></div>
+<div class="blk" id="q870">
+<aside class="ans x"><b>✖</b><span>判断 #870</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#870</i>电阻降压启动的主要缺点是电阻的功率损耗小、温升高，所以一般不宜用于频繁启动。</p>
+<p class="mem"><span>秒记</span>电阻降压启动缺点是损耗大温升高，不宜频繁启动。</p>
+<p class="note">串接电阻本身就是消耗电能发热的元件，缺点应是&quot;功率损耗大、温升高&quot;而非&quot;损耗小&quot;，题干性质颠倒出错；不宜频繁启动的结论倒是成立的。</p>
+</div></div>
+<div class="blk" id="q876">
+<aside class="ans x"><b>✖</b><span>判断 #876</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#876</i>低压电器的额定工作电压指电器长期工作承受的最高电压。</p>
+<p class="mem"><span>秒记</span>额定工作电压是保证正常工作的电压值；长期承受的最高电压属额定绝缘电压。</p>
+<p class="note">按标准定义，额定工作电压是与额定工作电流共同决定电器使用类别的工作电压值；电器长期工作所能承受的最高电压由额定绝缘电压表征，二者概念不同，不能混为一谈。</p>
+</div></div>
+<div class="blk" id="q889">
+<aside class="ans x"><b>✖</b><span>判断 #889</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#889</i>串联电容器用于电力系统中无功补偿，补偿负荷的感性电流，减小线路损耗，调节无功平衡。</p>
+<p class="mem"><span>秒记</span>并联电容器才补偿感性无功；串联电容器用于补偿线路感抗。</p>
+<p class="note">与负荷并联的电容器就地供给感性无功、提高功率因数、减小线损；把电容器串入线路是为了补偿线路电抗、提高输送能力，并不是&quot;补偿负荷的感性电流&quot;，功能归属错了。</p>
+</div></div>
+<div class="blk" id="q890">
+<aside class="ans x"><b>✖</b><span>判断 #890</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#890</i>电容器发生对地绝缘击穿，电容器的损失角正切值增大，箱壳膨胀及开路等故障，可自行修理。</p>
+<p class="mem"><span>秒记</span>电容器击穿、tgδ增大、箱壳膨胀等应淘汰更换，不得自行修理。</p>
+<p class="note">绝缘击穿、损失角正切增大、箱壳膨胀多意味着内部介质已严重受损，其密封结构在现场无法修复，只能交给专业部门检验处理或报废更换，&quot;可自行修理&quot;绝对禁止。</p>
+</div></div>
+<div class="blk" id="q915">
+<aside class="ans x"><b>✖</b><span>判断 #915</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#915</i>同等条件下，线圈匝数越多，线圈电感越小。</p>
+<p class="mem"><span>秒记</span>匝越多电感越大（L∝N²）。</p>
+<p class="note">自感系数与匝数平方近似成正比，同等条件下匝数增多电感应增大，题目写成了“越小”。</p>
+</div></div>
+<div class="blk" id="q917">
+<aside class="ans x"><b>✖</b><span>判断 #917</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#917</i>并联电容器应定期停电检查，每年至少1次，主要检查电容器壳体、瓷套管、安装支架等部位是否有积尘等污物存在，并进行认真的清扫。</p>
+<p class="mem"><span>秒记</span>并联电容器停电检查清扫每半年至少1次。</p>
+<p class="note">错在检查周期“每年至少1次”间隔过长；应按运维规定每半年左右停电检查清扫壳体、瓷套管、支架积尘。</p>
+</div></div>
+<div class="blk" id="q945">
+<aside class="ans x"><b>✖</b><span>判断 #945</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#945</i>在电阻串联的电路中，流过电路的总电流等于各串联电阻上电流之和。</p>
+<p class="mem"><span>秒记</span>串联处处电流一样大，不分你我不能相加。</p>
+<p class="note">串联电路只有一条通路，各电阻上电流彼此相等，总电流就是该电流本身，不存在“电流之和”的关系。</p>
+</div></div>
+<div class="blk" id="q952">
+<aside class="ans x"><b>✖</b><span>判断 #952</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#952</i>在三相对称电路中，总的有功功率等于线电压，线电流和功率因数三者相乘积的3倍</p>
+<p class="mem"><span>秒记</span>P=√3U线I线cosφ，是根号3不是3。</p>
+<p class="note">三相对称电路用线电压、线电流计算的有功功率P=√3UIcosφ；系数3只出现在代入相电压、相电流时（P=3UpIpcosφ）。</p>
+</div></div>
+<div class="blk" id="q1029">
+<aside class="ans x"><b>✖</b><span>判断 #1029</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1029</i>一件事件发生的可能性很大或者频率很高，我们就可以理解为这个事件的风险很大。</p>
+<p class="mem"><span>秒记</span>风险＝可能性×后果严重度，缺一不可。</p>
+<p class="note">仅凭发生可能性大就断定风险大忽视了后果维度：低概率但后果惨重的事件同样是重大风险，反之高频率的轻微事件风险也未必大。</p>
+</div></div>
+<div class="blk" id="q1057">
+<aside class="ans x"><b>✖</b><span>判断 #1057</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1057</i>高压电容器外壳有异形膨胀时，一般不需要将电容器立即退出运行。</p>
+<p class="mem"><span>秒记</span>外壳异形膨胀＝立即退出运行</p>
+<p class="note">结论相反：外壳异形膨胀说明内部介质过热分解产气，是爆裂前兆，必须立即停电退出运行进行检查，绝不能继续运行。</p>
+</div></div>
+<div class="blk" id="q1058">
+<aside class="ans x"><b>✖</b><span>判断 #1058</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1058</i>当电容器内部设有放电电阻时，电容器组可不设放电装置。</p>
+<p class="mem"><span>秒记</span>内有放电电阻仍须设放电装置</p>
+<p class="note">内部放电电阻只放电电容器自身残余电荷，电容器组仍须设置成套放电装置，保证断电后在规定时限内降至安全电压。</p>
+</div></div>
+<div class="blk" id="q1122">
+<aside class="ans x"><b>✖</b><span>判断 #1122</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1122</i>检查电容器时，只要检查电压是否符合要求即可。</p>
+<p class="mem"><span>秒记</span>还要查电流、温度、鼓肚渗漏、异响</p>
+<p class="note">检查项目太少：电容器巡视除电压外还应检查三相电流是否平衡超标、外壳温度、有无鼓肚渗漏油、异响和放电痕迹等。</p>
+</div></div>
+<div class="blk" id="q1123">
+<aside class="ans x"><b>✖</b><span>判断 #1123</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1123</i>电容器室内要有良好的天然采光。</p>
+<p class="mem"><span>秒记</span>电容器室重通风，不苛求天然采光</p>
+<p class="note">要求错项：电容器室的关键要求是通风良好以便散热排潮，天然采光并不是必需条件，反而应避免阳光直射引起温升。</p>
+</div></div>
+<div class="blk" id="q1125">
+<aside class="ans x"><b>✖</b><span>判断 #1125</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1125</i>如果电容器运行时，检查发现温度过高，应加强通风。</p>
+<p class="mem"><span>秒记</span>温度过高先停运查明原因，通风不解决根子</p>
+<p class="note">处置不当：运行温度过高往往源于过电压、过补偿或谐波过电流，应先把电容器退出运行查明原因处理，单纯加强通风只是治标。</p>
+</div></div>
+<div class="blk" id="q1127">
+<aside class="ans x"><b>✖</b><span>判断 #1127</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1127</i>补偿电容器的容量越大越好。</p>
+<p class="mem"><span>秒记</span>补偿适度即可，过补会过压谐振</p>
+<p class="note">走极端错误：容量过大会出现过补偿，轻载时抬高母线电压、可能引发谐振与自励磁，一般按功率因数0.9~0.95左右适度补偿。</p>
+</div></div>
+<div class="blk" id="q1131">
+<aside class="ans x"><b>✖</b><span>判断 #1131</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1131</i>并联补偿电容器主要用在直流电路中。</p>
+<p class="mem"><span>秒记</span>补偿电容用在交流电网</p>
+<p class="note">场景错误：并联补偿电容器运行于交流电力网，向系统提供容性无功以提高功率因数；直流电路中不存在这种无功补偿作用。</p>
+</div></div>
+<div class="blk" id="q1132">
+<aside class="ans x"><b>✖</b><span>判断 #1132</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1132</i>电容器的容量就是电容量。</p>
+<p class="mem"><span>秒记</span>容量是kvar，电容量是F，两个量</p>
+<p class="note">概念混淆：电容器的&quot;容量&quot;指额定无功功率（单位kvar），&quot;电容量&quot;指容纳电荷的能力（单位μF），二者不是同一个物理量。</p>
+</div></div>
+<div class="blk" id="q1149">
+<aside class="ans x"><b>✖</b><span>判断 #1149</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1149</i>高压水银灯的电压比较高，所以称为高压水银灯。</p>
+<p class="mem"><span>秒记</span>高压水银灯的高压指汞蒸气压力高</p>
+<p class="note">望文生义：高压水银灯（高压汞灯）名称里的&quot;高压&quot;是指灯管内汞蒸气压力较高，与外加电源电压的高低无关。</p>
+</div></div>
+<div class="blk" id="q1183">
+<aside class="ans x"><b>✖</b><span>判断 #1183</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1183</i>部分电路欧姆定律表明，当电压一定时，通过电阻的电流与电阻大小成正比。</p>
+<p class="mem"><span>秒记</span>I=U/R，电流与电阻成反比</p>
+<p class="note">错在“成正比”。欧姆定律I=U/R表明：电压一定时电阻越大电流越小，电流与电阻成反比。</p>
+</div></div>
+<div class="blk" id="q1184">
+<aside class="ans x"><b>✖</b><span>判断 #1184</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1184</i>在电阻并联的电路中，电路的端电压U等于各并联电阻的端电压之和。</p>
+<p class="mem"><span>秒记</span>并联各支路电压相等</p>
+<p class="note">错在“端电压之和”。并联电阻的两端分别接在同两点上，承受的是同一个端电压U，不是各支路电压相加。</p>
+</div></div>
+<div class="blk" id="q1186">
+<aside class="ans x"><b>✖</b><span>判断 #1186</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1186</i>导体的电阻大小与温度变化无关，在不同温度时，同一导体的电阻相同。</p>
+<p class="mem"><span>秒记</span>金属电阻随温度升高而增大</p>
+<p class="note">错在“与温度变化无关”。导体的电阻率随温度变化，金属导体温度升高电阻增大，不同温度下同一导体电阻不相同。</p>
+</div></div>
+<div class="blk" id="q1215">
+<aside class="ans x"><b>✖</b><span>判断 #1215</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1215</i>绝缘材料就是指绝对不导电的材料。</p>
+<p class="mem"><span>秒记</span>绝缘材料并非绝对不导电</p>
+<p class="note">错在“绝对不导电”。绝缘材料电阻率极高，但仍存在微小泄漏电流，电压超过击穿电压时会失去绝缘作用，只是导电能力极弱。</p>
+</div></div>
+<div class="blk" id="q1222">
+<aside class="ans x"><b>✖</b><span>判断 #1222</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1222</i>水和金属比较，水的导电性能更好。</p>
+<p class="mem"><span>秒记</span>金属导电远胜于水</p>
+<p class="note">说反了。金属依靠大量自由电子导电，电导率很高；纯水几乎绝缘，普通水仅靠离子弱导电，导电性能远不如金属。</p>
+</div></div>
+<div class="blk" id="q1233">
+<aside class="ans x"><b>✖</b><span>判断 #1233</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1233</i>通过与磁场方向平行的某一面积上的磁力线总线，称为通过该面积的磁通。</p>
+<p class="mem"><span>秒记</span>Φ=BS，面积须与磁场垂直</p>
+<p class="note">错在“平行”。磁通是通过垂直于磁场方向的某一面积上的磁力线总数，Φ=B·S；与磁场平行的面穿过的磁通为零。</p>
+</div></div>
+<div class="blk" id="q1238">
+<aside class="ans x"><b>✖</b><span>判断 #1238</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1238</i>几个不等值的电阻串联，每个电阻中通过的电流不相等。</p>
+<p class="mem"><span>秒记</span>串联电路电流处处相等</p>
+<p class="note">错在“不相等”。串联只有一条通路，不论电阻值是否相同，通过每个电阻的电流必然相等；阻值差异表现在各自分配的电压不同。</p>
+</div></div>
+<div class="blk" id="q1244">
+<aside class="ans x"><b>✖</b><span>判断 #1244</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1244</i>通过电磁感应现象可以知道，线圈中磁通变化越快，感应电动势越小。</p>
+<p class="mem"><span>秒记</span>磁通变化越快，感应电动势越大</p>
+<p class="note">错在“越小”。电磁感应定律e=-N·dΦ/dt表明感应电动势与磁通变化率成正比，磁通变化越快电动势越大。</p>
+</div></div>
+<div class="blk" id="q1246">
+<aside class="ans x"><b>✖</b><span>判断 #1246</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1246</i>交流电流的频率越高，则电感元件的感抗值越小，而电容元件的容抗值越大。</p>
+<p class="mem"><span>秒记</span>f越高XL越大、XC越小</p>
+<p class="note">完全说反了。感抗XL=2πfL随频率升高而增大；容抗XC=1/(2πfC)随频率升高而减小。</p>
+</div></div>
+<div class="blk" id="q1286">
+<aside class="ans x"><b>✖</b><span>判断 #1286</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1286</i>二极管只要工作在反向击穿区，一定会被击穿。</p>
+<p class="mem"><span>秒记</span>反向击穿不等于损坏，稳压管就在此区工作</p>
+<p class="note">错在“一定会被击穿（损坏）”。只要反向电流受限制、功耗不超过允许值，二极管在反向击穿区可稳定工作而不损坏，稳压二极管即长期工作在此区域。</p>
+</div></div>
+</section>
+<section class="grp" id="cat_综合安全"><h2>综合安全<small>11错</small></h2>
+<nav class="qindex"><a href="#q605">605</a> <a href="#q741">741</a> <a href="#q953">953</a> <a href="#q1099">1099</a> <a href="#q1133">1133</a> <a href="#q1136">1136</a> <a href="#q1147">1147</a> <a href="#q1165">1165</a> <a href="#q1175">1175</a> <a href="#q1207">1207</a> <a href="#q1271">1271</a></nav>
+<div class="blk" id="q605">
+<aside class="ans x"><b>✖</b><span>判断 #605</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#605</i>当两个物体相互靠近时，同性带电物体互相吸引，异性带电物体相互排斥。</p>
+<p class="mem"><span>秒记</span>电荷同性相斥、异性相吸。</p>
+<p class="note">法则恰好说反了：带电物体之间的作用规律是同性电荷相互排斥、异性电荷相互吸引。</p>
+</div></div>
+<div class="blk" id="q741">
+<aside class="ans x"><b>✖</b><span>判断 #741</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#741</i>在配电室进行的检维修作业，不需要进行风险分析，只要采取必要的安全措施即可。</p>
+<p class="mem"><span>秒记</span>检修必先风险分析无例外。</p>
+<p class="note">配电室内的检维修作业同样必须先进行危险源辨识与风险分析，办妥作业审批并落实针对性安全措施后方可作业，不存在免分析的情形。</p>
+</div></div>
+<div class="blk" id="q953">
+<aside class="ans x"><b>✖</b><span>判断 #953</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#953</i>30~40Hz的电流危险性最大</p>
+<p class="mem"><span>秒记</span>最危险电流频率是工频50~60Hz。</p>
+<p class="note">同样大小电流下50~60Hz对人体的生理效应最敏感、最易引发心室颤动，30~40Hz不是危险性最大的频段。</p>
+</div></div>
+<div class="blk" id="q1099">
+<aside class="ans x"><b>✖</b><span>判断 #1099</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1099</i>工频电流比高频电流更容易引起皮肤灼伤。</p>
+<p class="mem"><span>秒记</span>高频更易皮肤灼伤，工频重在伤心</p>
+<p class="note">弄反了：高频电流因趋肤效应集中于皮肤表层，最容易造成皮肤灼伤；工频电流主要危害在于引起心室颤动。</p>
+</div></div>
+<div class="blk" id="q1133">
+<aside class="ans x"><b>✖</b><span>判断 #1133</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1133</i>日常电气设备的维护和保养应由设备管理人员负责。</p>
+<p class="mem"><span>秒记</span>维护保养归持证电工，不归管理人员</p>
+<p class="note">责任主体错：日常电气设备的维护保养涉及带电作业技能与安全，应由专职持证电工负责，设备管理人员只承担组织管理职责。</p>
+</div></div>
+<div class="blk" id="q1136">
+<aside class="ans x"><b>✖</b><span>判断 #1136</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1136</i>移动式电气设备的性能与现场使用条件无关。</p>
+<p class="mem"><span>秒记</span>移动设备性能与现场使用条件息息相关</p>
+<p class="note">与事实相反：移动式电气设备经常搬迁、电源拖拽、环境影响大，其性能发挥和安全性恰恰取决于现场使用条件，选型必须匹配现场环境。</p>
+</div></div>
+<div class="blk" id="q1147">
+<aside class="ans x"><b>✖</b><span>判断 #1147</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1147</i>为了有明显区别，并列安装的同型号开关应不同高度，错落有致。</p>
+<p class="mem"><span>秒记</span>同型并列开关要同高齐排</p>
+<p class="note">要求相反：并列安装的同型号开关应保持同一水平高度、整齐一致，便于操作和美观，故意做成不同高度的&quot;错落有致&quot;违反安装规范。</p>
+</div></div>
+<div class="blk" id="q1165">
+<aside class="ans x"><b>✖</b><span>判断 #1165</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1165</i>为了安全可靠，所有开关均应同时控制相线和零线。</p>
+<p class="mem"><span>秒记</span>开关只切相线，零线不进开关</p>
+<p class="note">错在“同时控制相线和零线”。开关断开后灯头仍带零线电位易出事故；正确做法是开关只串接在相线上。</p>
+</div></div>
+<div class="blk" id="q1175">
+<aside class="ans x"><b>✖</b><span>判断 #1175</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1175</i>电工作业人员应根据实际情况遵守有关安全法规，规程和制度。</p>
+<p class="mem"><span>秒记</span>安全法规必须无条件遵守</p>
+<p class="note">错在“根据实际情况遵守”。安全法规、规程和制度具有强制性，电工必须不折不扣执行，不能视情况选择性遵守。</p>
+</div></div>
+<div class="blk" id="q1207">
+<aside class="ans x"><b>✖</b><span>判断 #1207</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1207</i>铜线与铝线在需要时可以直接连接。</p>
+<p class="mem"><span>秒记</span>铜铝相接要用过渡接头</p>
+<p class="note">错在“直接连接”。铜铝搭接遇潮气会发生电化腐蚀，接触电阻增大而过热，必须采用铜铝过渡接头或镀锡处理后连接。</p>
+</div></div>
+<div class="blk" id="q1271">
+<aside class="ans x"><b>✖</b><span>判断 #1271</span><em>错误</em></aside>
+<div class="bd">
+<p class="stem"><i>#1271</i>同一电器元件的各部件分散地画在原理图中，必须按顺序标注文字符号。</p>
+<p class="mem"><span>秒记</span>分散画的部件标相同文字符号</p>
+<p class="note">错在“按顺序标注文字符号”。原理图中同一元件的各部件分散画出时，应标注相同的文字符号（如均标KM）以表明属同一电器，而不是按顺序编号标注。</p>
+</div></div>
+</section>
+
+</main></body></html>

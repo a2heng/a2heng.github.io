@@ -322,6 +322,23 @@ body {
     word-break: break-all;
 }
 
+/* ── 教程（Mic 页）：B 站嵌入 + 站内链接 ── */
+.video-wrap {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+}
+.video-wrap iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 4px;
+}
+.step-l a { color: var(--good); }
+
 /* ── 二维码（输出页：白底保证可扫，深色模式也不反白）── */
 #qr-canvas {
     align-self: center;
@@ -412,7 +429,6 @@ body {
         <button id="in-unlock" class="mini" style="display:none"
                 title="授予麦克风权限">授权</button>
     </div>
-
     <!-- 输出与增益：Mic 版与输出页常驻；输入页只采集发送，整组隐藏 -->
     <div id="rx-controls" class="ctrl-group">
         <div class="row" id="out-row">
@@ -479,6 +495,33 @@ body {
         <div id="log-title">▾ 日志</div>
         <div id="log-content"></div>
     </div>
+
+    <!-- ── 教程（仅 Mic 页）：视频 + 虚拟声卡文字说明 + 作者主页 ── -->
+    <div class="step">
+        <div class="step-l">视频教程</div>
+        <div class="video-wrap">
+            <iframe src="https://player.bilibili.com/player.html?bvid=BV1Sfax66EK4&page=1&high_quality=1&danmaku=0"
+                    scrolling="no" frameborder="no" allowfullscreen="true"
+                    title="PureVox Web 使用教程"></iframe>
+        </div>
+        <div class="step-l"><a href="https://www.bilibili.com/video/BV1Sfax66EK4"
+                target="_blank" rel="noopener">在 B 站打开 ↗</a></div>
+    </div>
+    <div class="step">
+        <div class="step-l">把降噪后的声音送进会议 / 直播</div>
+        <div class="step-l">浏览器只能把声音播到扬声器。想让会议、直播软件
+            直接用降噪后的声音，加一条免费虚拟声卡中转：</div>
+        <div class="step-l">1 · 下载安装 VB-CABLE（免费）：
+            <a href="https://vb-audio.com/Cable/" target="_blank"
+               rel="noopener">vb-audio.com/Cable/ ↗</a></div>
+        <div class="step-l">2 · 本页输出选 CABLE Input，
+            会议软件里麦克风选 CABLE Output</div>
+        <div class="step-l">3 · 不会装？看视频：
+            <a href="https://www.bilibili.com/video/BV1i2bazGEKe"
+               target="_blank" rel="noopener">VB 安装教程 ↗</a></div>
+    </div>
+    <div class="step-l" style="text-align:center">作者主页：
+        <a href="https://a2heng.github.io/">a2heng.github.io</a></div>
 
 </div>
 

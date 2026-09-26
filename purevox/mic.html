@@ -325,6 +325,19 @@ body {
 /* ── 教程（Mic 页）：站内链接 ── */
 .step-l a { color: var(--good); }
 
+/* ── 站点页脚（三页共用）── */
+#site-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 10px;
+    justify-content: center;
+    font-size: 0.62rem;
+    color: var(--text-dimmer);
+    border-top: 1px solid var(--border);
+    padding-top: 8px;
+}
+#site-footer a { color: var(--good); }
+
 /* ── 二维码（输出页：白底保证可扫，深色模式也不反白）── */
 #qr-canvas {
     align-self: center;
@@ -480,6 +493,16 @@ body {
     <div id="log-section">
         <div id="log-title">▾ 日志</div>
         <div id="log-content"></div>
+    </div>
+
+    <!-- ── 站点页脚（三页共用）：开源仓库 / 教程视频 / 网盘下载 ── -->
+    <div id="site-footer">
+        <span>开源代码：<a href="https://github.com/a2heng/PureVox"
+                target="_blank" rel="noopener">github.com/a2heng/PureVox ↗</a></span>
+        <span>教程视频：<a href="https://www.bilibili.com/video/BV1hUYD6EEEK"
+                target="_blank" rel="noopener">B 站 ↗</a></span>
+        <span>网盘下载：<a href="https://pan.quark.cn/s/7026b7f32826?pwd=mifn"
+                target="_blank" rel="noopener">夸克网盘 ↗</a>（提取码：mifn）</span>
     </div>
 
     <!-- ── 教程（仅 Mic 页）：视频 + 虚拟声卡文字说明 + 作者主页 ── -->

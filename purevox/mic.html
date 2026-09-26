@@ -322,21 +322,7 @@ body {
     word-break: break-all;
 }
 
-/* ── 教程（Mic 页）：B 站嵌入 + 站内链接 ── */
-.video-wrap {
-    position: relative;
-    width: 100%;
-    padding-top: 56.25%;
-}
-.video-wrap iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
-    border-radius: 4px;
-}
+/* ── 教程（Mic 页）：站内链接 ── */
 .step-l a { color: var(--good); }
 
 /* ── 二维码（输出页：白底保证可扫，深色模式也不反白）── */
@@ -499,13 +485,8 @@ body {
     <!-- ── 教程（仅 Mic 页）：视频 + 虚拟声卡文字说明 + 作者主页 ── -->
     <div class="step">
         <div class="step-l">视频教程</div>
-        <div class="video-wrap">
-            <iframe src="https://player.bilibili.com/player.html?bvid=BV1Sfax66EK4&page=1&high_quality=1&danmaku=0"
-                    scrolling="no" frameborder="no" allowfullscreen="true"
-                    title="PureVox Web 使用教程"></iframe>
-        </div>
         <div class="step-l"><a href="https://www.bilibili.com/video/BV1Sfax66EK4"
-                target="_blank" rel="noopener">在 B 站打开 ↗</a></div>
+                target="_blank" rel="noopener">在 B 站看使用教程 ↗</a></div>
     </div>
     <div class="step">
         <div class="step-l">把降噪后的声音送进会议 / 直播</div>

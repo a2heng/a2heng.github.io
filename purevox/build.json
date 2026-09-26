@@ -1,0 +1,21 @@
+{
+  "flavors": {
+    "mic": "mic.html",
+    "out": "out.html",
+    "in": "in.html"
+  },
+  "model": {
+    "key": "202609b",
+    "label": "202609b（中号 0.57M · 默认）",
+    "file": "assets/models/purevox_denoise_202609b_ep0046.onnx",
+    "bytes": 9918104,
+    "sha256": "f4ee9f099474d6054e4db8a07e82f664299123d33ff0b09e5e740b961ef998ea"
+  },
+  "onnxruntimeWeb": {
+    "version": "1.29.0",
+    "glue": "assets/ort/ort.wasm.bundle.min.mjs",
+    "wasm": "assets/ort/ort-wasm-simd-threaded.wasm"
+  },
+  "baseUrl": "assets",
+  "assetsBytes": 23952843
+}

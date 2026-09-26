@@ -115,30 +115,55 @@
             letter-spacing: 0.04em;
         }
 
-        footer {
-            padding: 32px 0 48px;
-            border-top: 1px solid var(--line);
-            color: var(--muted);
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: var(--bg);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .nav-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 20px;
+            align-items: baseline;
+            padding-top: 12px;
+            padding-bottom: 12px;
             font-size: 0.85em;
         }
 
-        footer a {
+        .nav-row .brand {
+            margin-right: auto;
+            font-weight: 600;
             color: var(--text);
-            text-decoration: none;
-            border-bottom: 1px solid var(--line);
-            transition: border-color 0.3s;
         }
 
-        footer a:hover {
-            border-color: var(--accent);
+        .nav-row a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        .nav-row a:hover {
+            color: var(--text);
         }
     </style>
 </head>
 <body>
+    <nav class="topbar">
+        <div class="wrap nav-row">
+            <a class="brand" href="#top">a2heng</a>
+            <a href="#intro">介绍</a>
+            <a href="purevox/mic.html">PureVoxWeb</a>
+            <a href="purewav/">PureWavWeb</a>
+            <a href="mic-test.html">测试</a>
+            <a href="https://github.com/a2heng" target="_blank">GitHub</a>
+        </div>
+    </nav>
     <div class="wrap">
-        <header>
+        <header id="top">
             <h1>a2heng</h1>
-            <p class="intro">
+            <p class="intro" id="intro">
                 做 AI 音频与效率工具。关注本地、实时、轻量的体验，代码开源在
                 <a href="https://github.com/a2heng" target="_blank">GitHub</a>。
             </p>
@@ -150,22 +175,6 @@
                     <h2>PureVox</h2>
                     <p>轻量 AI 降噪、声纹提取与回声消除，支持网页 / 安卓 / Linux / Windows 麦克风输入。</p>
                     <div class="sub">C · 降噪 · TSE · AEC</div>
-                </a>
-            </div>
-
-            <div class="item">
-                <a href="purevox/mic.html">
-                    <h2>PureVox Web · 在线降噪</h2>
-                    <p>浏览器里直接用的麦克风降噪，打开即用，附视频教程。</p>
-                    <div class="sub">网页版 · 在线即用</div>
-                </a>
-            </div>
-
-            <div class="item">
-                <a href="purewav/">
-                    <h2>PureWav Web · 音频降噪</h2>
-                    <p>拖入音频文件，浏览器里降噪并导出 WAV，可再存出离线版。</p>
-                    <div class="sub">网页版 · 在线即用</div>
                 </a>
             </div>
 
@@ -201,20 +210,6 @@
                 </a>
             </div>
         </main>
-
-        <footer>
-            <p>
-                <a href="mic-test.html">麦克风测试</a>
-                ·
-                <a href="https://github.com/a2heng" target="_blank">GitHub</a>
-                ·
-                <span id="year"></span> a2heng
-            </p>
-        </footer>
     </div>
-
-    <script>
-        document.getElementById('year').textContent = new Date().getFullYear();
-    </script>
 </body>
 </html>

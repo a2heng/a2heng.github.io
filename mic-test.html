@@ -499,8 +499,7 @@
         </div>
     </div>
 
-    <script src="fft-lib.js"></script>
-    <script>
+        <script>
         let audioContext = null;
         let analyser = null;
         let mediaStream = null;
@@ -942,30 +941,114 @@
             }
         }
 
-        // 热图配色
-        function getHeatmapColor(normalizedValue) {
-            const colors = [
-                { pos: 0.00, r: 10, g: 10, b: 30 },
-                { pos: 0.15, r: 30, g: 20, b: 80 },
-                { pos: 0.30, r: 80, g: 30, b: 140 },
-                { pos: 0.45, r: 140, g: 40, b: 180 },
-                { pos: 0.60, r: 220, g: 60, b: 160 },
-                { pos: 0.75, r: 255, g: 120, b: 80 },
-                { pos: 0.90, r: 255, g: 200, b: 60 },
-                { pos: 1.00, r: 255, g: 255, b: 200 }
-            ];
+        // ── 全时长频谱（wav_browser 同款配置）：FFT4096 / 50%交叠 / 20Hz起 /
+        // 1kHz pivot 上下各 256 行（下线性上对数）/ magma / 相对参考 -80~0dB，
+        // 整段时长，频率 20Hz–1k–24kHz ──
+        const SP_NFFT = 4096, SP_HOP = 2048, SP_ROWS = 512;
+        const SP_MAX_COLS = 2000, SP_WAVE_COLS = 3200, SP_WAVE_PAD = 10;
+        const SP_FMIN = 20, SP_FMAX = 24000, SP_PIVOT = 1000, SP_PIVOT_RATIO = 0.5;
+        const SP_DB_LO = -80, SP_DB_HI = 0;
 
-            for (let i = 0; i < colors.length - 1; i++) {
-                if (normalizedValue >= colors[i].pos && normalizedValue <= colors[i + 1].pos) {
-                    const t = (normalizedValue - colors[i].pos) / (colors[i + 1].pos - colors[i].pos);
-                    return {
-                        r: Math.round(colors[i].r + t * (colors[i + 1].r - colors[i].r)),
-                        g: Math.round(colors[i].g + t * (colors[i + 1].g - colors[i].g)),
-                        b: Math.round(colors[i].b + t * (colors[i + 1].b - colors[i].b))
-                    };
+        function spFft(re, im) {
+          const n = re.length;
+          for (let i = 1, j = 0; i < n; i++) { let b = n >> 1; for (; j & b; b >>= 1) j ^= b; j ^= b;
+            if (i < j) { let t = re[i]; re[i] = re[j]; re[j] = t; t = im[i]; im[i] = im[j]; im[j] = t; } }
+          for (let len = 2; len <= n; len <<= 1) { const a = -2 * Math.PI / len, wr = Math.cos(a), wi = Math.sin(a);
+            for (let i = 0; i < n; i += len) { let cwr = 1, cwi = 0;
+              for (let j = 0; j < len / 2; j++) { const ur = re[i + j], ui = im[i + j];
+                const vr = re[i + j + len / 2] * cwr - im[i + j + len / 2] * cwi, vi = re[i + j + len / 2] * cwi + im[i + j + len / 2] * cwr;
+                re[i + j] = ur + vr; im[i + j] = ui + vi; re[i + j + len / 2] = ur - vr; im[i + j + len / 2] = ui - vi;
+                const t = cwr; cwr = cwr * wr - cwi * wi; cwi = t * wi + cwi * wr; } } }
+        }
+
+        let _spWin = null, _spBank = null;
+        function spBank(sr) {
+          if (_spBank && _spBank.sr === sr) return _spBank;
+          const nyq = sr / 2, maxBin = Math.max(2, SP_NFFT >> 1), rows = SP_ROWS;
+          const fmaxEff = Math.min(SP_FMAX, nyq);
+          const pivot = Math.min(Math.max(SP_PIVOT, SP_FMIN + 1), fmaxEff);
+          const freqAt = (ratio) => {
+            if (ratio <= SP_PIVOT_RATIO || pivot >= fmaxEff)
+              return SP_FMIN + (pivot - SP_FMIN) * Math.min(1, ratio / SP_PIVOT_RATIO);
+            const ur = (ratio - SP_PIVOT_RATIO) / (1 - SP_PIVOT_RATIO);
+            return pivot * Math.exp(Math.log(fmaxEff / pivot) * ur);
+          };
+          const band = [];
+          for (let r = 0; r < rows; r++) {
+            const f0 = Math.max(1.0, freqAt(r / rows)), f1 = Math.max(f0 + 1.0, freqAt((r + 1) / rows));
+            const b0 = Math.min(Math.max(Math.floor((f0 / nyq) * maxBin), 1), maxBin - 1);
+            const b1 = Math.min(Math.max(Math.ceil((f1 / nyq) * maxBin), b0 + 1), maxBin);
+            band.push({ start: b0, end: b1 });
+          }
+          _spBank = { sr, band, rows, fmaxEff };
+          return _spBank;
+        }
+
+        function spMagma(v) {
+          const s = [[0, 0, 4], [28, 16, 68], [79, 18, 123], [129, 37, 129], [181, 54, 122], [229, 80, 100], [251, 135, 97], [254, 194, 135], [252, 253, 191]];
+          const x = v * (s.length - 1), i = Math.min(s.length - 2, Math.floor(x)), f = x - i, a = s[i], b = s[i + 1];
+          return [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f, a[2] + (b[2] - a[2]) * f];
+        }
+
+        // 整段 PCM → 波形峰值对 + 混合谱（dB；ref 为外部参考，null 则取自身峰）
+        function spAnalyze(y, sr, ref) {
+          const bank = spBank(sr), rows = bank.rows, n = y.length;
+          const w = Math.min(SP_WAVE_COLS, Math.max(1, n));
+          const wf = new Float32Array(w * 2);
+          for (let i = 0; i < w; i++) {
+            const a = Math.floor(i * n / w), b = Math.max(a + 1, Math.floor((i + 1) * n / w));
+            let mn = 1e9, mx = -1e9;
+            for (let k = a; k < b; k++) { const v = y[k]; if (v < mn) mn = v; if (v > mx) mx = v; }
+            wf[i * 2] = mn; wf[i * 2 + 1] = mx;
+          }
+          const nWin = Math.max(1, Math.round(n / SP_HOP));
+          const merge = Math.max(1, Math.ceil(nWin / SP_MAX_COLS));
+          const cols = Math.max(1, Math.ceil(nWin / merge));
+          if (!_spWin) { _spWin = new Float64Array(SP_NFFT); for (let i = 0; i < SP_NFFT; i++) _spWin[i] = 0.5 - 0.5 * Math.cos(2 * Math.PI * i / SP_NFFT); }
+          const win = _spWin;
+          const re = new Float64Array(SP_NFFT), im = new Float64Array(SP_NFFT);
+          const frames = new Float32Array(cols * rows);
+          for (let c = 0; c < cols; c++) {
+            const acc = new Float64Array(rows), cnt = merge;
+            for (let m2 = 0; m2 < merge; m2++) {
+              const col = c * merge + m2;
+              const centre = ((2 * col + 1) * n) / (2 * nWin);
+              const s0 = Math.round(centre) - (SP_NFFT >> 1);
+              re.fill(0); im.fill(0);
+              for (let i = 0; i < SP_NFFT; i++) { const idx = s0 + i; if (idx >= 0 && idx < n) re[i] = y[idx] * win[i]; }
+              spFft(re, im);
+              for (let r = 0; r < rows; r++) {
+                const bd = bank.band[r];
+                const sz = Math.max(1, bd.end - bd.start), ps = 1.0 / sz;
+                let e = 0, tw = 0;
+                for (let b = bd.start; b < bd.end; b++) {
+                  const pos = sz === 1 ? 0.5 : ((b - bd.start) + 0.5) * ps;
+                  const taper = 1.0 - Math.abs(pos * 2.0 - 1.0);
+                  const wt = 0.7 + taper * 0.3;
+                  e += (re[b] * re[b] + im[b] * im[b]) * wt; tw += wt;
                 }
+                acc[r] += e / Math.max(tw, 1e-8);
+              }
             }
-            return colors[colors.length - 1];
+            for (let r = 0; r < rows; r++) frames[r * cols + c] = acc[r] / cnt;
+          }
+          let dmax = ref;
+          const db = new Float32Array(cols * rows);
+          for (let i = 0; i < db.length; i++) db[i] = 10 * Math.log10(frames[i] + 1e-10);
+          if (ref == null) { dmax = -1e9; for (let i = 0; i < db.length; i++) if (db[i] > dmax) dmax = db[i]; }
+          const lo = dmax + SP_DB_LO, rng = Math.max(SP_DB_HI - SP_DB_LO, 1e-6);
+          const data = new Uint8Array(cols * rows);
+          for (let i = 0; i < db.length; i++) { let v = (db[i] - lo) / rng; v = v < 0 ? 0 : v > 1 ? 1 : v; data[i] = Math.round(v * 255); }
+          return { cols, rows, data, wf, wfCols: w, ref: dmax, fmaxEff: bank.fmaxEff };
+        }
+
+        function spSpecImage(data, rows, cols) {
+          const t = document.createElement('canvas'); t.width = cols; t.height = rows;
+          const g = t.getContext('2d'), img = g.createImageData(cols, rows);
+          for (let y = 0; y < rows; y++) { const row = rows - 1 - y;
+            for (let x = 0; x < cols; x++) { const v = data[row * cols + x] / 255, c = spMagma(v), o = (y * cols + x) * 4;
+              img.data[o] = c[0]; img.data[o + 1] = c[1]; img.data[o + 2] = c[2]; img.data[o + 3] = 255; } }
+          g.putImageData(img, 0, 0); return t;
         }
 
         async function calculateAndDrawAnalysis(audioBlob) {
@@ -978,304 +1061,77 @@
                 const sampleRate = audioBuffer.sampleRate;
                 const duration = audioBuffer.duration;
 
-                // STFT 频谱参数
-                const windowSize = 960;   // 窗口大小
-                const hopSize = 480;      // hop 大小 (50% overlap)
-                const maxFreq = 16000;    // 最大频率 16kHz
-
-                // 波形数据 - 使用更多采样点让波形更平滑
-                const waveformData = [];
-                const numWaveformPoints = Math.min(channelData.length, 8000);  // 增加采样点
-                const waveStep = channelData.length / numWaveformPoints;
-                for (let i = 0; i < numWaveformPoints; i++) {
-                    const sampleIndex = Math.floor(i * waveStep);
-                    if (sampleIndex < channelData.length) {
-                        waveformData.push(channelData[sampleIndex]);
-                    }
-                }
-
-                // 计算 STFT 频谱
-                const fftSize = 1024;  // FFT 大小 (2的幂次，>= windowSize)
-                const maxSamples = Math.min(channelData.length, 2000 * hopSize + windowSize);
-                const signalSlice = channelData.slice(0, maxSamples);
-                const stftData = computeSTFT(signalSlice, windowSize, hopSize, fftSize);
-
-                drawWaveform(waveformData, duration);
-                drawSpectrogram(stftData, sampleRate, fftSize, duration, maxFreq);
+                // 全时长分析（FFT4096/50%交叠/20Hz~24kHz混合轴，与 wav_browser 同配置）
+                const view = spAnalyze(channelData, sampleRate, null);
+                drawWaveform(view.wf, view.wfCols, duration, '录音');
+                drawSpectrogram(view, duration);
 
             } catch (err) {
                 console.error('分析失败:', err);
             }
         }
 
-        // 频率转 Mel 刻度
-        function freqToMel(freq) {
-            return 2595 * Math.log10(1 + freq / 700);
-        }
-
-        // Mel 转频率
-        function melToFreq(mel) {
-            return 700 * (Math.pow(10, mel / 2595) - 1);
-        }
-
-        // 创建 Mel 滤波器组
-        function createMelFilterBank(fftSize, sampleRate, melFilterNum, maxFreq) {
-            const minMel = freqToMel(0);
-            const maxMel = freqToMel(maxFreq);
-            const melPoints = new Array(melFilterNum + 2);
-
-            // 在 Mel 刻度上均匀分布
-            for (let i = 0; i < melFilterNum + 2; i++) {
-                const mel = minMel + (maxMel - minMel) * i / (melFilterNum + 1);
-                melPoints[i] = melToFreq(mel);
-            }
-
-            // 转换为 FFT bin 索引
-            const binPoints = melPoints.map(freq => {
-                return Math.floor((fftSize + 1) * freq / sampleRate);
-            });
-
-            // 创建滤波器
-            const filterBank = [];
-            for (let i = 1; i <= melFilterNum; i++) {
-                const filter = new Array(Math.floor(fftSize / 2) + 1).fill(0);
-                const left = binPoints[i - 1];
-                const center = binPoints[i];
-                const right = binPoints[i + 1];
-
-                for (let j = left; j < center; j++) {
-                    if (j >= 0 && j < filter.length) {
-                        filter[j] = (j - left) / (center - left);
-                    }
-                }
-                for (let j = center; j <= right; j++) {
-                    if (j >= 0 && j < filter.length) {
-                        filter[j] = (right - j) / (right - center);
-                    }
-                }
-                filterBank.push(filter);
-            }
-
-            return filterBank;
-        }
-
-        // 计算 STFT 频谱
-        function computeSTFT(signal, windowSize, hopSize, fftSize) {
-            const numFrames = Math.floor((signal.length - windowSize) / hopSize) + 1;
-            const spectrogram = [];
-
-            for (let i = 0; i < numFrames; i++) {
-                const start = i * hopSize;
-                let frame = signal.slice(start, start + windowSize);
-
-                // 应用 Hanning 窗
-                const windowed = new Array(frame.length);
-                for (let n = 0; n < frame.length; n++) {
-                    windowed[n] = frame[n] * 0.5 * (1 - Math.cos(2 * Math.PI * n / (frame.length - 1)));
-                }
-
-                // 零填充到 FFT 大小
-                const padded = new Array(fftSize).fill(0);
-                for (let n = 0; n < windowed.length; n++) {
-                    padded[n] = windowed[n];
-                }
-
-                // FFT
-                const fftResult = FFTLib.fft(padded);
-                const magnitudes = new Array(fftResult.length / 2);
-                for (let k = 0; k < fftResult.length / 2; k++) {
-                    magnitudes[k] = Math.sqrt(fftResult[k][0] * fftResult[k][0] + fftResult[k][1] * fftResult[k][1]);
-                }
-
-                spectrogram.push(magnitudes);
-            }
-
-            return spectrogram;
-        }
-
-        function drawWaveform(waveformData, duration) {
+        function drawWaveform(wf, wcols, duration, title) {
             const displayWidth = waveformCanvas.offsetWidth;
             const displayHeight = 240;
             waveformCanvas.width = displayWidth * 2;
             waveformCanvas.height = displayHeight * 2;
-            
             const width = waveformCanvas.width;
             const height = waveformCanvas.height;
-            const paddingLeft = 100;
-            const paddingRight = 40;
-            const paddingTop = 40;
-            const paddingBottom = 60;
-            const chartWidth = width - paddingLeft - paddingRight;
-            const chartHeight = height - paddingTop - paddingBottom;
-
-            waveformCtx.fillStyle = '#0a0a12';
-            waveformCtx.fillRect(0, 0, width, height);
-
-            // 网格
-            waveformCtx.strokeStyle = 'rgba(60, 60, 90, 0.3)';
-            waveformCtx.lineWidth = 1;
-            
-            for (let i = 0; i <= 10; i++) {
-                const y = paddingTop + (chartHeight / 10) * i;
-                waveformCtx.beginPath();
-                waveformCtx.moveTo(paddingLeft, y);
-                waveformCtx.lineTo(width - paddingRight, y);
-                waveformCtx.stroke();
+            const g = waveformCtx;
+            g.fillStyle = '#0a0a12'; g.fillRect(0, 0, width, height);
+            g.strokeStyle = 'rgba(60, 60, 90, 0.3)'; g.lineWidth = 1;
+            g.beginPath(); g.moveTo(0, height / 2); g.lineTo(width, height / 2); g.stroke();
+            const PAD = 10 * 2, inner = Math.max(1, height - 2 * PAD);
+            g.strokeStyle = '#6b7cff'; g.lineWidth = 2; g.beginPath();
+            for (let i = 0; i < wcols; i++) {
+                const x = i / Math.max(1, wcols - 1) * width;
+                const a = Math.max(-1, Math.min(1, wf[i * 2])), c = Math.max(-1, Math.min(1, wf[i * 2 + 1]));
+                g.moveTo(x, (1 - c) / 2 * inner + PAD); g.lineTo(x, (1 - a) / 2 * inner + PAD);
             }
-
-            const timeDivisions = 20;
-            for (let i = 0; i <= timeDivisions; i++) {
-                const x = paddingLeft + (chartWidth / timeDivisions) * i;
-                waveformCtx.beginPath();
-                waveformCtx.moveTo(x, paddingTop);
-                waveformCtx.lineTo(x, height - paddingBottom);
-                waveformCtx.stroke();
-            }
-
-            // 零线
-            waveformCtx.strokeStyle = '#6b7cff';
-            waveformCtx.lineWidth = 2;
-            const zeroY = paddingTop + chartHeight / 2;
-            waveformCtx.beginPath();
-            waveformCtx.moveTo(paddingLeft, zeroY);
-            waveformCtx.lineTo(width - paddingRight, zeroY);
-            waveformCtx.stroke();
-
-            // 波形
-            const step = chartWidth / waveformData.length;
-            
-            waveformCtx.strokeStyle = '#6b7cff';
-            waveformCtx.lineWidth = 2;
-            waveformCtx.beginPath();
-            
-            for (let i = 0; i < waveformData.length; i++) {
-                const x = paddingLeft + i * step;
-                const amplitude = Math.max(-1, Math.min(1, waveformData[i]));
-                const y = zeroY - amplitude * chartHeight / 2;
-                
-                if (i === 0) {
-                    waveformCtx.moveTo(x, y);
-                } else {
-                    waveformCtx.lineTo(x, y);
-                }
-            }
-            waveformCtx.stroke();
-
-            // Y轴刻度
-            waveformCtx.fillStyle = '#8a8a9a';
-            waveformCtx.font = 'bold 16px Consolas, monospace';
-            waveformCtx.textAlign = 'right';
-
-            const ampLabels = ['1.0', '0.8', '0.6', '0.4', '0.2', '0.0', '-0.2', '-0.4', '-0.6', '-0.8', '-1.0'];
-            ampLabels.forEach((label, i) => {
-                const y = paddingTop + (chartHeight / 10) * i;
-                waveformCtx.fillText(label, paddingLeft - 10, y + 5);
-            });
-
-            // X轴时间刻度
-            waveformCtx.textAlign = 'center';
+            g.stroke();
+            g.fillStyle = '#8a8a9a'; g.font = 'bold 16px Consolas, monospace'; g.textAlign = 'left';
+            g.fillText((title || '') + '  ' + fmt(0) + ' – ' + fmt(duration), 10, 20);
+            g.textAlign = 'center';
             const timeLabels = 5;
             for (let i = 0; i < timeLabels; i++) {
                 const time = (duration / (timeLabels - 1)) * i;
-                const x = paddingLeft + (chartWidth / (timeLabels - 1)) * i;
-                waveformCtx.fillText(time.toFixed(1) + 's', x, height - 20);
+                const x = (width / (timeLabels - 1)) * i;
+                g.fillText(time.toFixed(1) + 's', x, height - 20);
             }
         }
 
         // 绘制 STFT 频谱图 (Linear 频率刻度)
-        function drawSpectrogram(stftData, sampleRate, fftSize, duration, maxFreq) {
+        function drawSpectrogram(view, duration) {
             const displayWidth = spectrogramCanvas.offsetWidth;
             const displayHeight = 600;
             spectrogramCanvas.width = displayWidth * 2;
             spectrogramCanvas.height = displayHeight * 2;
-
             const width = spectrogramCanvas.width;
             const height = spectrogramCanvas.height;
-            const paddingLeft = 100;
-            const paddingRight = 40;
-            const paddingTop = 40;
-            const paddingBottom = 60;
-            const chartWidth = width - paddingLeft - paddingRight;
-            const chartHeight = height - paddingTop - paddingBottom;
-
-            spectrogramCtx.fillStyle = '#0a0a12';
-            spectrogramCtx.fillRect(0, 0, width, height);
-
-            if (stftData.length === 0) return;
-
-            const numFreqBins = stftData[0].length;
-            const nyquist = sampleRate / 2;
-            const freqResolution = nyquist / numFreqBins;
-
-            // 找最大值用于归一化
-            let maxVal = 0;
-            for (let t = 0; t < stftData.length; t++) {
-                for (let f = 0; f < numFreqBins; f++) {
-                    maxVal = Math.max(maxVal, stftData[t][f]);
-                }
-            }
-            if (maxVal === 0) maxVal = 1e-10;
-
-            const pixelWidth = Math.max(1, chartWidth / stftData.length);
-
-            // 绘制频谱 (Linear 频率刻度)
-            for (let t = 0; t < stftData.length; t++) {
-                const x = paddingLeft + t * pixelWidth;
-
-                for (let f = 0; f < numFreqBins; f++) {
-                    const freq = f * freqResolution;
-                    if (freq > maxFreq) continue;
-
-                    // Linear 刻度下的 Y 坐标
-                    const y = paddingTop + chartHeight - (freq / maxFreq) * chartHeight;
-                    const pixelHeight = Math.max(1, chartHeight / numFreqBins);
-
-                    // 归一化能量值
-                    const magnitude = stftData[t][f] / maxVal;
-                    const db = 20 * Math.log10(magnitude + 1e-10);
-                    const normalizedDb = Math.max(0, (db + 90) / 90);
-
-                    const color = getHeatmapColor(normalizedDb);
-                    const alpha = Math.min(1, normalizedDb * 1.2 + 0.05);
-
-                    spectrogramCtx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha})`;
-                    spectrogramCtx.fillRect(x, y - pixelHeight, pixelWidth + 0.5, pixelHeight + 0.5);
-                }
-            }
-
-            // 网格 - Linear 频率刻度
-            spectrogramCtx.strokeStyle = 'rgba(60, 60, 90, 0.3)';
-            spectrogramCtx.lineWidth = 1;
-
-            const freqGridLines = [0, 2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000];
-            freqGridLines.forEach(freq => {
-                if (freq > maxFreq) return;
-                const y = paddingTop + chartHeight - (freq / maxFreq) * chartHeight;
-                spectrogramCtx.beginPath();
-                spectrogramCtx.moveTo(paddingLeft, y);
-                spectrogramCtx.lineTo(width - paddingRight, y);
-                spectrogramCtx.stroke();
-            });
-
-            // Y轴频率刻度
-            spectrogramCtx.fillStyle = '#8a8a9a';
-            spectrogramCtx.font = 'bold 16px Consolas, monospace';
-            spectrogramCtx.textAlign = 'right';
-
-            const freqLabels = [16000, 12000, 8000, 4000, 0];
-            freqLabels.forEach(freq => {
-                if (freq > maxFreq) return;
-                const y = paddingTop + chartHeight - (freq / maxFreq) * chartHeight;
-                spectrogramCtx.fillText(freq >= 1000 ? (freq/1000)+'k' : freq.toString(), paddingLeft - 10, y + 5);
-            });
-
-            // X轴时间刻度
-            spectrogramCtx.textAlign = 'center';
+            const g = spectrogramCtx;
+            g.fillStyle = '#0a0a12'; g.fillRect(0, 0, width, height);
+            const spec = spSpecImage(view.data, view.rows, view.cols);
+            g.imageSmoothingEnabled = false;
+            g.drawImage(spec, 0, 0, spec.width, spec.height, 0, 0, width, height);
+            const ySplit = height * SP_PIVOT_RATIO;
+            g.strokeStyle = 'rgba(255,255,255,.35)'; g.lineWidth = 1;
+            g.beginPath(); g.moveTo(0, ySplit); g.lineTo(width, ySplit); g.stroke();
+            const fmax = view.fmaxEff;
+            const top = fmax >= 1000 ? (fmax / 1000).toFixed(0) + 'k' : String(Math.round(fmax));
+            g.fillStyle = '#8a8a9a'; g.font = 'bold 16px Consolas, monospace'; g.textAlign = 'left';
+            g.fillText(top, 10, 20);
+            g.fillText('1k', 10, Math.max(20, ySplit - 14));
+            g.fillText('20', 10, height - 40);
+            g.textAlign = 'right';
+            g.fillText('0dB', width - 10, 20);
+            g.fillText('-80dB', width - 10, height - 40);
+            g.textAlign = 'center';
             const timeLabels = 5;
             for (let i = 0; i < timeLabels; i++) {
                 const time = (duration / (timeLabels - 1)) * i;
-                const x = paddingLeft + (chartWidth / (timeLabels - 1)) * i;
-                spectrogramCtx.fillText(time.toFixed(1) + 's', x, height - 20);
+                const x = (width / (timeLabels - 1)) * i;
+                g.fillText(time.toFixed(1) + 's', x, height - 20);
             }
         }
 

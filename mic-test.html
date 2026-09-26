@@ -949,6 +949,8 @@
         const SP_FMIN = 20, SP_FMAX = 24000, SP_PIVOT = 1000, SP_PIVOT_RATIO = 0.5;
         const SP_DB_LO = -80, SP_DB_HI = 0;
 
+        function fmt(t) { t = Math.max(0, t || 0); const m = Math.floor(t / 60), s = t - m * 60; return m + ':' + s.toFixed(1).padStart(4, '0'); }
+
         function spFft(re, im) {
           const n = re.length;
           for (let i = 1, j = 0; i < n; i++) { let b = n >> 1; for (; j & b; b >>= 1) j ^= b; j ^= b;

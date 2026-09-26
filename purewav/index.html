@@ -36,11 +36,16 @@
   canvas { display:block; width:100%; height:100%; }
   footer { padding:6px 16px; color:var(--muted); font-size:12px; border-top:1px solid var(--border);
            display:flex; justify-content:space-between; }
+  #webnav { text-align:center; font-size:12px; color:var(--muted); padding:8px 16px 0; }
+  #webnav a { color:var(--muted); text-decoration:none; }
+  #webnav a:hover { color:#fff; }
+  #webnav span { margin:0 10px; opacity:.6; }
   #links { padding:6px 16px 12px; color:var(--muted); font-size:12px; text-align:center; }
   #links a { color:#4ec9b0; }
 </style>
 </head>
 <body>
+<div id="webnav"><a href="https://a2heng.github.io/mic-test.html">测试</a><span>·</span><a href="https://a2heng.github.io/purevox/mic.html">PureVoxWeb</a><span>·</span><a href="https://a2heng.github.io/purewav/">PureWavWeb</a></div>
 <header>
   <span class="logo">PureWav Web</span>
   <span class="sub">浏览器端 ONNX 推理 · 无需服务器</span>
@@ -560,13 +565,19 @@
         '<script id="glue" type="text/plain">' + bytesToB64(glue) + '</scr' + 'ipt>\n' +
         '<script id="wasm" type="text/plain">' + bytesToB64(wasm) + '</scr' + 'ipt>\n' +
         '<script id="model" type="text/plain">' + bytesToB64(model) + '</scr' + 'ipt>\n';
-      src = src.replace(/<script>window\.PUREWAV_ASSETS=\{[^}]*\};<\/script>/,
+      // 用替换前后是否变化判定是否咬住目标（子串包含检查不可靠：
+      // app.js 自身就含有同样的字面量，会永远命中误报）。
+      const next1 = src.replace(/<script>window\.PUREWAV_ASSETS=\{[^}]*\};<\/script>/,
         '<script>window.PUREWAV_ASSETS={glue:"#glue",wasm:"#wasm",model:"#model"};</scr' + 'ipt>\n' + blobs);
-      src = src.replace(/<script src="[^"]*ort\.wasm\.min\.js"><\/script>/,
-        '<script>\n' + ortJs + '\n</scr' + 'ipt>');
-      if (src.indexOf('__ORT_JS_URL__') >= 0 || src.indexOf('"#glue"') < 0) {
+      if (next1 === src) {
         throw new Error('页面结构对不上，导出中止（页面不是新版在线版？）');
       }
+      const next2 = next1.replace(/<script src="[^"]*ort\.wasm\.min\.js"><\/script>/,
+        '<script>\n' + ortJs + '\n</scr' + 'ipt>');
+      if (next2 === next1) {
+        throw new Error('页面结构对不上，导出中止（找不到运行时脚本位）');
+      }
+      src = next2;
       const url = URL.createObjectURL(new Blob([src], { type: 'text/html' }));
       const a = document.createElement('a');
       a.href = url; a.download = 'PureWavWeb.html'; a.click();

@@ -62,6 +62,27 @@
             text-align: center;
         }
 
+        .webnav {
+            text-align: center;
+            font-size: 0.8em;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .webnav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .webnav a:hover {
+            color: var(--text-primary);
+        }
+
+        .webnav span {
+            margin: 0 10px;
+            opacity: .6;
+        }
+
         .privacy-notice strong {
             color: var(--accent);
         }
@@ -401,6 +422,7 @@
 </head>
 <body>
     <div class="container">
+        <nav class="webnav"><a href="https://a2heng.github.io/mic-test.html">测试</a><span>·</span><a href="https://a2heng.github.io/purevox/mic.html">PureVoxWeb</a><span>·</span><a href="https://a2heng.github.io/purewav/">PureWavWeb</a></nav>
         <header>
             <h1>麦克风测试工具</h1>
             <p class="subtitle">实时检测麦克风音量电平与频谱</p>

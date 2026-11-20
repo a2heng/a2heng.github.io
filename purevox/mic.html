@@ -356,9 +356,37 @@ body {
 #url-text { font-size: 0.62rem; }
 
 /* ── 电平表 ── */
+#cur-mic-row { gap: 8px; }
+#cur-mic-name {
+    flex: 0 1 auto;
+    max-width: 46%;
+    font-size: 0.7rem;
+    color: var(--text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#cur-mic-name.warn { color: #cc5544; }
+#cur-mic-name.mismatch { color: #cccc44; }
+#mic-hint {
+    margin: 2px 0 0 48px;
+    font-size: 0.62rem;
+    line-height: 1.55;
+    color: var(--text-dim);
+}
+#mic-hint b { color: var(--text); font-weight: 600; }
+#mic-hint code {
+    font-family: 'Courier New', monospace;
+    color: var(--text);
+    background: var(--bg-input);
+    padding: 0 3px;
+    border-radius: 2px;
+}
 #vu-meter {
     position: relative;
-    width: 100%;
+    flex: 1;
+    min-width: 80px;
+    width: auto;
     height: 16px;
     border-radius: 2px;
     overflow: hidden;
@@ -443,13 +471,37 @@ body {
 
 
 
+    <!-- 第一行：Chrome 实际交给网页的麦克风（只读）+ VU -->
+    <div class="row" id="cur-mic-row">
+        <span class="row-l">麦克风</span>
+        <span id="cur-mic-name" title="">--</span>
+        <div id="vu-meter">
+            <div class="vu-track">
+                <div class="vu-zone" style="left:0%;width:66.67%;background:var(--vu-bg1);"></div>
+                <div class="vu-zone" style="left:66.67%;width:18.33%;background:var(--vu-bg2);"></div>
+                <div class="vu-zone" style="left:85%;width:15%;background:var(--vu-bg3);"></div>
+            </div>
+            <div class="vu-fill-seg" id="vu-fill1" style="left:0%;width:0%;background:var(--vu-fill1);"></div>
+            <div class="vu-fill-seg" id="vu-fill2" style="left:66.67%;width:0%;background:var(--vu-fill2);"></div>
+            <div class="vu-fill-seg" id="vu-fill3" style="left:85%;width:0%;background:var(--vu-fill3);"></div>
+            <div id="vu-peak"></div>
+            <div id="vu-db">--</div>
+        </div>
+    </div>
+    <!-- 第二行：选择要申请的麦克风；Chrome 自己的授权/调整看下面说明 -->
     <div class="row" id="in-row">
-        <span class="row-l">输入</span>
+        <span class="row-l">选择</span>
         <select id="in-select"></select>
         <button id="in-unlock" class="mini" style="display:none"
                 title="授予麦克风权限">授权</button>
         <button id="in-reget" class="mini"
                 title="重新申请当前选择的麦克风（Chrome 站点麦克风设置改过之后点这里）">重取</button>
+    </div>
+    <div id="mic-hint">
+        桌面 Chrome 还有一层自己的麦克风控制：点地址栏左侧的<b>麦克风/锁图标</b>——
+        「授权」是允许本站使用麦克风，「调整」是改具体用哪个麦克风；
+        也可以打开 <code>chrome://settings/content/microphone</code>。
+        改完点「重取」，第一行会显示 Chrome 实际给的那个设备。
     </div>
     <!-- 输出与增益：Mic 版与输出页常驻；输入页只采集发送，整组隐藏 -->
     <div id="rx-controls" class="ctrl-group">
@@ -480,20 +532,6 @@ body {
         <span class="strip-icon">▶</span>
         <span class="strip-text" id="strip-text">启动</span>
     </button>
-
-    <!-- ── 电平表 ── -->
-    <div id="vu-meter">
-        <div class="vu-track">
-            <div class="vu-zone" style="left:0%;width:66.67%;background:var(--vu-bg1);"></div>
-            <div class="vu-zone" style="left:66.67%;width:18.33%;background:var(--vu-bg2);"></div>
-            <div class="vu-zone" style="left:85%;width:15%;background:var(--vu-bg3);"></div>
-        </div>
-        <div class="vu-fill-seg" id="vu-fill1" style="left:0%;width:0%;background:var(--vu-fill1);"></div>
-        <div class="vu-fill-seg" id="vu-fill2" style="left:66.67%;width:0%;background:var(--vu-fill2);"></div>
-        <div class="vu-fill-seg" id="vu-fill3" style="left:85%;width:0%;background:var(--vu-fill3);"></div>
-        <div id="vu-peak"></div>
-        <div id="vu-db">--</div>
-    </div>
 
     <!-- ── 调试信息 ── -->
     <div id="debug-section">
@@ -909,6 +947,22 @@ window.PV.ASSETS = Object.freeze({
         setText('gain-' + which, String(db));
     }
 
+    // 第一行「麦克风」：只显示 Chrome 实际交给网页的设备（track.label），
+    // 与第二行申请的设备可能不同——不一致时正好暴露站点麦克风设置问题。
+    function shortMicName(text) {
+        return String(text || '')
+            .replace(/^(默认|通讯)\s*-\s*/, '')
+            .replace(/\s*\([0-9a-f]{4}:[0-9a-f]{4}\)\s*$/i, '');
+    }
+
+    function setMic(text, kind) {
+        const e = el('cur-mic-name');
+        if (!e) return;
+        e.textContent = text ? shortMicName(text) : '--';
+        e.title = text || '';
+        e.className = kind || '';
+    }
+
     function bindGain() {
         for (const which of ['pre', 'post']) {
             const dec = el('gain-' + which + '-dec');
@@ -934,7 +988,7 @@ window.PV.ASSETS = Object.freeze({
 
     PV.ui = {
         el, setText, setHtml, log, status, state, level, resetLevel,
-        debug, running, setGain, init,
+        debug, running, setGain, init, setMic,
     };
 })(window.PV = window.PV || {});
 })(window.PV = window.PV || {});
@@ -2265,6 +2319,7 @@ window.PV.ASSETS = Object.freeze({
             stream = await navigator.mediaDevices.getUserMedia({ audio });
         } catch (e) {
             PV.ui.state('麦克风申请失败', 'bad');
+            PV.ui.setMic('未获取到麦克风', 'warn');
             PV.ui.log('麦克风不可用：' + (e && e.name ? e.name + ' ' + e.message : e));
             if (e && (e.name === 'OverconstrainedError' || e.name === 'NotFoundError')) {
                 PV.ui.log('Chrome 可能把本站麦克风固定成了别的设备。点地址栏左侧的' +
@@ -2279,7 +2334,9 @@ window.PV.ASSETS = Object.freeze({
         app.stream = stream;
         const track = stream.getAudioTracks()[0];
         const actualLabel = track ? track.label : '';
+        PV.ui.setMic(actualLabel || '未命名麦克风');
         if (PV.util.isVirtualMicLabel(actualLabel)) {
+            PV.ui.setMic(actualLabel + '（虚拟，无输入）', 'warn');
             PV.ui.state('输入是虚拟设备', 'bad');
             PV.ui.log('Chrome 实际打开的是虚拟设备「' + actualLabel +
                 '」——它没有物理麦克风输入，只会得到全 0。');
@@ -2293,6 +2350,7 @@ window.PV.ASSETS = Object.freeze({
         if (deviceId && deviceId !== 'default' && deviceId !== 'communications' && track) {
             const actualId = track.getSettings ? track.getSettings().deviceId : '';
             if (actualId && actualId !== deviceId) {
+                PV.ui.setMic(actualLabel + '（Chrome 实际）', 'mismatch');
                 PV.ui.log('注意：请求「' + inLabel + '」，Chrome 实际给的是「' +
                     actualLabel + '」。如果声音不对，点地址栏麦克风图标改设备后点「重取」。');
             }
@@ -2405,6 +2463,7 @@ window.PV.ASSETS = Object.freeze({
         PV.ui.running(false, '启动');
         PV.ui.state('已停止', 'idle');
         PV.ui.status('已停止');
+        PV.ui.setMic('--');
         PV.ui.resetLevel();
     }
 

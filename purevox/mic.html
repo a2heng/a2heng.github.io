@@ -489,7 +489,7 @@ body {
             <tr><td class="dg-l">重采样</td><td class="dg-r" id="dbg-ratio">--</td><td class="dg-l">推理</td><td class="dg-r" id="dbg-infer">--</td></tr>
             <tr><td class="dg-l">水位</td><td class="dg-r" id="dbg-wm">--</td><td class="dg-l">欠载</td><td class="dg-r" id="dbg-under">--</td></tr>
             <tr><td class="dg-l">丢样</td><td class="dg-r" id="dbg-drop">--</td><td class="dg-l">端到端</td><td class="dg-r" id="dbg-lat">--</td></tr>
-            <tr><td class="dg-l">设备 SR</td><td class="dg-r" id="dbg-dev">--</td><td class="dg-l"></td><td class="dg-r"></td></tr>
+            <tr><td class="dg-l">设备 SR</td><td class="dg-r" id="dbg-dev">--</td><td class="dg-l">电平</td><td class="dg-r" id="dbg-lvl">--</td></tr>
         </table>
     </div>
 
@@ -535,8 +535,8 @@ window.PV = window.PV || {};
 window.PV.ASSETS = Object.freeze({
     ortGlueUrl: "assets/ort/ort.wasm.bundle.min.mjs",
     ortWasmUrl: "assets/ort/ort-wasm-simd-threaded.wasm",
-    // 线上优先走 jsDelivr（全站共享缓存、自动 brotli/gzip）；失败再回退本地：
-    // 先本地 .wasm.gz（3.4MB，DecompressionStream 现解），最后才是 14MB 原始 wasm。
+    // ORT 运行时优先本站 .wasm.gz（3.4MB，同源最快；GitHub Pages 在国内
+    // 通常比 jsDelivr 裸 14MB wasm 稳）；gz 不可用时再试 jsDelivr，最后 14MB 原始包。
     ortCdnBase: "https://cdn.jsdelivr.net/npm/onnxruntime-web@1.29.0/dist/",
     ortWasmGzUrl: "assets/ort/ort-wasm-simd-threaded.wasm.gz",
     modelUrl: "assets/models/purevox_denoise_202609b_core.onnx",
@@ -1429,14 +1429,16 @@ window.PV.ASSETS = Object.freeze({
             .then((b) => new TextDecoder('utf-8').decode(b));
     }
 
-    // ORT 三件套优先级：CDN → 本地 gz → 本地原始。胶水与 wasm 必须成对，
+    // ORT 三件套优先级：本地 gz → CDN → 本地原始。胶水与 wasm 必须成对，
     // 所以一次尝试里两个都成功才算数；任何一步失败就换下一档。
+    // 本地 gz 排第一是实测结论：国内直连 jsDelivr 下 14MB 裸 wasm 要十几秒，
+    // 这期间页面会「看起来没工作」；3.4MB 同源 gz 更快。
     async function loadOrt(onStage, report) {
         const attempts = [];
-        if (A.ortCdnBase) attempts.push({ tag: 'CDN', base: A.ortCdnBase, gz: false, timeout: 8000 });
         if (typeof DecompressionStream !== 'undefined') {
             attempts.push({ tag: '本地 gz', base: '', gz: true, timeout: 0 });
         }
+        if (A.ortCdnBase) attempts.push({ tag: 'CDN', base: A.ortCdnBase, gz: false, timeout: 8000 });
         attempts.push({ tag: '本地', base: '', gz: false, timeout: 0 });
 
         let last = null;
@@ -1636,7 +1638,7 @@ window.PV.ASSETS = Object.freeze({
             this._postDb = 0;
             this._stat = {
                 watermark: 0, started: false, under: 0, dropped: 0,
-                qdrop: 0, hops: 0, ratio: 1, actx: '--',
+                qdrop: 0, hops: 0, ratio: 1, actx: '--', peak: 0,
             };
             this._onLevel = null;
             this._onStat = null;
@@ -1706,6 +1708,7 @@ window.PV.ASSETS = Object.freeze({
 
         _onCapture(msg) {
             if (msg.type === 'level') {
+                this._stat.peak = msg.peak;
                 if (this._onLevel) this._onLevel(msg.peak);
                 return;
             }
@@ -1722,6 +1725,9 @@ window.PV.ASSETS = Object.freeze({
         // 而不是在 JS 侧堆一个无界队列。
         _pump() {
             if (this._busy || !this._queue.length || !this._running) return;
+            // 引擎还在下载/初始化：只保留最新 hop。采集与 VU 不受影响，
+            // 引擎就绪后的下一跳自动接上，不再让整条音频图等着 14MB 下载完。
+            if (!PV.ort.ready) { this._queue.length = 0; return; }
             const hop = this._queue.shift();
             this._busy = true;
             PV.ort.infer(hop, this._preGain).then((enh) => {
@@ -1923,13 +1929,14 @@ window.PV.ASSETS = Object.freeze({
     }
 
     // 引擎引导：先起 worker，再解三件资源（每步让出一帧刷新进度文案）
-    async function bootEngine() {
-        PV.ui.state('加载中', 'busy');
+    async function bootEngine(onStage) {
+        const st = onStage || ((text, kind) => PV.ui.state(text, kind || 'busy'));
+        st('加载中', 'busy');
         try {
-            await PV.ort.boot((stage) => PV.ui.state(stage, 'busy'));
+            await PV.ort.boot((stage) => st(stage, 'busy'));
             return true;
         } catch (e) {
-            PV.ui.state('引擎失败', 'bad');
+            st('引擎失败', 'bad');
             PV.ui.log('引擎加载失败：' + (e && e.message ? e.message : e));
             return false;
         }
@@ -2127,6 +2134,7 @@ window.PV.ASSETS = Object.freeze({
                 under: String(st.under),
                 drop: String(st.dropped + st.qdrop),
                 lat: p.latencyMs() + ' ms',
+                lvl: st.peak > 0 ? PV.util.linearToDb(st.peak).toFixed(0) + ' dB' : '--',
             };
             if (extra) Object.assign(rows, extra());
             PV.ui.debug(rows);
@@ -2168,6 +2176,7 @@ window.PV.ASSETS = Object.freeze({
     const app = {
         cfg: null, pipeline: null, stream: null, running: false,
         deviceRate: 0, inRow: null, outRow: null,
+        lowSince: 0, lowWarned: false,
     };
     PV.app = app;
 
@@ -2208,17 +2217,28 @@ window.PV.ASSETS = Object.freeze({
             ' · 设备原生 ' + (app.deviceRate ? app.deviceRate + ' Hz' : '未知') +
             ' · 引擎 48kHz');
 
-        if (!PV.ort.ready) {
-            const ok = await PV.session.bootEngine();
-            if (!ok) {
-                stream.getTracks().forEach((t) => t.stop());
-                app.stream = null;
-                return;
-            }
-        }
-
         app.pipeline = new PV.Pipeline();
-        app.pipeline._onLevel = (peak) => PV.ui.level(PV.util.linearToDb(peak));
+        app.lowSince = 0;
+        app.lowWarned = false;
+        app.pipeline._onLevel = (peak) => {
+            const db = PV.util.linearToDb(peak);
+            PV.ui.level(db);
+            // 电平太低时明确说出来：模型在极低电平下会整体门限到静音，
+            // 表现为「没有 VU、也没有声音」，很容易被当成页面坏了。
+            const now = performance.now();
+            if (db < -55) {
+                if (!app.lowSince) app.lowSince = now;
+                if (!app.lowWarned && now - app.lowSince > 5000) {
+                    app.lowWarned = true;
+                    PV.ui.log('输入电平只有 ' + db.toFixed(0) +
+                        ' dB（说话时应高于 -40 dB）：检查麦克风静音/系统增益，' +
+                        '或换一个输入设备；也可以把前增益调到 +20 dB 试试。');
+                }
+            } else {
+                app.lowSince = 0;
+                app.lowWarned = false;
+            }
+        };
         app.pipeline._onStat = () => { /* 统计由 startStats 定时取 */ };
         try {
             await app.pipeline.start(stream, {
@@ -2248,6 +2268,34 @@ window.PV.ASSETS = Object.freeze({
 
         app.running = true;
         PV.ui.running(true, '停止');
+
+        // 关键顺序：先把麦克风接进音频图（VU 立刻工作），再等降噪引擎。
+        // 否则 ghio 上首次要下 6MB / 十几秒，这段时间 VU 和输出全是死的，
+        // 看起来就像「降噪不工作」。引擎就绪后下一跳自动接上。
+        if (PV.ort.ready) {
+            PV.ui.state('运行中', 'good');
+            PV.ui.status('运行中 · 48kHz 单声道 · 降噪常驻');
+            return;
+        }
+        PV.ui.state('等待引擎', 'busy');
+        PV.ui.status('麦克风已开：说话时 VU 应有反应；引擎就绪后自动出声');
+        PV.ui.log('降噪引擎下载/初始化中：麦克风与 VU 已工作，就绪后自动开始降噪输出');
+        const ok = await PV.session.bootEngine((text, kind) => {
+            if (app.running) PV.ui.state(text, kind);
+        });
+        if (!app.running || !app.pipeline) {      // 用户等不及已经点了停止
+            PV.ui.state('已停止', 'idle');
+            PV.ui.status('已停止');
+            return;
+        }
+        if (!ok) {
+            PV.ui.state('引擎失败', 'bad');
+            PV.ui.status('降噪引擎失败：麦克风仍在采集（VU 正常），可停止后重试');
+            return;
+        }
+        // 引擎就绪：清掉等待期间的播放缓冲，下一跳开始出声
+        try { app.pipeline.playNode.port.postMessage({ type: 'flush' }); } catch (e) { /* 已停止 */ }
+        PV.ort.flush();
         PV.ui.state('运行中', 'good');
         PV.ui.status('运行中 · 48kHz 单声道 · 降噪常驻');
     }

@@ -525,7 +525,7 @@ body {
     <!-- 第一行：Chrome 实际交给网页的麦克风（只读）+ 输入 VU -->
     <div class="row" id="cur-mic-row">
         <span class="row-l">麦克风</span>
-        <span id="cur-mic-name" title="">--</span>
+        <span id="cur-mic-name" title="">未启动</span>
         <div id="vu-meter">
             <div class="vu-track">
                 <div class="vu-zone" style="left:0%;width:66.67%;background:var(--vu-bg1);"></div>
@@ -560,14 +560,13 @@ body {
             </div>
         </div>
         <div id="mic-hint">
-            桌面 Chrome：点地址栏左侧<b>麦克风/锁图标</b>——「授权」是允许本站使用麦克风；
+            桌面 Chrome：点地址栏左侧<b>麦克风/锁图标</b>——「授权」是允许本站使用麦克风。
             要<b>「调整」实际使用的麦克风，必须先关闭/重置本站麦克风权限</b>，
-            再点 <button id="in-reget" class="mini" title="重新申请麦克风">重取麦克风</button>，
-            在重新弹出的授权窗里选物理麦克风。也可以打开
-            <code>chrome://settings/content/microphone</code> 重置本站权限。
-            第一行显示 Chrome 实际给的设备。扬声器不需要单独授权，<b>给麦克风权限就够了</b>
-            （Chrome 共用一次授权）；如果输出列表为空或无法调整，确认本站麦克风权限已授予，
-            或检查系统输出设备。
+            然后<b>停止 → 启动</b>（或刷新页面），Chrome 会重新弹授权窗，在里面选物理麦克风。
+            也可以打开 <code>chrome://settings/content/microphone</code> 重置本站权限。
+            第一行显示 Chrome 实际给的设备；未启动时显示「未启动」。
+            扬声器不需要单独授权，<b>给麦克风权限就够了</b>（Chrome 共用一次授权）；
+            如果输出列表为空或无法调整，确认本站麦克风权限已授予，或检查系统输出设备。
         </div>
         <div id="mic-help">
             <div id="mic-help-note">
@@ -583,7 +582,7 @@ body {
                 <a href="assets/help/change.png" target="_blank" rel="noopener">
                     <img src="assets/help/change.png" alt="Chrome 调整：关闭/重置权限后换麦克风" loading="lazy">
                 </a>
-                <figcaption>调整：已授权不能直接换；关掉麦克风开关或点「重置权限」，再点「重取麦克风」</figcaption>
+                <figcaption>调整：已授权不能直接换；关掉麦克风开关或点「重置权限」，再停止 → 启动</figcaption>
             </figure>
         </div>
         <div class="row">
@@ -2371,28 +2370,6 @@ window.PV.ASSETS = Object.freeze({
     function setupDevices() {
         app.outRow = PV.session.setupOutputRow('mic', app.cfg,
             (id) => (app.pipeline ? app.pipeline.setSinkId(id) : null));
-        const reget = PV.ui.el('in-reget');
-        if (reget) {
-            reget.addEventListener('click', async () => {
-                let state = '';
-                try {
-                    const st = await navigator.permissions.query({ name: 'microphone' });
-                    state = st.state;
-                } catch (e) { /* 浏览器不支持查询 */ }
-                if (state === 'granted') {
-                    PV.ui.log('Chrome 已记住本站麦克风权限，不会再次弹窗选设备（所以第二次点没反应）。' +
-                        '要换麦克风：先点地址栏左侧麦克风图标 → 关闭/重置权限，再点「重取麦克风」。');
-                    return;
-                }
-                if (state === 'denied') {
-                    PV.ui.log('本站麦克风权限被拒绝：点地址栏左侧麦克风图标 → 允许，再点「重取麦克风」。');
-                    return;
-                }
-                PV.ui.log('重新申请麦克风…');
-                if (app.running) await stop();
-                await start();
-            });
-        }
     }
 
     async function start() {
@@ -2411,11 +2388,11 @@ window.PV.ASSETS = Object.freeze({
             PV.ui.log('麦克风不可用：' + (e && e.name ? e.name + ' ' + e.message : e));
             if (e && (e.name === 'OverconstrainedError' || e.name === 'NotFoundError')) {
                 PV.ui.log('Chrome 可能把本站麦克风固定成了别的设备。要换设备：' +
-                    '先关闭/重置本站麦克风权限，再点「重取麦克风」重新授权选物理麦克风。');
+                    '先关闭/重置本站麦克风权限，再停止 → 启动（或刷新页面）重新授权选物理麦克风。');
                 PV.ui.log('设置页：chrome://settings/content/microphone');
             } else if (e && e.name === 'NotAllowedError') {
                 PV.ui.log('麦克风权限被拒绝：点地址栏左侧的麦克风图标 → 允许，' +
-                    '然后点「重取」。');
+                    '然后再点「启动」。');
             }
             return;
         }
@@ -2429,7 +2406,7 @@ window.PV.ASSETS = Object.freeze({
             PV.ui.log('Chrome 实际打开的是虚拟设备「' + actualLabel +
                 '」——它没有物理麦克风输入，只会得到全 0。');
             PV.ui.log('要换麦克风：先点地址栏左侧麦克风/锁图标 → 关闭/重置本站麦克风权限，' +
-                '再点「重取麦克风」，在重新弹出的授权窗里选物理麦克风。');
+                '再停止 → 启动（或刷新页面），在重新弹出的授权窗里选物理麦克风。');
             PV.ui.log('设置页：chrome://settings/content/microphone');
             stream.getTracks().forEach((t) => t.stop());
             app.stream = null;
@@ -2457,7 +2434,7 @@ window.PV.ASSETS = Object.freeze({
                     if (peak === 0) {
                         PV.ui.log('麦克风连续返回全 0（不是小声，是没数据）：' +
                             '检查麦克风硬件静音键 / Windows 麦克风隐私开关 / 是否被其他软件独占；' +
-                            '或点地址栏左侧麦克风图标换设备，再点「重取麦克风」。');
+                            '或重置本站麦克风权限后再停止 → 启动。');
                     } else {
                         PV.ui.log('输入电平只有 ' + db.toFixed(0) +
                             ' dB（说话时应高于 -40 dB）：检查麦克风静音/系统增益，' +
@@ -2545,7 +2522,7 @@ window.PV.ASSETS = Object.freeze({
         PV.ui.running(false, '启动');
         PV.ui.state('已停止', 'idle');
         PV.ui.status('已停止');
-        PV.ui.setMic('--');
+        PV.ui.setMic('未启动');
         PV.ui.resetLevel();
     }
 

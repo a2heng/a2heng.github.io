@@ -6,16 +6,20 @@
   },
   "model": {
     "key": "202609b",
-    "label": "202609b（中号 0.57M · 默认）",
-    "file": "assets/models/purevox_denoise_202609b_ep0046.onnx",
-    "bytes": 9918104,
-    "sha256": "f4ee9f099474d6054e4db8a07e82f664299123d33ff0b09e5e740b961ef998ea"
+    "label": "202609b（中号 0.57M · 核心图 2.4MB）",
+    "file": "assets/models/purevox_denoise_202609b_core.onnx",
+    "bytes": 2524949,
+    "sha256": "39ce11614e07916aba26e629007d84d50789b939c3067c7305421349e5379024",
+    "note": "STFT/ISTFT 已移到网页 Worker（Bluestein FFT），模型只保留网络本体"
   },
   "onnxruntimeWeb": {
     "version": "1.29.0",
     "glue": "assets/ort/ort.wasm.bundle.min.mjs",
-    "wasm": "assets/ort/ort-wasm-simd-threaded.wasm"
+    "wasm": "assets/ort/ort-wasm-simd-threaded.wasm",
+    "wasmGz": "assets/ort/ort-wasm-simd-threaded.wasm.gz",
+    "cdn": "https://cdn.jsdelivr.net/npm/onnxruntime-web@1.29.0/dist/"
   },
   "baseUrl": "assets",
-  "assetsBytes": 23952843
+  "assetsBytes": 16559697,
+  "downloadBytesLocal": 6175131
 }

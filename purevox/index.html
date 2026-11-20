@@ -14,6 +14,8 @@ p{max-width:420px;margin:16px auto;font-size:.72rem;line-height:1.6;opacity:.8}<
     <li><a href="mic.html">PureVox Web · 麦克风降噪</a><span>Lite Mic · 浏览器版（附视频教程）</span></li>
     <li><a href="https://a2heng.github.io/">作者主页</a><span>a2heng.github.io</span></li>
   </ul>
-  <p>降噪模型与 ONNX 运行时按需下载并长期缓存，
-  页面本身不请求任何第三方服务。麦克风需要安全上下文。</p>
+  <p>降噪模型已剥离 STFT/ISTFT（傅里叶矩阵原本占模型 75%，现在由页面里的
+  Bluestein FFT 现算），模型从 9.9MB 降到 2.4MB。ONNX 运行时优先走 jsDelivr
+  CDN（全站共享缓存），不通时自动回退本站的 gzip 版，共约 6MB 且长期缓存。
+  麦克风需要安全上下文。</p>
 </body></html>

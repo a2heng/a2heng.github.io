@@ -15,11 +15,9 @@
   "onnxruntimeWeb": {
     "version": "1.29.0",
     "glue": "assets/ort/ort.wasm.bundle.min.mjs",
-    "wasm": "assets/ort/ort-wasm-simd-threaded.wasm",
-    "wasmGz": "assets/ort/ort-wasm-simd-threaded.wasm.gz",
-    "cdn": "https://cdn.jsdelivr.net/npm/onnxruntime-web@1.29.0/dist/"
+    "wasmGz": "assets/ort/ort-wasm-simd-threaded.wasm.gz"
   },
   "baseUrl": "assets",
-  "assetsBytes": 16559697,
+  "assetsBytes": 6175131,
   "downloadBytesLocal": 6175131
 }

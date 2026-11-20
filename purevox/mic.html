@@ -367,6 +367,18 @@ body {
 }
 .vu-track, .vu-zone, .vu-fill-seg { position: absolute; top: 0; height: 100%; }
 .vu-fill-seg { z-index: 1; }
+#vu-db {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    height: 100%;
+    line-height: 16px;
+    font-size: 0.55rem;
+    color: var(--text-dimmer);
+    font-variant-numeric: tabular-nums;
+    z-index: 3;
+    pointer-events: none;
+}
 #vu-peak {
     position: absolute;
     top: 0;
@@ -478,6 +490,7 @@ body {
         <div class="vu-fill-seg" id="vu-fill2" style="left:66.67%;width:0%;background:var(--vu-fill2);"></div>
         <div class="vu-fill-seg" id="vu-fill3" style="left:85%;width:0%;background:var(--vu-fill3);"></div>
         <div id="vu-peak"></div>
+        <div id="vu-db">--</div>
     </div>
 
     <!-- ── 调试信息 ── -->
@@ -534,10 +547,7 @@ body {
 window.PV = window.PV || {};
 window.PV.ASSETS = Object.freeze({
     ortGlueUrl: "assets/ort/ort.wasm.bundle.min.mjs",
-    ortWasmUrl: "assets/ort/ort-wasm-simd-threaded.wasm",
-    // ORT 运行时优先本站 .wasm.gz（3.4MB，同源最快；GitHub Pages 在国内
-    // 通常比 jsDelivr 裸 14MB wasm 稳）；gz 不可用时再试 jsDelivr，最后 14MB 原始包。
-    ortCdnBase: "https://cdn.jsdelivr.net/npm/onnxruntime-web@1.29.0/dist/",
+    // 单一来源，不做 CDN/原始 wasm 回退：本站 gzip 版 3.4MB，DecompressionStream 现解。
     ortWasmGzUrl: "assets/ort/ort-wasm-simd-threaded.wasm.gz",
     modelUrl: "assets/models/purevox_denoise_202609b_core.onnx",
     modelSha256: "39ce11614e07916aba26e629007d84d50789b939c3067c7305421349e5379024",
@@ -808,8 +818,15 @@ window.PV.ASSETS = Object.freeze({
     const PEAK_DECAY = 2;      // dB/s
     let peakDb = -60;
     let peakAt = 0;
+    let lastDbText = '';
 
     function level(db) {
+        const dbText = db <= -100 ? '--' : Math.round(db) + ' dB';
+        if (dbText !== lastDbText) {
+            lastDbText = dbText;
+            const t = el('vu-db');
+            if (t) t.textContent = dbText;
+        }
         const pct = PV.util.clamp((db + 60) / 60 * 100, 0, 99);
         const f1 = el('vu-fill1');
         const f2 = el('vu-fill2');
@@ -844,6 +861,9 @@ window.PV.ASSETS = Object.freeze({
     function resetLevel() {
         peakDb = -60;
         peakAt = 0;
+        lastDbText = '';
+        const t = el('vu-db');
+        if (t) t.textContent = '--';
         level(-60);
     }
 
@@ -1329,8 +1349,8 @@ window.PV.ASSETS = Object.freeze({
 // transfer 给 worker（零拷贝）。两处瘦身：
 //   1) 模型里的 4 张 DFT 矩阵（占 75%）移到 Worker 用 Bluestein FFT 现算，
 //      202609b 从 9.9MB → 2.4MB；
-//   2) ORT 运行时优先 CDN（jsDelivr，全站共享缓存 + 自动压缩），失败回退
-//      本地 .wasm.gz（3.4MB，DecompressionStream 现解），最后才是 14MB 原始包。
+//   2) ORT 运行时固定走本站 .wasm.gz（3.4MB），DecompressionStream 现解；
+//      不做 CDN / 原始 wasm 回退，路径唯一。
 // 同一时刻只允许一跳在途：天然背压，Worker 慢于实时不会堆积无界队列。
 (function (PV) {
     'use strict';
@@ -1346,6 +1366,7 @@ window.PV.ASSETS = Object.freeze({
     let msCount = 0;
     let bootResolve = null;
     let bootReject = null;
+    let bootPromise = null;
 
     function stats() {
         if (msCount === 0) return { avg: 0, last: 0 };
@@ -1429,40 +1450,6 @@ window.PV.ASSETS = Object.freeze({
             .then((b) => new TextDecoder('utf-8').decode(b));
     }
 
-    // ORT 三件套优先级：本地 gz → CDN → 本地原始。胶水与 wasm 必须成对，
-    // 所以一次尝试里两个都成功才算数；任何一步失败就换下一档。
-    // 本地 gz 排第一是实测结论：国内直连 jsDelivr 下 14MB 裸 wasm 要十几秒，
-    // 这期间页面会「看起来没工作」；3.4MB 同源 gz 更快。
-    async function loadOrt(onStage, report) {
-        const attempts = [];
-        if (typeof DecompressionStream !== 'undefined') {
-            attempts.push({ tag: '本地 gz', base: '', gz: true, timeout: 0 });
-        }
-        if (A.ortCdnBase) attempts.push({ tag: 'CDN', base: A.ortCdnBase, gz: false, timeout: 8000 });
-        attempts.push({ tag: '本地', base: '', gz: false, timeout: 0 });
-
-        let last = null;
-        for (const at of attempts) {
-            try {
-                onStage(at.tag === 'CDN' ? '连接 CDN' : '连接资源（' + at.tag + '）');
-                const glueUrl = at.base ? at.base + 'ort.wasm.bundle.min.mjs' : A.ortGlueUrl;
-                const wasmUrl = at.base ? at.base + 'ort-wasm-simd-threaded.wasm'
-                    : (at.gz ? A.ortWasmGzUrl : A.ortWasmUrl);
-                // 胶水很小：先拿到再下 wasm，避免 CDN 半通时白下 14MB
-                const glueText = await fetchText(glueUrl, 'ORT 胶水', at.timeout);
-                const wasm = await fetchBytes(wasmUrl, 'ORT 运行时', report, {
-                    gzip: at.gz, connectMs: at.timeout, idleMs: 20000,
-                });
-                if (at.tag !== '本地') PV.ui.log('ORT 运行时：' + at.tag);
-                return { glueText: glueText, wasm: wasm };
-            } catch (e) {
-                last = e;
-                PV.ui.log('ORT ' + at.tag + ' 不可用：' + (e && e.message ? e.message : e));
-            }
-        }
-        throw last || new Error('ORT 运行时加载失败');
-    }
-
     // 模型完整性校验：旧版本曾经复用同一个 URL，浏览器 force-cache 可能一直
     // 拿着旧模型（表现就是「降噪不工作」）。内容哈希不符就绕过缓存重下一次。
     async function sha256Hex(bytes) {
@@ -1485,7 +1472,42 @@ window.PV.ASSETS = Object.freeze({
         return b;
     }
 
+    // ORT 三件套：固定走本站 .wasm.gz + DecompressionStream（3.4MB）。
+    // 不做 CDN / 原始 wasm 回退——路径唯一，出问题就明确报错，不静默换源。
+    async function loadOrt(onStage, report) {
+        if (typeof DecompressionStream === 'undefined' || typeof TransformStream === 'undefined') {
+            throw new Error('浏览器不支持 gzip 解压（DecompressionStream），请升级浏览器');
+        }
+        onStage('连接资源');
+        // GitHub Pages 偶尔 503：同一路径重试几次，不换源（不引入回退）。
+        const retry = async (fn, n) => {
+            let last = null;
+            for (let i = 0; i < n; i++) {
+                try { return await fn(); }
+                catch (e) {
+                    last = e;
+                    if (i < n - 1) await new Promise((r) => setTimeout(r, 400 * (i + 1)));
+                }
+            }
+            throw last;
+        };
+        const glueText = await retry(() => fetchText(A.ortGlueUrl, 'ORT 胶水'), 3);
+        const wasm = await retry(() => fetchBytes(A.ortWasmGzUrl, 'ORT 运行时', report, { gzip: true }), 2);
+        PV.ui.log('ORT 运行时：本站 gz（3.4MB）');
+        return { glueText: glueText, wasm: wasm };
+    }
+
     function boot(onStage) {
+        if (ready) return Promise.resolve();
+        if (bootPromise) return bootPromise;
+        bootPromise = doBoot(onStage).then(
+            (info) => { bootPromise = null; return info; },
+            (err) => { bootPromise = null; throw err; }
+        );
+        return bootPromise;
+    }
+
+    function doBoot(onStage) {
         if (ready) return Promise.resolve();
         const loaded = {};
         const totals = { ort: 0, model: 0 };
@@ -2070,16 +2092,21 @@ window.PV.ASSETS = Object.freeze({
                 }
                 if (o.apply) await o.apply(sel.value);
                 PV.ui.log(o.name + '：' + cfg[o.saved[1]]);
+                if (o.kind === 'audiooutput' && /CABLE Input/i.test(cfg[o.saved[1]] || '')) {
+                    PV.ui.log('提示：输出到虚拟声卡 CABLE Input 时本机耳机不会响；' +
+                        '请在会议软件里选 CABLE Output，或在 Windows 声音设置里监听 CABLE Output。');
+                }
             });
         }
         return { refresh };
     }
 
     // 输入行：只列麦克风。这里的「授权」就是字面意义的麦克风权限。
-    function setupInputRow(flavor, cfg) {
+    function setupInputRow(flavor, cfg, apply) {
         return setupDeviceRow({
             flavor, cfg,
             kind: 'audioinput',
+            apply: apply,
             selId: 'in-select', unlockId: 'in-unlock', rowId: 'in-row',
             saved: ['input_device_id', 'input_device'],
             placeholder: null, lockedText: '麦克风（未授权，不可见）',
@@ -2189,7 +2216,12 @@ window.PV.ASSETS = Object.freeze({
     };
 
     function setupDevices() {
-        app.inRow = PV.session.setupInputRow('mic', app.cfg);
+        app.inRow = PV.session.setupInputRow('mic', app.cfg, async (id) => {
+            if (!app.running) return;
+            PV.ui.log('切换输入设备：重启麦克风…');
+            await stop();
+            await start();
+        });
         app.outRow = PV.session.setupOutputRow('mic', app.cfg,
             (id) => (app.pipeline ? app.pipeline.setSinkId(id) : null));
     }
@@ -2230,9 +2262,15 @@ window.PV.ASSETS = Object.freeze({
                 if (!app.lowSince) app.lowSince = now;
                 if (!app.lowWarned && now - app.lowSince > 5000) {
                     app.lowWarned = true;
-                    PV.ui.log('输入电平只有 ' + db.toFixed(0) +
-                        ' dB（说话时应高于 -40 dB）：检查麦克风静音/系统增益，' +
-                        '或换一个输入设备；也可以把前增益调到 +20 dB 试试。');
+                    if (peak === 0) {
+                        PV.ui.log('麦克风连续返回全 0（不是小声，是没数据）：' +
+                            '检查麦克风硬件静音键 / Windows 麦克风隐私开关 / 是否被其他软件独占，' +
+                            '或在「输入」里换一个设备（换完会自动重启麦克风）。');
+                    } else {
+                        PV.ui.log('输入电平只有 ' + db.toFixed(0) +
+                            ' dB（说话时应高于 -40 dB）：检查麦克风静音/系统增益，' +
+                            '或换一个输入设备；也可以把前增益调到 +20 dB 试试。');
+                    }
                 }
             } else {
                 app.lowSince = 0;
@@ -2344,6 +2382,21 @@ window.PV.ASSETS = Object.freeze({
         }));
         await app.inRow.refresh();
         await app.outRow.refresh();
+
+        // 页面空闲时预热引擎：ghio 首次要下约 6MB，十几秒；把它挪到用户
+        // 点「启动」之前，点下去时大概率已经就绪（单飞，不会重复下载）。
+        const preload = () => {
+            if (PV.ort.ready) return;
+            PV.ort.boot((stage) => PV.ui.state(stage, stage === '就绪' ? 'good' : 'busy'))
+                .then(() => PV.ui.log('降噪引擎已预热，点「启动」即可'))
+                .catch((e) => PV.ui.log('引擎预热失败（点「启动」会重试）：' +
+                    (e && e.message ? e.message : e)));
+        };
+        if (typeof requestIdleCallback === 'function') {
+            requestIdleCallback(preload, { timeout: 1500 });
+        } else {
+            setTimeout(preload, 800);
+        }
     }
 
     window.addEventListener('DOMContentLoaded', main);

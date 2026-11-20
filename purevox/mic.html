@@ -142,6 +142,9 @@ body {
     gap: 8px;
 }
 
+@media (min-width: 700px) {
+    #app { max-width: 680px; }
+}
 /* ── 站内导航（最上面一行）── */
 #webnav { text-align: center; font-size: 0.65rem; color: var(--text-dimmer); padding-bottom: 2px; }
 #webnav a { color: var(--text-dim); text-decoration: none; }
@@ -390,11 +393,12 @@ body {
 }
 #mic-help {
     display: grid;
-    grid-template-columns: 2fr 3fr;
-    gap: 8px;
+    grid-template-columns: 1fr;
+    gap: 10px;
     margin: 8px 0 0 48px;
     align-items: start;
 }
+#mic-help figure { max-width: 100%; }
 #mic-help-note {
     grid-column: 1 / -1;
     font-size: 0.62rem;
@@ -419,7 +423,14 @@ body {
     color: var(--text-dimmer);
 }
 @media (max-width: 620px) {
-    #mic-help { grid-template-columns: 1fr; }
+    #mic-hint, #mic-help { margin-left: 0; }
+    #vu-meter, #vu-out-meter { flex-basis: 34%; min-width: 72px; }
+    #cur-mic-name { font-size: 0.65rem; }
+    #mic-help figcaption { font-size: 0.56rem; }
+}
+@media (max-width: 420px) {
+    #mic-hint { font-size: 0.58rem; }
+    #vu-meter, #vu-out-meter { flex-basis: 30%; min-width: 64px; }
 }
 #vu-meter, #vu-out-meter {
     position: relative;
@@ -553,9 +564,9 @@ body {
             再点 <button id="in-reget" class="mini" title="重新申请麦克风">重取麦克风</button>，
             在重新弹出的授权窗里选物理麦克风。也可以打开
             <code>chrome://settings/content/microphone</code> 重置本站权限。
-            第一行显示 Chrome 实际给的设备；扬声器列表没出来就点
-            <button id="out-unlock" class="mini" style="display:none"
-                    title="浏览器没有独立的扬声器权限：扬声器列表与麦克风共用一次设备授权">解锁扬声器</button>。
+            第一行显示 Chrome 实际给的设备。扬声器不需要单独授权，<b>给麦克风权限就够了</b>
+            （Chrome 共用一次授权）；如果输出列表为空或无法调整，确认本站麦克风权限已授予，
+            或检查系统输出设备。
         </div>
         <div id="mic-help">
             <div id="mic-help-note">
@@ -2272,7 +2283,7 @@ window.PV.ASSETS = Object.freeze({
             kind: 'audiooutput',
             selId: 'out-select', unlockId: 'out-unlock', rowId: 'out-row',
             saved: ['output_device_id', 'output_device'],
-            placeholder: '系统默认', lockedText: '扬声器（需麦克风权限后才可见）',
+            placeholder: '系统默认', lockedText: '扬声器（给麦克风权限后显示）',
             fallback: '扬声器', name: '输出设备',
             unlockLabel: '解锁扬声器', unlockHint: hint,
             unlockLog: '浏览器无独立扬声器权限，此处借用麦克风权限解锁设备列表（不录音）…',
@@ -2362,6 +2373,20 @@ window.PV.ASSETS = Object.freeze({
         const reget = PV.ui.el('in-reget');
         if (reget) {
             reget.addEventListener('click', async () => {
+                let state = '';
+                try {
+                    const st = await navigator.permissions.query({ name: 'microphone' });
+                    state = st.state;
+                } catch (e) { /* 浏览器不支持查询 */ }
+                if (state === 'granted') {
+                    PV.ui.log('Chrome 已记住本站麦克风权限，不会再次弹窗选设备（所以第二次点没反应）。' +
+                        '要换麦克风：先点地址栏左侧麦克风图标 → 关闭/重置权限，再点「重取麦克风」。');
+                    return;
+                }
+                if (state === 'denied') {
+                    PV.ui.log('本站麦克风权限被拒绝：点地址栏左侧麦克风图标 → 允许，再点「重取麦克风」。');
+                    return;
+                }
                 PV.ui.log('重新申请麦克风…');
                 if (app.running) await stop();
                 await start();

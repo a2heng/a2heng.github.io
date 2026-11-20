@@ -393,7 +393,7 @@ body {
 }
 #mic-help {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 10px;
     margin: 8px 0 0 48px;
     align-items: start;
@@ -424,6 +424,7 @@ body {
 }
 @media (max-width: 620px) {
     #mic-hint, #mic-help { margin-left: 0; }
+    #mic-help { grid-template-columns: 1fr; }
     #vu-meter, #vu-out-meter { flex-basis: 34%; min-width: 72px; }
     #cur-mic-name { font-size: 0.65rem; }
     #mic-help figcaption { font-size: 0.56rem; }
@@ -570,7 +571,7 @@ body {
         </div>
         <div id="mic-help">
             <div id="mic-help-note">
-                <b>只有关闭/重置麦克风权限后，才能修改实际使用的麦克风。</b>
+                <b>只有关闭/重置麦克风权限后，才能修改实际使用的麦克风。</b>（点击图片看原图）
             </div>
             <figure>
                 <a href="assets/help/authorize.png" target="_blank" rel="noopener">
